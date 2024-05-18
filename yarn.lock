@@ -2041,9 +2041,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"kotlin-docs-kr@workspace:.":
+"kotlinx-coroutines-docs-kr@workspace:.":
   version: 0.0.0-use.local
-  resolution: "kotlin-docs-kr@workspace:."
+  resolution: "kotlinx-coroutines-docs-kr@workspace:."
   dependencies:
     "@types/node": "npm:^20"
     "@types/react": "npm:^18"
