@@ -209,12 +209,12 @@ export const Root = styled.nav`
         background-color: rgba(25, 25, 28, 0.05);
     }
     
-    @media only screen and (max-width: 1276px) {
-        width: 273px;
-    }
-    
     @media only screen and (max-width: 1540px) {
         width: 301px;
+    }
+    
+    @media only screen and (max-width: 1276px) {
+        width: 273px;
     }
 `
 
