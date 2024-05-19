@@ -4,56 +4,12 @@ import styled from "styled-components";
 import React, {PropsWithChildren} from "react";
 
 import BlockquoteIcon from "@/resources/blockquote-icon.svg"
-import Link from "next/link";
 
 export const TopicDocumentRoot = styled.div`
     display: flex;
     width: 100vw;
     flex: 1;
     min-height: 0;
-`
-
-export const TopicsNavigation = styled.nav`
-    width: 310px;
-    border-right: 1px solid #d1d1d2;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    
-    @media only screen and (max-width: 1276px) {
-        width: 272px;
-    }
-    
-    @media only screen and (max-width: 1540px) {
-        width: 300px;
-    }
-`
-
-export const TopicNavigationItem = styled(Link)<{ $background: string, $depth: number, $color: string, $disabled: boolean }>`
-    background-color: ${({ $background }) => $background};
-    padding: 8px 0 8px ${({ $depth }) => `${22 + ($depth + 1) * 16}px`};
-    font-size: 13px;
-    line-height: 20px;
-    color: ${({ $color }) => $color};
-    font-weight: 300;
-    
-    pointer-events: ${({ $disabled }) => $disabled ? "none" : "auto"};
-    
-    &:hover {
-        background-color: ${({ $background, $depth, $disabled }) => !$disabled && $depth === 2 ? "rgba(25, 25, 28, 0.1)" : $background};
-    }
-    
-    & > svg.expand-icon {
-        width: 14px;
-        height: 14px;
-        margin-left: -20px;
-        margin-right: 8px;
-        transform: rotateZ(90deg);
-    }
-    
-    & > svg.expand-icon.opacity-0 {
-        opacity: 0;
-    }
 `
 
 export const Padding = styled.div`

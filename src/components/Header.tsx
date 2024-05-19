@@ -9,7 +9,7 @@ export const Header: React.FC = () => {
     return (
         <Root>
             <KotlinIcon/>
-            <Description>코루틴 문서 비공식 한국어 번역</Description>
+            <Description>코틀린 문서 비공식 한국어 번역</Description>
             <Spacer/>
             <HeaderTab>문서</HeaderTab>
         </Root>

@@ -2,10 +2,12 @@ import fs from "fs"
 
 import React from "react"
 import {notFound} from "next/navigation";
-import {Padding, TopicDocumentRoot, TopicNavigationItem, TopicsNavigation} from "@/app/docs/[topic]/_styled";
+import {Padding, TopicDocumentRoot} from "@/app/docs/[topic]/_styled";
 import {BaseProcessor, GlobalMarkdownComponents, GlobalRehypeReactOptions} from "@/utils/MarkdownProcessor";
 import rehypeReact from "rehype-react";
-import {Breadcrumb, DocumentContentWithAside} from "@/components/DocumentContentWithAside";
+import {DocumentContentWithAside} from "@/components/DocumentContentWithAside";
+import {TopicsBreadcrumb, TopicsNavigation} from "@/components/TopicsNavigation";
+import NavigationItems from "@/../docs/registry.json"
 
 
 export default async function TopicDocument(props: { params: { topic: string } }) {
@@ -39,32 +41,13 @@ export default async function TopicDocument(props: { params: { topic: string } }
     const summary = Array.from(html.value.toString().matchAll(/<(?<opening>h1|h2|h3|h4|h5|h6)>(?<text>.+?)<\/(?<closing>h1|h2|h3|h4|h5|h6)>/gi))
         .map(it => ({type: it.groups?.["opening"] ?? "h6", text: replaceTag(it.groups?.["text"] ?? "")}))
 
+    const navigations = (NavigationItems as RawNavigationItemData[]).map(navigationItemMapper)
+
     return (
         <TopicDocumentRoot>
-            <TopicsNavigation>
-                {TopicNavigationItems.map((it, index) => {
-                    const selected = topic === it.href?.split("/")[2]
-                    return (
-                        <TopicNavigationItem
-                            key={index}
-                            $background={selected ? "#7f52ff" : it.depth === 0 ? "#F9F9F9" : "#F4F4F4"}
-                            $color={selected ? "white" : "inherit"}
-                            $depth={it.depth}
-                            $disabled={selected}
-                            href={it.href ?? "#"}
-                        >
-                            <ExpandArrow hidden={it.depth === 2}/>
-                            {it.title}
-                        </TopicNavigationItem>
-                    )
-                })}
-            </TopicsNavigation>
+            <TopicsNavigation items={navigations} topic={topic}/>
             <DocumentContentWithAside summary={summary}>
-                <Breadcrumb>
-                    <li>공식 라이브러리</li>
-                    <li>코루틴 (kotlinx.coroutines)</li>
-                    <li>{TopicNavigationItems.find(it => it.href === `/docs/${topic}`)?.title}</li>
-                </Breadcrumb>
+                <TopicsBreadcrumb items={navigations} topic={topic}/>
                 {content}
                 <Padding>&nbsp;</Padding>
             </DocumentContentWithAside>
@@ -72,28 +55,11 @@ export default async function TopicDocument(props: { params: { topic: string } }
     )
 }
 
-const ExpandArrow: React.FC<{ hidden: boolean }> = props =>
-    <svg
-        viewBox="-5 -3 24 24"
-        data-test="toc-expander"
-        className={`expand-icon ${props.hidden ? "opacity-0" : ""}`}
-    >
-        <path d="M11 9l-6 5.25V3.75z"></path>
-    </svg>
-
-const TopicNavigationItems = [
-    {title: "공식 라이브러리", depth: 0},
-    {title: "코루틴 (kotlinx.coroutines)", depth: 1},
-    {title: "코루틴 사용 설명서", depth: 2, href: "/docs/coroutines-guide.md"},
-    {title: "코루틴의 기초", depth: 2, href: "/docs/coroutines-basics.md"},
-    {title: "취소와 타임아웃", depth: 2, href: "/docs/cancellation-and-timeouts.md"},
-    {title: "정지 함수의 구성", depth: 2, href: "/docs/composing-suspending-functions.md"},
-    {title: "코루틴의 컨텍스트와 디스패쳐", depth: 2, href: "/docs/coroutine-context-and-dispatchers.md"},
-    {title: "비동기 Flow", depth: 2, href: "/docs/flow.md"},
-    {title: "채널", depth: 2, href: "/docs/channels.md"},
-    {title: "코루틴의 예외 핸들링", depth: 2, href: "/docs/exception-handling.md"},
-    {title: "변경 가능한 공유 자원과 동시성", depth: 2, href: "/docs/shared-mutable-state-and-concurrency.md"}
-]
+type RawNavigationItemData = { title: string, href?: string, children?: RawNavigationItemData[] }
+export type NavigationItemData = Omit<RawNavigationItemData, "children"> & { enabled: boolean, children?: NavigationItemData[] }
+const navigationItemMapper: (it: RawNavigationItemData) => NavigationItemData = it => it.children ?
+    { ...it, enabled: true, children: it.children.map(navigationItemMapper) } :
+    { ...it, enabled: fs.existsSync(`./docs/${it.href}`), children: undefined }
 
 const replaceTag = (input: string): string => input
     .replaceAll(/<([0-z]+)>/g, "")
