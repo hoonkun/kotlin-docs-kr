@@ -4,42 +4,48 @@ import React, {useMemo, useState} from "react";
 import styled from "styled-components";
 
 import Link from "next/link";
-import {Breadcrumb} from "@/components/DocumentContentWithAside";
-import {NavigationItemData} from "@/app/docs/[topic]/page";
+import {Breadcrumb} from "@/components/DocumentMain";
+import {DocumentData} from "@/app/docs/[document_key]/page";
 import GithubIcon from "@/resources/github-icon.svg"
 import {findDocumentation} from "@/utils/DocumentationFinder";
 
 type Props = {
-    items: NavigationItemData[]
-    topic: string
+    items: DocumentData[]
+    documentKey: string
 }
 
-export const TopicsNavigation: React.FC<Props> = props => {
-    const { items, topic } = props
+export const DocumentNavigator: React.FC<Props> = props => {
+    const { items, documentKey } = props
 
     return (
         <Root>
             {items
-                .map(it => ({ ...it, selected: topic === it.href }))
-                .map((it, index) =>
-                    <TopicNavigationItem key={`${it.title}_${it.href}`} item={it} depth={0} topic={topic}/>
-                )}
+                .map(it => ({ ...it, selected: documentKey === it.href }))
+                .map(it =>
+                    <DocumentItem
+                        key={`${it.title}_${it.href}`}
+                        item={it}
+                        depth={0}
+                        documentKey={documentKey}
+                    />
+                )
+            }
         </Root>
     )
 }
 
 type TopicNavigationItemProps = {
-    item: NavigationItemData & { selected: boolean }
+    item: DocumentData & { selected: boolean }
     depth: number
-    topic: string
+    documentKey: string
 }
-const TopicNavigationItem: React.FC<TopicNavigationItemProps> = props => {
-    const { item, depth, topic } = props
+const DocumentItem: React.FC<TopicNavigationItemProps> = props => {
+    const { item, depth, documentKey } = props
 
     const isRootNode = depth === 0
     const isLeafNode = useMemo(() => !!item.children?.every(it => !it.children), [item.children])
 
-    const hasSelectedTopic = useMemo(() => !!findDocumentation(item, topic), [item, topic])
+    const hasSelectedTopic = useMemo(() => !!findDocumentation(item, documentKey), [item, documentKey])
     const hasGrayBackground = useMemo(
         () => (isRootNode || isLeafNode) && hasSelectedTopic,
         [hasSelectedTopic, isRootNode, isLeafNode]
@@ -59,9 +65,9 @@ const TopicNavigationItem: React.FC<TopicNavigationItemProps> = props => {
                     {item.title}
                 </TopicNavigationExpanderItem>
                 {expanded && item.children
-                    .map(it => ({ ...it, selected: it.href === topic }))
+                    .map(it => ({ ...it, selected: it.href === documentKey }))
                     .map(it =>
-                        <TopicNavigationItem key={`${it.title}_${it.href}`} item={it} depth={depth + 1} topic={topic}/>
+                        <DocumentItem key={`${it.title}_${it.href}`} item={it} depth={depth + 1} documentKey={documentKey}/>
                     )
                 }
             </TopicNavigationChildrenContainer>
@@ -82,11 +88,11 @@ const TopicNavigationItem: React.FC<TopicNavigationItemProps> = props => {
     return <></>
 }
 
-export const TopicTitle: React.FC<{ items: NavigationItemData[], topic: string, withGithub?: boolean }> = props => {
-    const { items, topic, withGithub } = props
+export const DocumentTitle: React.FC<{ items: DocumentData[], documentKey: string, withGithub?: boolean }> = props => {
+    const { items, documentKey, withGithub } = props
     const title = useMemo(
-        () => findDocumentation({ title: "_", children: items, enabled: true }, topic)![0].title,
-        [items, topic]
+        () => findDocumentation({ title: "_", children: items, enabled: true }, documentKey)![0].title,
+        [items, documentKey]
     )
     return (
         <>
@@ -170,16 +176,16 @@ const ExpandArrow: React.FC<{ hidden: boolean }> = props =>
         <path d="M11 9l-6 5.25V3.75z"></path>
     </svg>
 
-export const TopicsBreadcrumb: React.FC<Props> = props => {
-    const { items, topic } = props
+export const DocumentBreadcrumb: React.FC<Props> = props => {
+    const { items, documentKey } = props
 
     const parents = useMemo(
-        () => findDocumentation({ title: "_", children: items, enabled: true }, topic)?.[1],
-        [items, topic]
+        () => findDocumentation({ title: "_", children: items, enabled: true }, documentKey)?.[1],
+        [items, documentKey]
     )
 
     if (!parents)
-        throw Error(`Assertion Error(from TopicsBreadcrumb): Cannot find parents from given topic: ${topic}`)
+        throw Error(`Assertion Error(from TopicsBreadcrumb): Cannot find parents from given document: ${documentKey}`)
 
     return (
         <Breadcrumb>

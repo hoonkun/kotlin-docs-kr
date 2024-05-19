@@ -5,7 +5,7 @@ import React, {PropsWithChildren} from "react";
 
 import BlockquoteIcon from "@/resources/blockquote-icon.svg"
 
-export const TopicDocumentRoot = styled.div`
+export const DocumentPageRoot = styled.div`
     display: flex;
     width: 100vw;
     flex: 1;
@@ -28,7 +28,7 @@ export const NotYetTranslated = styled.p`
     }
 `
 
-export const Padding = styled.div`
+export const DocumentEndPadding = styled.div`
     min-height: 128px;
 `
 

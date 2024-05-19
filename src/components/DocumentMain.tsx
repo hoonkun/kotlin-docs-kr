@@ -3,26 +3,26 @@
 import React, {PropsWithChildren, useCallback, useEffect, useMemo, useRef, useState} from "react";
 import styled from "styled-components";
 import Link from "next/link";
-import {NavigationItemData} from "@/app/docs/[topic]/page";
+import {DocumentData} from "@/app/docs/[document_key]/page";
 import {findDocumentation} from "@/utils/DocumentationFinder";
 
-type Props = { summary?: { type: string, text: string }[], items: NavigationItemData[], topic: string }
+type Props = { summary?: { type: string, text: string }[], items: DocumentData[], documentKey: string }
 
-export const DocumentContentWithAside: React.FC<PropsWithChildren<Props>> = props => {
+export const DocumentMain: React.FC<PropsWithChildren<Props>> = props => {
 
     const {
         children,
         summary: _summary,
         items,
-        topic
+        documentKey
     } = props
 
-    const summary = useMemo(() => {
-        const root = { type: "h1", text: findDocumentation({ title: "_", children: items, enabled: true }, topic)![0].title }
+    const sections = useMemo(() => {
+        const root = { type: "h1", text: findDocumentation({ title: "_", children: items, enabled: true }, documentKey)![0].title }
         return _summary ? [root, ..._summary] : [root]
-    }, [_summary, items, topic])
+    }, [_summary, items, documentKey])
 
-    const defaultViewing = summary[0]?.text
+    const defaultViewing = sections[0]?.text
 
     const scroller = useRef<HTMLDivElement>(null)
 
@@ -45,28 +45,28 @@ export const DocumentContentWithAside: React.FC<PropsWithChildren<Props>> = prop
 
     return (
         <Root ref={scroller} onScroll={onScroll}>
-            <TopicDocumentContainer>
-                <TopicDocumentContent className={"article-content"}>
+            <Arranger>
+                <Article className={"article-content"}>
                     {children}
-                </TopicDocumentContent>
-                <TopicSectionsAside>
-                    {summary.map(it =>
-                        <TopicSectionItem
+                </Article>
+                <Aside>
+                    {sections.map(it =>
+                        <DocumentSectionItem
                             key={`${it.type}_${it.text}`}
                             href={`#${it.text.replaceAll(" ", "_")}`}
                             $indent={Math.max(parseInt(it.type.slice(1)) - 2, 0)}
                             $selected={it.text === viewing}
                         >
                             {it.text}
-                        </TopicSectionItem>
+                        </DocumentSectionItem>
                     )}
-                </TopicSectionsAside>
-            </TopicDocumentContainer>
+                </Aside>
+            </Arranger>
         </Root>
     )
 }
 
-const Root = styled.div`
+const Root = styled.main`
     flex: 1;
     display: flex;
     position: relative;
@@ -75,7 +75,7 @@ const Root = styled.div`
     align-items: flex-start;
 `
 
-const TopicDocumentContainer = styled.div`
+const Arranger = styled.div`
     max-width: calc(calc(1520px - 22px * 2) - 310px);
     flex: 1;
     display: flex;
@@ -114,7 +114,7 @@ export const Breadcrumb = styled.ul`
     }
 `
 
-const TopicDocumentContent = styled.article`
+const Article = styled.article`
     line-height: 24px;
     font-size: 16px;
     font-weight: 300;
@@ -221,7 +221,7 @@ const TopicDocumentContent = styled.article`
     }
 `
 
-const TopicSectionItem = styled(Link)<{ $indent: number, $selected: boolean }>`
+const DocumentSectionItem = styled(Link)<{ $indent: number, $selected: boolean }>`
     display: block;
     line-height: 20px;
     font-size: 13px;
@@ -252,7 +252,7 @@ const TopicSectionItem = styled(Link)<{ $indent: number, $selected: boolean }>`
     }
 `
 
-const TopicSectionsAside = styled.aside`
+const Aside = styled.aside`
     width: 241px;
     position: sticky;
     top: 0;

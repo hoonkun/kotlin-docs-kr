@@ -5,7 +5,7 @@ import styled from "styled-components";
 
 import KotlinIcon from "@/resources/kotlin-header-icon.svg"
 
-export const Header: React.FC = () => {
+export const AppGlobalHeader: React.FC = () => {
     return (
         <Root>
             <KotlinIcon/>

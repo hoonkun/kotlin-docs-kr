@@ -1,10 +1,10 @@
-import {NavigationItemData} from "@/app/docs/[topic]/page";
+import {DocumentData} from "@/app/docs/[document_key]/page";
 
 export const findDocumentation = (
-    item: NavigationItemData,
+    item: DocumentData,
     key: string,
-    parents: NavigationItemData[] = []
-): [NavigationItemData, NavigationItemData[]] | null => {
+    parents: DocumentData[] = []
+): [DocumentData, DocumentData[]] | null => {
     if (item.href === key) return [item, [...parents, item]]
     if (item.children) {
         for (const child of item.children) {

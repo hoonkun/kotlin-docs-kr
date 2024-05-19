@@ -6,7 +6,7 @@ import rehypeRaw from "rehype-raw"
 import rehypeStringify from "rehype-stringify"
 import {CodeHighlighter, PreTag, PreTagSpacer} from "@/components/CodeHighlighter"
 import Link from "next/link"
-import {BlockQuote, InlineCode} from "@/app/docs/[topic]/_styled";
+import {BlockQuote, InlineCode} from "@/app/docs/[document_key]/_styled";
 
 import * as ProductionReact from "react/jsx-runtime"
 

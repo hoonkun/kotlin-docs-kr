@@ -3,7 +3,7 @@ import type {Metadata} from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import StyledComponentsRegistry from "@/libs/styled-components/styled-components-registry";
-import {Header} from "@/components/Header";
+import {AppGlobalHeader} from "@/components/AppGlobalHeader";
 
 const Pretendard = localFont({
     src: [
@@ -30,7 +30,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="en">
       <body className={Pretendard.className}>
       <StyledComponentsRegistry>
-          <Header/>
+          <AppGlobalHeader/>
           {children}
       </StyledComponentsRegistry>
       </body>
