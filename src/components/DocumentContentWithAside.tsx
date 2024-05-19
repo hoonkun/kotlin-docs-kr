@@ -4,7 +4,7 @@ import React, {PropsWithChildren, useCallback, useEffect, useMemo, useRef, useSt
 import styled from "styled-components";
 import Link from "next/link";
 import {NavigationItemData} from "@/app/docs/[topic]/page";
-import {findSelectedTopic} from "@/components/TopicsNavigation";
+import {findDocumentation} from "@/utils/DocumentationFinder";
 
 type Props = { summary?: { type: string, text: string }[], items: NavigationItemData[], topic: string }
 
@@ -18,7 +18,7 @@ export const DocumentContentWithAside: React.FC<PropsWithChildren<Props>> = prop
     } = props
 
     const summary = useMemo(() => {
-        const root = { type: "h1", text: findSelectedTopic({ title: "_", children: items, enabled: true }, topic)![0].title }
+        const root = { type: "h1", text: findDocumentation({ title: "_", children: items, enabled: true }, topic)![0].title }
         return _summary ? [root, ..._summary] : [root]
     }, [_summary, items, topic])
 

@@ -7,14 +7,57 @@ import rehypeReact from "rehype-react";
 import {DocumentContentWithAside} from "@/components/DocumentContentWithAside";
 import {TopicsBreadcrumb, TopicsNavigation, TopicTitle} from "@/components/TopicsNavigation";
 import NavigationItems from "@/../docs/registry.json"
+import {notFound} from "next/navigation";
+import {findDocumentation} from "@/utils/DocumentationFinder";
 
+
+export async function generateMetadata({ params }: { params: { topic: string } }) {
+    const { topic } = params
+
+    if (!topic.endsWith(".md"))
+        return { title: "404 | Kotlin 문서" }
+
+    const documents = (NavigationItems as RawNavigationItemData[]).map(navigationItemMapper)
+    const document = findDocumentation({ title: "_", children: documents, enabled: true }, topic)
+
+    if (!document)
+        return { title: "404 | Kotlin 문서" }
+
+    return {
+        title: `${document[0].title} | Kotlin 문서`,
+        icons: {
+            icon: { url: "/favicon.svg", type: "image/svg+xml" }
+        },
+        openGraph: {
+            title: `${document[0].title} | Kotlin 문서`,
+            description: "",
+            images: {
+                url: "https://kotlinlang.org/assets/images/open-graph/docs.png"
+            },
+            siteName: "Kotlin Help",
+            locale: "ko_KR",
+            type: "website"
+        },
+        twitter: {
+            title: `${document[0].title} | Kotlin 문서`,
+            description: "",
+            card: "summary_large_image",
+            site: "@kotlin",
+            creator: "@kotlin",
+            images: ["https://kotlinlang.org/assets/images/open-graph/docs.png"]
+        }
+    }
+}
 
 export default async function TopicDocument(props: { params: { topic: string } }) {
-    const {params: {topic}} = props
+    const { params: { topic } } = props
+
+    if (!topic.endsWith(".md"))
+        notFound()
 
     const navigations = (NavigationItems as RawNavigationItemData[]).map(navigationItemMapper)
 
-    if (!topic.endsWith(".md") || !fs.existsSync(`./docs/${topic}`))
+    if (!fs.existsSync(`./docs/${topic}`))
         return (
             <TopicDocumentRoot>
                 <TopicsNavigation items={navigations} topic={topic}/>

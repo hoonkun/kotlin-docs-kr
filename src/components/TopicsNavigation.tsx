@@ -7,6 +7,7 @@ import Link from "next/link";
 import {Breadcrumb} from "@/components/DocumentContentWithAside";
 import {NavigationItemData} from "@/app/docs/[topic]/page";
 import GithubIcon from "@/resources/github-icon.svg"
+import {findDocumentation} from "@/utils/DocumentationFinder";
 
 type Props = {
     items: NavigationItemData[]
@@ -38,7 +39,7 @@ const TopicNavigationItem: React.FC<TopicNavigationItemProps> = props => {
     const isRootNode = depth === 0
     const isLeafNode = useMemo(() => !!item.children?.every(it => !it.children), [item.children])
 
-    const hasSelectedTopic = useMemo(() => !!findSelectedTopic(item, topic), [item, topic])
+    const hasSelectedTopic = useMemo(() => !!findDocumentation(item, topic), [item, topic])
     const hasGrayBackground = useMemo(
         () => (isRootNode || isLeafNode) && hasSelectedTopic,
         [hasSelectedTopic, isRootNode, isLeafNode]
@@ -84,7 +85,7 @@ const TopicNavigationItem: React.FC<TopicNavigationItemProps> = props => {
 export const TopicTitle: React.FC<{ items: NavigationItemData[], topic: string, withGithub?: boolean }> = props => {
     const { items, topic, withGithub } = props
     const title = useMemo(
-        () => findSelectedTopic({ title: "_", children: items, enabled: true }, topic)![0].title,
+        () => findDocumentation({ title: "_", children: items, enabled: true }, topic)![0].title,
         [items, topic]
     )
     return (
@@ -123,22 +124,6 @@ const GithubEditPage = styled.a`
     width: unset !important;
     line-height: 16px !important;
 `
-
-export const findSelectedTopic = (
-    item: NavigationItemData,
-    topic: string,
-    parents: NavigationItemData[] = []
-): [NavigationItemData, NavigationItemData[]] | null => {
-    if (item.href === topic) return [item, [...parents, item]]
-    if (item.children) {
-        for (const child of item.children) {
-            const found = findSelectedTopic(child, topic, [...parents, item])
-            if (found) return found
-        }
-    }
-
-    return null
-}
 
 const TopicNavigationChildrenContainer = styled.div<{ $hasGrayBackground: boolean }>`
     display: flex;
@@ -189,7 +174,7 @@ export const TopicsBreadcrumb: React.FC<Props> = props => {
     const { items, topic } = props
 
     const parents = useMemo(
-        () => findSelectedTopic({ title: "_", children: items, enabled: true }, topic)?.[1],
+        () => findDocumentation({ title: "_", children: items, enabled: true }, topic)?.[1],
         [items, topic]
     )
 
