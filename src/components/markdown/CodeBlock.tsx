@@ -21,7 +21,6 @@ export const InlineCode = styled.code`
   background-color: #19191C0D;
   border-radius: 3px;
   font-size: 15px;
-  white-space: pre;
 `
 
 const Pre: React.FC<PropsWithChildren> = props => <Fragment>{props.children}</Fragment>
@@ -57,6 +56,7 @@ export const PreTag = styled.pre`
     padding: 0;
     background-color: transparent;
     border-radius: 0;
+    white-space: pre;
   }
 
   & > pre {
