@@ -1,13 +1,13 @@
 import fs from "fs"
 
 import React from "react"
-import { DocumentEndPadding, DocumentPageRoot, NotYetTranslated } from "@/app/docs/[document_key]/_styled";
-import { BaseProcessor, GlobalMarkdownComponents, GlobalRehypeReactOptions } from "@/utils/MarkdownProcessor";
-import rehypeReact from "rehype-react";
-import { DocumentMain } from "@/components/DocumentMain";
-import { DocumentBreadcrumb, DocumentNavigator, DocumentTitle } from "@/components/DocumentNavigator";
-import { notFound } from "next/navigation";
-import { findDocumentation } from "@/utils/DocumentationFinder";
+import { DocumentEndPadding, DocumentPageRoot, NotYetTranslated } from "@/app/docs/[document_key]/_styled"
+import { BaseProcessor, GlobalMarkdownComponents, GlobalRehypeReactOptions } from "@/utils/MarkdownProcessor"
+import rehypeReact from "rehype-react"
+import { DocumentMain } from "@/components/DocumentMain"
+import { DocumentBreadcrumb, DocumentNavigator, DocumentTitle } from "@/components/DocumentNavigator"
+import { notFound } from "next/navigation"
+import { findDocumentation } from "@/utils/DocumentationFinder"
 
 import Documents from "@/../docs/registry.json"
 

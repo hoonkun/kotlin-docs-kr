@@ -1,10 +1,10 @@
 "use client"
 
-import React, { PropsWithChildren, useCallback, useEffect, useMemo, useRef, useState } from "react";
-import styled from "styled-components";
-import Link from "next/link";
-import { DocumentData } from "@/app/docs/[document_key]/page";
-import { findDocumentation } from "@/utils/DocumentationFinder";
+import React, { PropsWithChildren, useCallback, useEffect, useMemo, useRef, useState } from "react"
+import styled from "styled-components"
+import Link from "next/link"
+import { DocumentData } from "@/app/docs/[document_key]/page"
+import { findDocumentation } from "@/utils/DocumentationFinder"
 
 type Props = { summary?: { type: string, text: string }[], items: DocumentData[], documentKey: string }
 
@@ -44,7 +44,7 @@ export const DocumentMain: React.FC<PropsWithChildren<Props>> = props => {
 
     const found = newHeadings.findLast(it => it.top < (scroller.current?.scrollTop ?? 0))
     setViewing(found ? found.text : defaultViewing)
-  }, [defaultViewing]);
+  }, [defaultViewing])
 
   return (
     <Root ref={scroller} onScroll={onScroll}>

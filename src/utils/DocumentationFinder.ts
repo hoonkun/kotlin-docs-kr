@@ -1,4 +1,4 @@
-import { DocumentData } from "@/app/docs/[document_key]/page";
+import { DocumentData } from "@/app/docs/[document_key]/page"
 
 export const findDocumentation = (
   item: DocumentData,

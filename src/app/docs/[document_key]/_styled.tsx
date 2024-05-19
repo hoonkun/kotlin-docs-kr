@@ -1,7 +1,7 @@
 "use client"
 
-import styled from "styled-components";
-import React, { PropsWithChildren } from "react";
+import styled from "styled-components"
+import React, { PropsWithChildren } from "react"
 
 import BlockquoteIcon from "@/resources/blockquote-icon.svg"
 

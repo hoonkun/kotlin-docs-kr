@@ -1,13 +1,13 @@
 "use client"
 
-import React, { useMemo, useState } from "react";
-import styled from "styled-components";
+import React, { useMemo, useState } from "react"
+import styled from "styled-components"
 
-import Link from "next/link";
-import { Breadcrumb } from "@/components/DocumentMain";
-import { DocumentData } from "@/app/docs/[document_key]/page";
+import Link from "next/link"
+import { Breadcrumb } from "@/components/DocumentMain"
+import { DocumentData } from "@/app/docs/[document_key]/page"
 import GithubIcon from "@/resources/github-icon.svg"
-import { findDocumentation } from "@/utils/DocumentationFinder";
+import { findDocumentation } from "@/utils/DocumentationFinder"
 
 type Props = {
   items: DocumentData[]
