@@ -1,11 +1,12 @@
 "use client"
 
-import React, { useMemo, useState } from "react"
+import React, { useEffect, useMemo, useState } from "react"
 import styled from "styled-components"
 import Link from "next/link"
 import { DocumentData } from "@/app/docs/[document_key]/page"
 import { findDocumentation } from "@/utils/Documentation"
 import { LessThen1000 } from "@/utils/ReactiveStyles"
+import { DocumentNavigatorExpandEvents } from "@/components/AppGlobalHeader"
 
 type DocumentNavigatorProps = {
   items: DocumentData[]
@@ -15,8 +16,27 @@ type DocumentNavigatorProps = {
 export const DocumentNavigator: React.FC<DocumentNavigatorProps> = props => {
   const { items, documentKey } = props
 
+  const [expanded, setExpanded] = useState(false)
+
+  useEffect(() => {
+    const handler = () => setExpanded(prev => !prev)
+
+    DocumentNavigatorExpandEvents.addEventListener("navigator_toggle", handler)
+    return () => DocumentNavigatorExpandEvents.removeEventListener("navigator_toggle", handler)
+  }, [])
+
+  useEffect(() => {
+    DocumentNavigatorExpandedEvents.expandStateChanged(expanded)
+  }, [expanded])
+
+  useEffect(() => {
+    requestAnimationFrame(() => document.getElementById(documentKey)?.scrollIntoView({ behavior: "smooth" }))
+  }, [expanded, documentKey])
+
   return (
-    <DocumentNavigatorRoot>
+    <DocumentNavigatorRoot
+      $narrowOnlyExpanded={expanded}
+    >
       {items
         .map(it => ({ ...it, selected: documentKey === it.href }))
         .map(it =>
@@ -30,6 +50,13 @@ export const DocumentNavigator: React.FC<DocumentNavigatorProps> = props => {
       }
     </DocumentNavigatorRoot>
   )
+}
+
+export class DocumentNavigatorExpandedEvent extends Event {
+  constructor(public newState: boolean) { super("state_changed") }
+}
+export const DocumentNavigatorExpandedEvents = new class extends EventTarget {
+  expandStateChanged = (newState: boolean) => this.dispatchEvent(new DocumentNavigatorExpandedEvent(newState))
 }
 
 type DocumentNavigatorItemProps = {
@@ -53,13 +80,15 @@ const DocumentNavigatorItem: React.FC<DocumentNavigatorItemProps> = props => {
     return (
       <DocumentNavigatorChildrenContainer
         $hasGrayBackground={hasGrayBackground}
+        $isRootNode={isRootNode}
       >
         <DocumentNavigatorExpanderItem
+          id={item.href}
           onClick={() => setExpanded(prev => !prev)}
           $depth={depth}
           $expanded={expanded}
         >
-          <svg viewBox="-5 -3 24 24" data-test="toc-expander"><path d="M11 9l-6 5.25V3.75z"></path></svg>
+          <svg viewBox="-5 -3 24 24" data-test="toc-expander"><path fill="currentColor" d="M11 9l-6 5.25V3.75z"></path></svg>
           {item.title}
         </DocumentNavigatorExpanderItem>
         {expanded && item.children
@@ -78,6 +107,7 @@ const DocumentNavigatorItem: React.FC<DocumentNavigatorItemProps> = props => {
   } else if (item.href) {
     return (
       <DocumentNavigatorLinkItem
+        id={item.href}
         href={item.href}
         $depth={depth}
         $selected={item.selected}
@@ -91,25 +121,35 @@ const DocumentNavigatorItem: React.FC<DocumentNavigatorItemProps> = props => {
   throw Error("Assertion Failure(from DocumentNavigatorItem): one of children or href must be provided from DocumentData, but both are undefined or null")
 }
 
-const DocumentNavigatorRoot = styled.nav`
+const DocumentNavigatorRoot = styled.nav<{ $narrowOnlyExpanded: boolean }>`
   width: 311px;
   border-right: 1px solid #d1d1d2;
   display: flex;
   flex-direction: column;
   align-items: stretch;
   padding: 8px 0;
+  background-color: white;
 
-  max-height: 100vw;
+  max-height: 100vh;
   overflow: auto;
     
   & a, button {
     font-size: 13px;
     line-height: 20px;
     font-weight: 300;
+    
+    ${LessThen1000} {
+      font-size: 19px;
+      line-height: 28px;
+    }
   }
 
   & a:hover, button:hover {
     background-color: rgba(25, 25, 28, 0.05);
+    
+    ${LessThen1000} {
+      background-color: hsla(0,0%,100%,0.05);
+    }
   }
 
   @media only screen and (max-width: 1540px) {
@@ -121,16 +161,29 @@ const DocumentNavigatorRoot = styled.nav`
   }
 
   ${LessThen1000} {
-    display: none;
+    background-color: #27282c;
+    display: ${({ $narrowOnlyExpanded }) => $narrowOnlyExpanded ? "flex" : "none"};
+    z-index: 5;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    top: 52px;
+    width: 100vw;
+    border-right: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
   }
 `
 
-const DocumentNavigatorChildrenContainer = styled.div<{ $hasGrayBackground: boolean }>`
+const DocumentNavigatorChildrenContainer = styled.div<{ $hasGrayBackground: boolean, $isRootNode: boolean }>`
   display: flex;
   flex-direction: column;
   align-items: stretch;
 
   background-color: ${({ $hasGrayBackground }) => $hasGrayBackground ? "rgba(25, 25, 28, 0.025)" : "transparent"};
+  
+  ${LessThen1000} {
+    background-color: ${({ $hasGrayBackground, $isRootNode }) => $hasGrayBackground && $isRootNode ? "#1f1f21" : "transparent"};
+  }
 `
 
 const DocumentNavigatorExpanderItem = styled.button<{ $depth: number, $expanded: boolean }>`
@@ -140,6 +193,9 @@ const DocumentNavigatorExpanderItem = styled.button<{ $depth: number, $expanded:
   background: none;
   border: none;
   font-family: inherit;
+  
+  display: flex;
+  align-items: center;
 
   & > svg {
     width: 14px;
@@ -148,6 +204,19 @@ const DocumentNavigatorExpanderItem = styled.button<{ $depth: number, $expanded:
     margin-right: 8px;
     transform: rotateZ(${({ $expanded }) => $expanded ? "90deg" : "0"});
     transition: transform 0.1s linear;
+    color: #19191C;
+  }
+  
+  ${LessThen1000} {
+    padding: 12px 0 12px ${({ $depth }) => `${44 + ($depth + 1) * 16}px`};
+    color: white;
+    
+    & > svg {
+      width: 28px;
+      height: 28px;
+      margin-left: -40px;
+      color: hsla(0,0%,100%,0.5);
+    }
   }
 `
 
@@ -158,5 +227,11 @@ const DocumentNavigatorLinkItem = styled(Link)<{ $selected: boolean, $depth: num
   color: ${({ $selected }) => $selected ? "white" : "#19191c"};
 
   opacity: ${({ $disabled }) => $disabled ? 0.4 : 1};
-  cursor: ${({ $disabled }) => $disabled ? "auto" : "pointer"}
+  cursor: ${({ $disabled }) => $disabled ? "auto" : "pointer"};
+
+  ${LessThen1000} {
+    padding: 12px 0 12px ${({ $depth }) => `${44 + ($depth + 1) * 16}px`};
+    background: ${({ $selected }) => $selected ? "white !important" : "transparent"};
+    color: ${({ $selected }) => $selected ? "#19191c" : "white"};
+  }
 `
