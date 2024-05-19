@@ -16,7 +16,7 @@ export const DocumentMain: React.FC<PropsWithChildren<DocumentMainProps>> = prop
 
   const defaultViewing = sections[0].text
 
-  const scroller = useRef<HTMLDivElement>(null)
+  const scroller = useRef<Element | null>(null)
 
   const [viewing, setViewing] = useState<string | null>(defaultViewing)
   const [headings, setHeadings] = useState<DocumentHeading[]>([])
@@ -27,18 +27,29 @@ export const DocumentMain: React.FC<PropsWithChildren<DocumentMainProps>> = prop
   }, [defaultViewing])
 
   useEffect(() => {
-    const newHeadings = Array.from(document.querySelectorAll(".article > h1, h2, h3, h4, h5, h6"))
-      .map(it => ({ top: (it as HTMLHeadingElement).offsetTop, text: (it as HTMLHeadingElement).innerText }))
+    scroller.current = document.scrollingElement
+  }, [])
+
+  useEffect(() => {
+    const currentScroller = scroller.current
+    if (!currentScroller) return
+
+    const handler = () => onScroll(headings, currentScroller.scrollTop)
+
+    document.addEventListener("scroll", handler)
+    return () => document.removeEventListener("scroll", handler)
+  }, [headings, onScroll])
+
+  useEffect(() => {
+    const newHeadings = Array.from(document.querySelectorAll(".article > .anchor-container"))
+      .map(it => ({ top: (it as HTMLDivElement).offsetTop, text: (it as HTMLHeadingElement).innerText }))
     setHeadings(newHeadings)
 
     onScroll(newHeadings, scroller.current!.scrollTop)
   }, [onScroll])
 
   return (
-    <Root
-      ref={scroller}
-      onScroll={e => onScroll(headings, e.currentTarget.scrollTop)}
-    >
+    <Root>
       <Arranger>
         <Article className={"article"}>
           {children}
@@ -66,8 +77,6 @@ const Root = styled.main`
   flex: 1;
   display: flex;
   position: relative;
-  max-height: 100vh;
-  overflow-y: auto;
   align-items: flex-start;
 `
 
@@ -222,7 +231,7 @@ const Article = styled.article`
 const Aside = styled.aside`
   width: 241px;
   position: sticky;
-  top: 0;
+  top: 64px;
   flex-shrink: 0;
 
   max-height: calc(100dvh - 64px - 22px);
@@ -238,6 +247,7 @@ const Aside = styled.aside`
   }
 
   ${LessThen640} {
+    top: 52px;
     max-height: calc(100dvh - 52px - 22px);
   }
 `

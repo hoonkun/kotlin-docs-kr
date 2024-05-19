@@ -28,7 +28,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-    <body className={Pretendard.className}>
+    <body className={`${Pretendard.className} initial-loading`}>
     <StyledComponentsRegistry>
       <AppGlobalHeader/>
       {children}

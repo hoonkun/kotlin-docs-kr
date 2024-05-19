@@ -30,7 +30,8 @@ export const DocumentNavigator: React.FC<DocumentNavigatorProps> = props => {
   }, [expanded])
 
   useEffect(() => {
-    requestAnimationFrame(() => document.getElementById(documentKey)?.scrollIntoView({ behavior: "smooth" }))
+    if (!expanded) return
+    requestAnimationFrame(() => document.getElementById(documentKey)?.scrollIntoView({ behavior: "smooth", block: "center" }))
   }, [expanded, documentKey])
 
   return (
@@ -122,6 +123,10 @@ const DocumentNavigatorItem: React.FC<DocumentNavigatorItemProps> = props => {
 }
 
 const DocumentNavigatorRoot = styled.nav<{ $narrowOnlyExpanded: boolean }>`
+  position: sticky;
+  top: 64px;
+  z-index: 4;
+  
   width: 311px;
   border-right: 1px solid #d1d1d2;
   display: flex;
@@ -164,7 +169,7 @@ const DocumentNavigatorRoot = styled.nav<{ $narrowOnlyExpanded: boolean }>`
     background-color: #27282c;
     display: ${({ $narrowOnlyExpanded }) => $narrowOnlyExpanded ? "flex" : "none"};
     z-index: 5;
-    position: absolute;
+    position: fixed;
     left: 0;
     bottom: 0;
     top: 52px;
