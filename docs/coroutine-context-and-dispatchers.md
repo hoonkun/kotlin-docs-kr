@@ -306,7 +306,7 @@ Destroying activity!
 
 위에서 확인할 수 있듯, 첫 두개의 코루틴만 메시지를 출력했으며 나머지는 `Activity.destroy()` 의 `job.cancel()` 에 의해 취소되었음을 알 수 있습니다.
 
-> 안드로이드에는 이미 생명주기를 가지는 엔티티에 대한 코루틴 스코프의 지원이 이미 있습니다. 자세한 내용은 [해당 문서](https://developer.android.com/topic/libraries/architecture/coroutines?hl=ko#lifecyclescope)를 확인해보세요.
+> 안드로이드에는 생명주기를 가지는 엔티티에 대한 코루틴 스코프의 지원이 이미 있습니다. 자세한 내용은 [해당 문서](https://developer.android.com/topic/libraries/architecture/coroutines?hl=ko#lifecyclescope)를 확인해보세요.
 
 ### 스레드 로컬 데이터
 
