@@ -197,6 +197,10 @@ const TopicDocumentContent = styled.article`
     }
     
     & h1 {
+        line-height: 49px;
+    }
+    
+    & h1 {
         font-weight: 600;
         font-size: 43px;
     }

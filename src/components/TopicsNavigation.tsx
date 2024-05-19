@@ -6,6 +6,7 @@ import styled from "styled-components";
 import Link from "next/link";
 import {Breadcrumb} from "@/components/DocumentContentWithAside";
 import {NavigationItemData} from "@/app/docs/[topic]/page";
+import GithubIcon from "@/resources/github-icon.svg"
 
 type Props = {
     items: NavigationItemData[]
@@ -80,14 +81,48 @@ const TopicNavigationItem: React.FC<TopicNavigationItemProps> = props => {
     return <></>
 }
 
-export const TopicTitle: React.FC<{ items: NavigationItemData[], topic: string }> = props => {
-    const { items, topic } = props
+export const TopicTitle: React.FC<{ items: NavigationItemData[], topic: string, withGithub?: boolean }> = props => {
+    const { items, topic, withGithub } = props
     const title = useMemo(
         () => findSelectedTopic({ title: "_", children: items, enabled: true }, topic)![0].title,
         [items, topic]
     )
-    return <h1 id={title.replaceAll(" ", "_")}>{title}</h1>
+    return (
+        <>
+            <h1 id={title.replaceAll(" ", "_")}>{title}</h1>
+            {withGithub &&
+                <GithubEditRow>
+                    <GithubIcon/>
+                    <GithubEditPage href={"https://github.com/"}>편집하기</GithubEditPage>{/* TODO! */}
+                </GithubEditRow>
+            }
+        </>
+    )
 }
+
+const GithubEditRow = styled.div`
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    margin-bottom: 32px;
+    height: 26px;
+    
+    & > svg {
+        width: 24px;
+        height: 24px;
+        margin-right: 2px;
+    }
+    
+    & + p {
+        margin-top: 0 !important;
+    }
+`
+
+const GithubEditPage = styled.a`
+    font-size: 13px;
+    width: unset !important;
+    line-height: 16px !important;
+`
 
 export const findSelectedTopic = (
     item: NavigationItemData,
@@ -169,7 +204,7 @@ export const TopicsBreadcrumb: React.FC<Props> = props => {
 }
 
 export const Root = styled.nav`
-    width: 310px;
+    width: 311px;
     border-right: 1px solid #d1d1d2;
     display: flex;
     flex-direction: column;
@@ -190,11 +225,11 @@ export const Root = styled.nav`
     }
     
     @media only screen and (max-width: 1276px) {
-        width: 272px;
+        width: 273px;
     }
     
     @media only screen and (max-width: 1540px) {
-        width: 300px;
+        width: 301px;
     }
 `
 

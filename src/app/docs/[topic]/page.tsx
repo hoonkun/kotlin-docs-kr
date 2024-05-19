@@ -59,7 +59,7 @@ export default async function TopicDocument(props: { params: { topic: string } }
             <TopicsNavigation items={navigations} topic={topic}/>
             <DocumentContentWithAside summary={summary} items={navigations} topic={topic}>
                 <TopicsBreadcrumb items={navigations} topic={topic}/>
-                <TopicTitle items={navigations} topic={topic}/>
+                <TopicTitle items={navigations} topic={topic} withGithub/>
                 {content}
                 <Padding>&nbsp;</Padding>
             </DocumentContentWithAside>
