@@ -4,6 +4,7 @@ import React, { PropsWithChildren, useCallback, useEffect, useRef, useState } fr
 import styled from "styled-components"
 import Link from "next/link"
 import { DocumentSection } from "@/app/docs/[document_key]/page"
+import { LessThen1000, LessThen640 } from "@/utils/ReactiveStyles"
 
 type DocumentMainProps = { sections: DocumentSection[] }
 
@@ -77,6 +78,14 @@ const Arranger = styled.div`
   align-items: flex-start;
   padding: 0 22px 0 32px;
   margin: 0 auto;
+  
+  ${LessThen1000} {
+    padding: 0 22px;
+  }
+  
+  ${LessThen640} {
+    padding: 0 16px;
+  }
 `
 
 const Article = styled.article`
@@ -96,6 +105,12 @@ const Article = styled.article`
     min-width: 0;
   }
 
+  ${LessThen1000} {
+    & > * {
+      width: min(706px, 100vw - 44px);
+    }
+  }
+  
   & p {
     margin-top: 32px;
     margin-bottom: 0;
@@ -163,22 +178,31 @@ const Article = styled.article`
   }
 
   & h1 {
-    line-height: 49px;
-  }
-
-  & h1 {
     font-weight: 600;
     font-size: 43px;
+    line-height: 49px;
+    
+    ${LessThen640} {
+      font-size: 35px;
+    }
   }
 
   & h2 {
     font-weight: 600;
     font-size: 35px;
+    
+    ${LessThen640} {
+      font-size: 28px;
+    }
   }
 
   & h3 {
     font-weight: 600;
     font-size: 20px;
+    
+    ${LessThen640} {
+      font-size: 20px;
+    }
   }
 
   & > .survey {
@@ -201,6 +225,14 @@ const Aside = styled.aside`
 
   &::-webkit-scrollbar {
     display: none;
+  }
+  
+  ${LessThen1000} {
+    display: none;
+  }
+
+  ${LessThen640} {
+    max-height: calc(100dvh - 52px - 22px);
   }
 `
 

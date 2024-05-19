@@ -5,6 +5,7 @@ import styled from "styled-components"
 import Link from "next/link"
 import { DocumentData } from "@/app/docs/[document_key]/page"
 import { findDocumentation } from "@/utils/Documentation"
+import { LessThen1000 } from "@/utils/ReactiveStyles"
 
 type DocumentNavigatorProps = {
   items: DocumentData[]
@@ -90,7 +91,7 @@ const DocumentNavigatorItem: React.FC<DocumentNavigatorItemProps> = props => {
   throw Error("Assertion Failure(from DocumentNavigatorItem): one of children or href must be provided from DocumentData, but both are undefined or null")
 }
 
-export const DocumentNavigatorRoot = styled.nav`
+const DocumentNavigatorRoot = styled.nav`
   width: 311px;
   border-right: 1px solid #d1d1d2;
   display: flex;
@@ -117,6 +118,10 @@ export const DocumentNavigatorRoot = styled.nav`
 
   @media only screen and (max-width: 1276px) {
     width: 273px;
+  }
+
+  ${LessThen1000} {
+    display: none;
   }
 `
 
