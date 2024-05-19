@@ -12,12 +12,23 @@
     "next": "14.2.3",
     "react": "^18",
     "react-dom": "^18",
-    "styled-components": "^6.1.11"
+    "react-syntax-highlighter": "^15.5.0",
+    "rehype-parse": "^9.0.0",
+    "rehype-raw": "^7.0.0",
+    "rehype-react": "^8.0.0",
+    "rehype-stringify": "^10.0.0",
+    "remark-gfm": "^4.0.0",
+    "remark-parse": "^11.0.0",
+    "remark-rehype": "^11.1.0",
+    "styled-components": "^6.1.11",
+    "unified": "^11.0.4"
   },
   "devDependencies": {
+    "@svgr/webpack": "^8.1.0",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/react-syntax-highlighter": "^15",
     "eslint": "^8",
     "eslint-config-next": "14.2.3",
     "typescript": "^5"
