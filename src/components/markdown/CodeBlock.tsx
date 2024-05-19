@@ -1,4 +1,4 @@
-'use client'
+"use client"
 
 import { Prism, SyntaxHighlighterProps } from "react-syntax-highlighter"
 import React, { Fragment, PropsWithChildren } from "react"
@@ -6,7 +6,7 @@ import styled from "styled-components"
 
 const ImportedHighlighter = Prism as typeof React.Component<SyntaxHighlighterProps>
 
-export const CodeHighlighter: React.FC<PropsWithChildren<{ className: string }>> = props =>
+export const CodeBlock: React.FC<PropsWithChildren<{ className: string }>> = props =>
   <ImportedHighlighter
     language={props.className.replace("language-", "")}
     useInlineStyles={false}
@@ -15,6 +15,13 @@ export const CodeHighlighter: React.FC<PropsWithChildren<{ className: string }>>
   >
     {props.children as any}
   </ImportedHighlighter>
+
+export const InlineCode = styled.code`
+  padding: 2px 6px;
+  background-color: #19191C0D;
+  border-radius: 3px;
+  font-size: 15px;
+`
 
 const Pre: React.FC<PropsWithChildren> = props => <Fragment>{props.children}</Fragment>
 const Code: React.FC<PropsWithChildren> = props => <CodeTag>{props.children}</CodeTag>

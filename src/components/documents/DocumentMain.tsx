@@ -1,55 +1,45 @@
 "use client"
 
-import React, { PropsWithChildren, useCallback, useEffect, useMemo, useRef, useState } from "react"
+import React, { PropsWithChildren, useCallback, useEffect, useRef, useState } from "react"
 import styled from "styled-components"
 import Link from "next/link"
-import { DocumentData } from "@/app/docs/[document_key]/page"
-import { findDocumentation } from "@/utils/DocumentationFinder"
+import { DocumentSection } from "@/app/docs/[document_key]/page"
 
-type Props = { summary?: { type: string, text: string }[], items: DocumentData[], documentKey: string }
+type DocumentMainProps = { sections: DocumentSection[] }
 
-export const DocumentMain: React.FC<PropsWithChildren<Props>> = props => {
-
+export const DocumentMain: React.FC<PropsWithChildren<DocumentMainProps>> = props => {
   const {
     children,
-    summary: _summary,
-    items,
-    documentKey
+    sections: sections,
   } = props
 
-  const sections = useMemo(() => {
-    const root = {
-      type: "h1",
-      text: findDocumentation({ title: "_", children: items, enabled: true }, documentKey)![0].title
-    }
-    return _summary ? [root, ..._summary] : [root]
-  }, [_summary, items, documentKey])
-
-  const defaultViewing = sections[0]?.text
+  const defaultViewing = sections[0].text
 
   const scroller = useRef<HTMLDivElement>(null)
 
   const [viewing, setViewing] = useState<string | null>(defaultViewing)
-  const [headings, setHeadings] = useState<{ top: number, text: string }[]>([])
+  const [headings, setHeadings] = useState<DocumentHeading[]>([])
 
-  const onScroll = useCallback((e: React.UIEvent<HTMLDivElement>) => {
-    const found = headings.findLast(it => it.top < e.currentTarget.scrollTop)
-    setViewing(found ? found.text : defaultViewing)
-  }, [headings, defaultViewing])
-
-  useEffect(() => {
-    const newHeadings = Array.from(document.querySelectorAll(".article-content > h1, h2, h3, h4, h5, h6"))
-      .map(it => ({ top: (it as HTMLHeadingElement).offsetTop, text: (it as HTMLHeadingElement).innerText }))
-    setHeadings(newHeadings)
-
-    const found = newHeadings.findLast(it => it.top < (scroller.current?.scrollTop ?? 0))
+  const onScroll = useCallback((fromHeadings: DocumentHeading[], scrollTop: number) => {
+    const found = fromHeadings.findLast(it => it.top < scrollTop)
     setViewing(found ? found.text : defaultViewing)
   }, [defaultViewing])
 
+  useEffect(() => {
+    const newHeadings = Array.from(document.querySelectorAll(".article > h1, h2, h3, h4, h5, h6"))
+      .map(it => ({ top: (it as HTMLHeadingElement).offsetTop, text: (it as HTMLHeadingElement).innerText }))
+    setHeadings(newHeadings)
+
+    onScroll(newHeadings, scroller.current!.scrollTop)
+  }, [onScroll])
+
   return (
-    <Root ref={scroller} onScroll={onScroll}>
+    <Root
+      ref={scroller}
+      onScroll={e => onScroll(headings, e.currentTarget.scrollTop)}
+    >
       <Arranger>
-        <Article className={"article-content"}>
+        <Article className={"article"}>
           {children}
         </Article>
         <Aside>
@@ -69,6 +59,8 @@ export const DocumentMain: React.FC<PropsWithChildren<Props>> = props => {
   )
 }
 
+type DocumentHeading = { top: number, text: string }
+
 const Root = styled.main`
   flex: 1;
   display: flex;
@@ -85,36 +77,6 @@ const Arranger = styled.div`
   align-items: flex-start;
   padding: 0 22px 0 32px;
   margin: 0 auto;
-`
-
-export const Breadcrumb = styled.ul`
-  list-style-type: none;
-  display: flex;
-
-  font-size: 15px;
-  font-weight: 300;
-  letter-spacing: 0.05em;
-  color: #5e5e60;
-
-  padding-inline-start: 0;
-
-  & > li {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  & > li:last-of-type {
-    color: #19191c;
-    font-weight: 400;
-  }
-
-  & > li:nth-of-type(n+2):before {
-    content: "/";
-    font-weight: 300;
-    color: #d1d1d2;
-    margin: 0 4px;
-  }
 `
 
 const Article = styled.article`
@@ -181,15 +143,15 @@ const Article = styled.article`
     line-height: 0;
   }
 
-  & ul:not(${Breadcrumb}) {
+  & ul:nth-of-type(n+2) {
     padding-inline-start: 1em;
   }
 
-  & ul:not(${Breadcrumb}) > li {
+  & ul:nth-of-type(n+2) > li {
     margin-bottom: 0;
   }
 
-  & ul:not(${Breadcrumb}) > li:nth-of-type(n+2) {
+  & ul:nth-of-type(n+2) > li:nth-of-type(n+2) {
     margin-top: 24px;
   }
 
@@ -227,6 +189,21 @@ const Article = styled.article`
   }
 `
 
+const Aside = styled.aside`
+  width: 241px;
+  position: sticky;
+  top: 0;
+  flex-shrink: 0;
+
+  max-height: calc(100dvh - 64px - 22px);
+  overflow: auto;
+  padding: 22px 0 22px 32px;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`
+
 const DocumentSectionItem = styled(Link)<{ $indent: number, $selected: boolean }>`
   display: block;
   line-height: 20px;
@@ -255,20 +232,5 @@ const DocumentSectionItem = styled(Link)<{ $indent: number, $selected: boolean }
 
   &:hover {
     background-color: rgba(25, 25, 28, 0.05);
-  }
-`
-
-const Aside = styled.aside`
-  width: 241px;
-  position: sticky;
-  top: 0;
-  flex-shrink: 0;
-
-  max-height: calc(100dvh - 64px - 22px);
-  overflow: auto;
-  padding: 22px 0 22px 32px;
-
-  &::-webkit-scrollbar {
-    display: none;
   }
 `

@@ -1,13 +1,15 @@
 import fs from "fs"
 
 import React from "react"
-import { DocumentEndPadding, DocumentPageRoot, NotYetTranslated } from "@/app/docs/[document_key]/_styled"
 import { BaseProcessor, GlobalMarkdownComponents, GlobalRehypeReactOptions } from "@/utils/MarkdownProcessor"
 import rehypeReact from "rehype-react"
-import { DocumentMain } from "@/components/DocumentMain"
-import { DocumentBreadcrumb, DocumentNavigator, DocumentTitle } from "@/components/DocumentNavigator"
 import { notFound } from "next/navigation"
-import { findDocumentation } from "@/utils/DocumentationFinder"
+import { findDocumentation } from "@/utils/Documentation"
+import {
+  DocumentPageTemplate,
+  DocumentPageTemplateProps,
+  NotYetTranslated
+} from "@/components/documents/DocumentPageTemplate"
 
 import Documents from "@/../docs/registry.json"
 
@@ -17,22 +19,21 @@ export default async function DocumentPage(props: { params: { document_key: stri
   if (!key.endsWith(".md"))
     notFound()
 
-  const navigations = (Documents as RawDocumentData[]).map(documentItemMapper)
+  const documents = (Documents as RawDocumentData[]).map(documentItemMapper)
+  const foundDocumentation = findDocumentation(documents, key)
+  if (!foundDocumentation)
+    notFound()
 
-  if (!fs.existsSync(`./docs/${key}`))
-    return (
-      <DocumentPageRoot>
-        <DocumentNavigator items={navigations} documentKey={key}/>
-        <DocumentMain items={navigations} documentKey={key}>
-          <DocumentBreadcrumb items={navigations} documentKey={key}/>
-          <DocumentTitle items={navigations} documentKey={key}/>
-          <NotYetTranslated>
-            아직 번역되지 않았어요...
-            <span>GitHub 에 방문하여 번역에 기여해보세요!</span>
-          </NotYetTranslated>
-        </DocumentMain>
-      </DocumentPageRoot>
-    )
+  const [document, breadcrumbs] = foundDocumentation
+  const sections: DocumentSection[] = [{ type: "h1", text: document.title }]
+
+  const DocumentPageTemplateProps: Omit<DocumentPageTemplateProps, "hasContent"> = {
+    document, documents, documentKey: key, sections, breadcrumbs
+  }
+
+  if (!fs.existsSync(`./docs/${key}`)) {
+    return <DocumentPageTemplate {...DocumentPageTemplateProps} hasContent={false}><NotYetTranslated/></DocumentPageTemplate>
+  }
 
   let markdown: string = fs.readFileSync(`./docs/${key}`, { encoding: "utf8" })
 
@@ -42,10 +43,7 @@ export default async function DocumentPage(props: { params: { document_key: stri
   const survey = markdown.match(/\{&\?(?<doc_url>.+?)}/)
 
   markdown = replaceFootnotes(markdown, footnoteRefs, { documentKey: key, type: "ref" }, buildFootnoteRefDOM)
-  markdown = replaceFootnotes(markdown, footnoteContents, {
-    documentKey: key,
-    type: "content"
-  }, buildFootnoteContentDOM)
+  markdown = replaceFootnotes(markdown, footnoteContents, { documentKey: key, type: "content" }, buildFootnoteContentDOM)
 
   markdown = replaceSurvey(markdown, survey)
 
@@ -59,20 +57,12 @@ export default async function DocumentPage(props: { params: { document_key: stri
     .process(markdown)
     .then(it => it.result)
 
-  const summary = Array.from(html.value.toString().matchAll(/<(?<opening>h1|h2|h3|h4|h5|h6)>(?<text>.+?)<\/(?<closing>h1|h2|h3|h4|h5|h6)>/gi))
-    .map(it => ({ type: it.groups?.["opening"] ?? "h6", text: replaceTag(it.groups?.["text"] ?? "") }))
-
-  return (
-    <DocumentPageRoot>
-      <DocumentNavigator items={navigations} documentKey={key}/>
-      <DocumentMain summary={summary} items={navigations} documentKey={key}>
-        <DocumentBreadcrumb items={navigations} documentKey={key}/>
-        <DocumentTitle items={navigations} documentKey={key} withGithub/>
-        {content}
-        <DocumentEndPadding>&nbsp;</DocumentEndPadding>
-      </DocumentMain>
-    </DocumentPageRoot>
+  sections.push(
+    ...Array.from(html.value.toString().matchAll(/<(?<opening>h1|h2|h3|h4|h5|h6)>(?<text>.+?)<\/(?<closing>h1|h2|h3|h4|h5|h6)>/gi))
+      .map(it => ({ type: it.groups?.["opening"] ?? "h6", text: replaceTag(it.groups?.["text"] ?? "") }))
   )
+
+  return <DocumentPageTemplate {...DocumentPageTemplateProps} hasContent={true}>{content}</DocumentPageTemplate>
 }
 
 export async function generateMetadata({ params }: { params: { document_key: string } }) {
@@ -82,7 +72,7 @@ export async function generateMetadata({ params }: { params: { document_key: str
     return { title: "404 | Kotlin 문서" }
 
   const documents = (Documents as RawDocumentData[]).map(documentItemMapper)
-  const document = findDocumentation({ title: "_", children: documents, enabled: true }, key)
+  const document = findDocumentation(documents, key)
 
   if (!document)
     return { title: "404 | Kotlin 문서" }
@@ -115,6 +105,8 @@ export async function generateMetadata({ params }: { params: { document_key: str
 
 type RawDocumentData = { title: string, href?: string, children?: RawDocumentData[] }
 export type DocumentData = Omit<RawDocumentData, "children"> & { enabled: boolean, children?: DocumentData[] }
+export type DocumentSection = { type: string, text: string }
+
 const documentItemMapper: (it: RawDocumentData) => DocumentData = it => it.children ?
   { ...it, enabled: true, children: it.children.map(documentItemMapper) } :
   { ...it, enabled: fs.existsSync(`./docs/${it.href}`), children: undefined }

@@ -1,43 +1,8 @@
 "use client"
 
-import styled from "styled-components"
 import React, { PropsWithChildren } from "react"
-
+import styled from "styled-components"
 import BlockquoteIcon from "@/resources/blockquote-icon.svg"
-
-export const DocumentPageRoot = styled.div`
-  display: flex;
-  width: 100vw;
-  flex: 1;
-  min-height: 0;
-`
-
-export const NotYetTranslated = styled.p`
-  font-weight: 300;
-  text-align: center;
-  margin-top: 120px !important;
-  font-size: 28px;
-  width: unset !important;
-  align-self: stretch;
-
-  & > span {
-    display: block;
-    font-size: 14px;
-    opacity: 0.6;
-    margin-top: 16px;
-  }
-`
-
-export const DocumentEndPadding = styled.div`
-  min-height: 128px;
-`
-
-export const InlineCode = styled.code`
-  padding: 2px 6px;
-  background-color: #19191C0D;
-  border-radius: 3px;
-  font-size: 15px;
-`
 
 export const BlockQuote: React.FC<PropsWithChildren> = props =>
   <BlockQuoteTag>
