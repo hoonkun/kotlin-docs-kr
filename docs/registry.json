@@ -312,5 +312,101 @@
         "href": "keyword-reference.md"
       }
     ]
+  },
+  {
+    "title": "컴파일러와 플러그인",
+    "children": [
+      {
+        "title": "컴파일러",
+        "children": [
+          {
+            "title": "K2 컴파일러 마이그레이션 가이드",
+            "href": "k2-compiler-migration-guide.md"
+          },
+          {
+            "title": "커맨드라인 컴파일러",
+            "href": "command-line.md"
+          },
+          {
+            "title": "컴파일러 옵션",
+            "href": "compiler-reference.md"
+          }
+        ]
+      },
+      {
+        "title": "컴파일러 플러그인",
+        "children": [
+          {
+            "title": "All-open",
+            "href": "all-open-plugin"
+          },
+          {
+            "title": "No-arg",
+            "href": "no-arg-plugin.md"
+          },
+          {
+            "title": "SAM-with-receiver",
+            "href": "sam-with-receiver-plugin.md"
+          },
+          {
+            "title": "kapt",
+            "href": "kapt.md"
+          },
+          {
+            "title": "Lombok",
+            "href": "lombok.md"
+          }
+        ]
+      },
+      {
+        "title": "Kotlin 심볼 처리 API",
+        "children": [
+          {
+            "title": "KSP 훑어보기",
+            "href": "ksp-overview.md"
+          },
+          {
+            "title": "빠른 시작",
+            "href": "ksp-quickstart.md"
+          },
+          {
+            "title": "어째서 KSP를 사용하나요?",
+            "href": "ksp-why-ksp.md"
+          },
+          {
+            "title": "예제",
+            "href": "ksp-examples.md"
+          },
+          {
+            "title": "KSP가 Kotlin 코드를 만들어내는 방식",
+            "href": "ksp-additional-details.md"
+          },
+          {
+            "title": "Java Annotation Processor 작성자들을 위한 레퍼런스",
+            "href": "ksp-reference.md"
+          },
+          {
+            "title": "Incremental processing",
+            "href": "ksp-incremental.md"
+          },
+          {
+            "title": "Multiple round processing",
+            "href": "ksp-multi-round.md"
+          },
+          {
+            "title": "KSP와 멀티플랫폼",
+            "href": "ksp-multiplatform.md"
+          },
+          {
+            "title": "커맨드라인을 통한 KSP",
+            "href": "ksp-command-line.md"
+          },
+          {
+            "title": "FAQ",
+            "href": "ksp-faq.md"
+          }
+        ]
+      }
+    ]
   }
 ]
