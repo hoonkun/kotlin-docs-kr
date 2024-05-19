@@ -1,7 +1,7 @@
 # Coroutines 사용 설명서
 Kotlin은 표준 라이브러리에 최소한의 저수준 API 만을 제공하여 다른 라이브러리가 코루틴을 더 쉽게 도구화 할 수 있게 합니다. 
 비슷한 기능이 있는 다른 여려 언어들과 달리, `async` 및 `await` 는 Kotlin 에서 예약어가 아니며 표준 라이브러리에도 포함되지 않습니다.
-게다가, Kotlin 의 정지 함수{^[1]}는 비동기 작업에 대해 Future 나 Promise 보다 더 안전하고 더 적은 문제를 일으키는{^[2]} 추상적인 개념을 제공합니다.
+게다가, Kotlin 의 **정지 함수**{^[1]}는 비동기 작업에 대해 Future 나 Promise 보다 더 안전하고 더 적은 문제를 일으키는{^[2]} 추상적인 개념을 제공합니다.
 
 JetBrains 가 개발한 `kotlinx.coroutines` 는 코루틴을 위한 중요한 라이브러리입니다. 이 라이브러리에는 `launch` 나 `async` 함수 등을 포함하여 코루틴에서 사용할 수 있는, 곧 이 문서에서 설명할 고수준의 근본{^[3]}들이 들어있습니다.
 
@@ -15,7 +15,7 @@ JetBrains 가 개발한 `kotlinx.coroutines` 는 코루틴을 위한 중요한 �
 {&[3]}원문: primitives
 
 
-## 목차
+## 이 문서의 내용
 - [코루틴 기초](/docs/coroutines-basics.md)
 - [취소와 타임아웃](/docs/cancellation-and-timeouts.md)
 - [정지함수의 구성](/docs/composing-suspending-functions.md)

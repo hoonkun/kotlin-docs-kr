@@ -948,7 +948,7 @@ Exception in thread "main" java.lang.IllegalStateException: Collected 2
 
 ## 명령적 vs 선언적
 
-이제 우리는 flow 를 수집하고, 완료와 예외를 명령적인 방법과 선언적인 방법 모두를 사용하여 어떻게 핸들링할 수 있는지 알고 있습니다. 이제 조금 본질적인, "어느 것이 더 선호되고 어째서 그럴까?" 라는 질문이 남았죠. 사실 하나의 라이브러리로서, 하나의 방식이 옳다고 지지하지 않고 두 방식 모두 유효하며 당신의 기호나 코딩 스타일에 따라 선택하는 것이 맞다고 믿고있습니다.
+이제 우리는 flow 를 수집하고, 완료와 예외를 명령적인 방법과 선언적인 방법 모두를 사용하여 어떻게 핸들링할 수 있는지 알고 있습니다. 이제 조금 본질적인, "어느 것이 더 선호되고 어째서 그럴까?" 라는 질문이 남았죠. 사실 하나의 라이브러리로서, 하나의 방식이 옳다고 지지하지 않고 두 방식 모두 유효하며 여러분의 기호나 코딩 스타일에 따라 선택하는 것이 맞다고 믿고있습니다.
 
 ## Flow 의 시작(Launch)
 
@@ -1090,6 +1090,6 @@ Exception in thread "main" kotlinx.coroutines.JobCancellationException: Blocking
 
 ---
 
-(&[1])원문: be Kotlin
+{&[1]}원문: be Kotlin
 
 {&?https://kotlinlang.org/docs/flow.html}

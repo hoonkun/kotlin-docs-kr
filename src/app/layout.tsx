@@ -1,10 +1,24 @@
 import React from "react";
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import type {Metadata} from "next";
+import localFont from "next/font/local";
 import "./globals.css";
 import StyledComponentsRegistry from "@/libs/styled-components/styled-components-registry";
+import {Header} from "@/components/Header";
 
-const inter = Inter({ subsets: ["latin"] });
+const Pretendard = localFont({
+    src: [
+        { path: "./../resources/fonts/Pretendard-Black.woff2", weight: "900" },
+        { path: "./../resources/fonts/Pretendard-ExtraBold.woff2", weight: "800" },
+        { path: "./../resources/fonts/Pretendard-Bold.woff2", weight: "700" },
+        { path: "./../resources/fonts/Pretendard-SemiBold.woff2", weight: "600" },
+        { path: "./../resources/fonts/Pretendard-Medium.woff2", weight: "500" },
+        { path: "./../resources/fonts/Pretendard-Regular.woff2", weight: "400" },
+        { path: "./../resources/fonts/Pretendard-Light.woff2", weight: "300" },
+        { path: "./../resources/fonts/Pretendard-ExtraLight.woff2", weight: "200" },
+        { path: "./../resources/fonts/Pretendard-Thin.woff2", weight: "100" },
+    ],
+    display: "swap"
+})
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -14,8 +28,11 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-      <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
+      <body className={Pretendard.className}>
+      <StyledComponentsRegistry>
+          <Header/>
+          {children}
+      </StyledComponentsRegistry>
       </body>
     </html>
   );

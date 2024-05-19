@@ -9,7 +9,7 @@
 
 코루틴을 ‘가벼운 스레드’ 라고 생각할 수도 있지만, 실제 사용에서 스레드와 극명한 차이를 만드는 몇 가지 다른 점들이 있습니다.
 
-아래의 코드를 실행해 당신의 첫 코루틴을 한번 동작시켜보세요.
+아래의 코드를 실행해 여러분의 첫 코루틴을 한번 동작시켜보세요.
 
 ```kotlin
 fun main() = runBlocking { // this: CoroutineScope
@@ -31,7 +31,7 @@ World!
 이 코드가 무얼 하는지 하나하나 뜯어봅시다.
 
 [launch](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/launch.html) 는 
-**코루틴 빌더{^[2]}**입니다. 나머지 코드와 동시에, 독립적으로 동작하는 새 코루틴을 만들고 시작합니다. 
+**코루틴 빌더**{^[2]}입니다. 나머지 코드와 동시에, 독립적으로 동작하는 새 코루틴을 만들고 시작합니다. 
 그것이 `Hello` 가 먼저 출력되는 이유입니다.
 
 [delay](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/delay.html) 는 
@@ -65,13 +65,13 @@ Unresolved reference: launch
 ---
 
 {&[1]} 원문: instance of suspendable computation  
-{&[2]} 원문: coroutine builder
+{&[2]} 원문: coroutine builder  
 {&[3]} 원문: structured concurrency. 코루틴에서 사용되는 특정 개념을 지칭하는 표현.  
 
 ## 리팩터링 - 함수로 분리
 
 `launch { ... }` 블럭 안에 있는 코드를 별도의 함수로 분리해봅시다. 이 코드에 대해 "Extract function" 기능을 사용하면, `suspend` 수정자를 가진 새로운 함수를 만나게 될것입니다. 
-이것이 당신의 첫 **정지 함수**입니다. 정지 함수들은 코루틴 안에서 일반적인 함수처럼 사용될 수 있지만, 그들만의 특별한 점은 그들은 또다른 정지 함수(예제의 `delay` 등과 같은)를 사용하여 코루틴의 실행을 **정지**시킬 수 있다는 것입니다.
+이것이 여러분의 첫 **정지 함수**입니다. 정지 함수들은 코루틴 안에서 일반적인 함수처럼 사용될 수 있지만, 그들만의 특별한 점은 그들은 또다른 정지 함수(예제의 `delay` 등과 같은)를 사용하여 코루틴의 실행을 **정지**시킬 수 있다는 것입니다.
 
 ```kotlin
 fun main() = runBlocking { // this: CoroutineScope
@@ -79,7 +79,7 @@ fun main() = runBlocking { // this: CoroutineScope
     println("Hello")
 }
 
-// 이게 당신의 첫 정지 함수입니다.
+// 이게 여러분의 첫 정지 함수입니다.
 suspend fun doWorld() {
     delay(1000L)
     println("World!")
@@ -88,7 +88,7 @@ suspend fun doWorld() {
 
 ## Scope builder
 
-다른 코루틴 빌더 함수들에 의해 제공되는 코루틴 스코프들에 더해, [coroutineScope](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/coroutine-scope.html) 라는 빌더 함수를 사용하여 당신만의 새로운 스코프를 정의할 수도 있습니다. 이 함수는 새로운 코루틴 스코프를 만들며 그 안에서 시작된 자식 코루틴들이 모두 끝날 때까지 완료되지 않습니다.
+다른 코루틴 빌더 함수들에 의해 제공되는 코루틴 스코프들에 더해, [coroutineScope](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/coroutine-scope.html) 라는 빌더 함수를 사용하여 여러분만의 새로운 스코프를 정의할 수도 있습니다. 이 함수는 새로운 코루틴 스코프를 만들며 그 안에서 시작된 자식 코루틴들이 모두 끝날 때까지 완료되지 않습니다.
 
 [runBlocking](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/run-blocking.html) 과 [coroutineScope](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/coroutine-scope.html) 가 해당 함수의 람다가 모두 끝날때까지 기다린다는 점에서 비슷해보일 수도 있습니다. 
 가장 큰 차이점은, [runBlocking](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/run-blocking.html) 은 자신이 속한 스레드를 **막고** 실행이 끝날때까지 기다리지만 [coroutineScope](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/coroutine-scope.html) 는 해당 코루틴을 정지시키기만 하고 자신이 속한 스레드를 다른 사용처에게 넘깁니다. 

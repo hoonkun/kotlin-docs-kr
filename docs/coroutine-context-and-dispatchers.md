@@ -343,7 +343,7 @@ Post-main, current thread: Thread[main @coroutine#1,5,main], thread local value:
 
 `ThreadLocal` 에는 `kotlinx.coroutines` 가 제공하는 모든 원시값을 사용할 수 있습니다. 다만 한 가지 중요한 한계가 있습니다: 스레드 로컬 데이터가 변경되었을 때, 새로운 값이 코루틴 호출자에게 전파되지 않습니다. 이는 컨텍스트 요소가 모든 `ThreadLocal` 오브젝트에의 접근을 추적할 수 없기 때문입니다. 그리고 변경된 값은 다음 정지에서 소실됩니다. 코루틴 안에서 스레드 로컬 데이터를 변경하려면 [withContext](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/with-context.html) 를 사용하세요. 자세한 내용은 [asContextElement](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/as-context-element.html) 에 기술되어 있습니다.
 
-대안으로, 값을 `class Counter(var i: Int)` 같은 변경 가능한 객체(원문: box)에 넣고 스레드 로컬 변수에 저장할 수도 있습니다. 그러나 이 경우에는 당신에게 해당 객체의 변수에 대한 동시 수정을 완전히 동기화해야할 책임이 있습니다.
+대안으로, 값을 `class Counter(var i: Int)` 같은 변경 가능한 객체(원문: box)에 넣고 스레드 로컬 변수에 저장할 수도 있습니다. 그러나 이 경우에는 여러분에게 해당 객체의 변수에 대한 동시 수정을 완전히 동기화해야할 책임이 있습니다.
 
 MDC 와 통합된 로깅이나 트랜잭션 컨텍스트, 데이터 전달에 스레드 로컬 데이터를 사용하는 기타 라이브러리 등과 같이 더 고차원적으로 사용하려면, [ThreadContextElement](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-thread-context-element/index.html) 인터페이스의 구현과 관련된 문서를 참고해주십시오.
 
