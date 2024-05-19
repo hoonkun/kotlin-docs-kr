@@ -48,7 +48,6 @@ const Root = styled.div`
   display: flex;
   width: 100vw;
   flex: 1;
-  min-height: 0;
 `
 
 const Breadcrumbs = styled.ul`

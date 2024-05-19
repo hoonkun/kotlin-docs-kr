@@ -65,6 +65,12 @@ const Close: React.FC<ClickableButtonProps> = ({ onClick }) =>
   </HeaderButton>
 
 const Root = styled.header`
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  
+  flex-shrink: 0;
+  
   background-color: #27282c;
   height: 64px;
   display: flex;

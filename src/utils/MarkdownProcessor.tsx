@@ -9,6 +9,7 @@ import { CodeBlock, InlineCode, PreTag, PreTagSpacer } from "@/components/markdo
 import { BlockQuote } from "@/components/markdown/BlockQuote"
 
 import * as ProductionReact from "react/jsx-runtime"
+import { HeadingAnchor } from "@/components/markdown/HeadingAnchor"
 
 const { jsx, jsxs, Fragment } = ProductionReact
 
@@ -39,12 +40,12 @@ export const GlobalMarkdownComponents = {
     <a {...props}
        className={props.href?.startsWith("https://kotlinlang.org/") ? "api-doc" : "external-link"}>{props.children}</a>,
   blockquote: (props: any) => <BlockQuote {...props}/>,
-  h1: (props: any) => <h1 id={replaceSpaces(retrieveNodeText(props.children))}>{props.children}</h1>,
-  h2: (props: any) => <h2 id={replaceSpaces(retrieveNodeText(props.children))}>{props.children}</h2>,
-  h3: (props: any) => <h3 id={replaceSpaces(retrieveNodeText(props.children))}>{props.children}</h3>,
-  h4: (props: any) => <h4 id={replaceSpaces(retrieveNodeText(props.children))}>{props.children}</h4>,
-  h5: (props: any) => <h5 id={replaceSpaces(retrieveNodeText(props.children))}>{props.children}</h5>,
-  h6: (props: any) => <h6 id={replaceSpaces(retrieveNodeText(props.children))}>{props.children}</h6>
+  h1: (props: any) => <HeadingAnchor id={replaceSpaces(retrieveNodeText(props.children))}><h1>{props.children}</h1></HeadingAnchor>,
+  h2: (props: any) => <HeadingAnchor id={replaceSpaces(retrieveNodeText(props.children))}><h2>{props.children}</h2></HeadingAnchor>,
+  h3: (props: any) => <HeadingAnchor id={replaceSpaces(retrieveNodeText(props.children))}><h3>{props.children}</h3></HeadingAnchor>,
+  h4: (props: any) => <HeadingAnchor id={replaceSpaces(retrieveNodeText(props.children))}><h4>{props.children}</h4></HeadingAnchor>,
+  h5: (props: any) => <HeadingAnchor id={replaceSpaces(retrieveNodeText(props.children))}><h5>{props.children}</h5></HeadingAnchor>,
+  h6: (props: any) => <HeadingAnchor id={replaceSpaces(retrieveNodeText(props.children))}><h6>{props.children}</h6></HeadingAnchor>
 }
 
 export const GlobalRehypeReactOptions: any = { jsx, jsxs, Fragment }

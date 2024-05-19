@@ -36,7 +36,6 @@ export const PreTagSpacer = styled.div`
 `
 
 export const PreTag = styled.pre`
-  font-size: 15px;
   min-width: 0;
   display: flex;
 
@@ -45,9 +44,7 @@ export const PreTag = styled.pre`
   overflow-x: auto;
 
   margin: 32px 0 0 0;
-
-  word-break: break-all;
-  white-space: pre-wrap;
+  
   background-color: rgba(25, 25, 28, 0.05);
   border-radius: 8px;
   padding: 16px 32px;
@@ -57,14 +54,7 @@ export const PreTag = styled.pre`
     background-color: transparent;
     border-radius: 0;
     white-space: pre;
-  }
-
-  & > pre {
-    min-width: 0;
-  }
-
-  & > pre > code {
-    min-width: 0;
+    font-size: 15px;
   }
 
   .comment {
