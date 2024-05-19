@@ -1,5 +1,3 @@
-# 변경 가능한 공유 자원과 동시성
-
 코루틴은 [Dispatchers.Default](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-dispatchers/-default.html) 같은 디스패쳐를 사용하면 여러 스레드 사이에서 실행될 수 있습니다. 이는 모든 일반적인 동시성 문제도 포함합니다. 주로는 **변경 가능한 공유 자원**에의 접근 동기화입니다. 코루틴의 세상에서의 몇몇 솔루션은 멀티 스레딩 환경에서의 그것과 비슷하지만, 그렇지 않은 것들도 있습니다.
 
 ## 문제점

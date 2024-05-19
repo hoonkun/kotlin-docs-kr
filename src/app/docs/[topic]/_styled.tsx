@@ -12,6 +12,22 @@ export const TopicDocumentRoot = styled.div`
     min-height: 0;
 `
 
+export const NotYetTranslated = styled.p`
+    font-weight: 300;
+    text-align: center;
+    margin-top: 120px !important;
+    font-size: 28px;
+    width: unset !important;
+    align-self: stretch;
+    
+    & > span {
+        display: block;
+        font-size: 14px;
+        opacity: 0.6;
+        margin-top: 16px;
+    }
+`
+
 export const Padding = styled.div`
     min-height: 128px;
 `

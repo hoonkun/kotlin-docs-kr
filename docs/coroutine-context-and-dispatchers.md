@@ -1,5 +1,3 @@
-# 코루틴의 컨텍스트와 디스패쳐
-
 코루틴은 항상 Kotlin 표준 라이브러리의 [CoroutineContext](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.coroutines/-coroutine-context/) 타입이 표현하는 어떠한 컨텍스트의 안에서 실행됩니다.
 
 코루틴 컨텍스트는 몇가지 요소들의 집합입니다. 이전에 봤던 [Job](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-job/index.html) 도 이 요소 중 하나이며, 디스패쳐가 이 문서에서 설명할 또다른 메인 요소입니다.

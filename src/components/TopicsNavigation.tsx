@@ -80,7 +80,16 @@ const TopicNavigationItem: React.FC<TopicNavigationItemProps> = props => {
     return <></>
 }
 
-const findSelectedTopic = (
+export const TopicTitle: React.FC<{ items: NavigationItemData[], topic: string }> = props => {
+    const { items, topic } = props
+    const title = useMemo(
+        () => findSelectedTopic({ title: "_", children: items, enabled: true }, topic)![0].title,
+        [items, topic]
+    )
+    return <h1 id={title.replaceAll(" ", "_")}>{title}</h1>
+}
+
+export const findSelectedTopic = (
     item: NavigationItemData,
     topic: string,
     parents: NavigationItemData[] = []

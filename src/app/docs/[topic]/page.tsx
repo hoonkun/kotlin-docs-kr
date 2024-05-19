@@ -1,20 +1,33 @@
 import fs from "fs"
 
 import React from "react"
-import {notFound} from "next/navigation";
-import {Padding, TopicDocumentRoot} from "@/app/docs/[topic]/_styled";
+import {NotYetTranslated, Padding, TopicDocumentRoot} from "@/app/docs/[topic]/_styled";
 import {BaseProcessor, GlobalMarkdownComponents, GlobalRehypeReactOptions} from "@/utils/MarkdownProcessor";
 import rehypeReact from "rehype-react";
 import {DocumentContentWithAside} from "@/components/DocumentContentWithAside";
-import {TopicsBreadcrumb, TopicsNavigation} from "@/components/TopicsNavigation";
+import {TopicsBreadcrumb, TopicsNavigation, TopicTitle} from "@/components/TopicsNavigation";
 import NavigationItems from "@/../docs/registry.json"
 
 
 export default async function TopicDocument(props: { params: { topic: string } }) {
     const {params: {topic}} = props
 
+    const navigations = (NavigationItems as RawNavigationItemData[]).map(navigationItemMapper)
+
     if (!topic.endsWith(".md") || !fs.existsSync(`./docs/${topic}`))
-        notFound()
+        return (
+            <TopicDocumentRoot>
+                <TopicsNavigation items={navigations} topic={topic}/>
+                <DocumentContentWithAside items={navigations} topic={topic}>
+                    <TopicsBreadcrumb items={navigations} topic={topic}/>
+                    <TopicTitle items={navigations} topic={topic}/>
+                    <NotYetTranslated>
+                        아직 번역되지 않았어요...
+                        <span>GitHub 에 방문하여 번역에 기여해보세요!</span>
+                    </NotYetTranslated>
+                </DocumentContentWithAside>
+            </TopicDocumentRoot>
+        )
 
     let markdown: string = fs.readFileSync(`./docs/${topic}`, {encoding: "utf8"})
 
@@ -41,13 +54,12 @@ export default async function TopicDocument(props: { params: { topic: string } }
     const summary = Array.from(html.value.toString().matchAll(/<(?<opening>h1|h2|h3|h4|h5|h6)>(?<text>.+?)<\/(?<closing>h1|h2|h3|h4|h5|h6)>/gi))
         .map(it => ({type: it.groups?.["opening"] ?? "h6", text: replaceTag(it.groups?.["text"] ?? "")}))
 
-    const navigations = (NavigationItems as RawNavigationItemData[]).map(navigationItemMapper)
-
     return (
         <TopicDocumentRoot>
             <TopicsNavigation items={navigations} topic={topic}/>
-            <DocumentContentWithAside summary={summary}>
+            <DocumentContentWithAside summary={summary} items={navigations} topic={topic}>
                 <TopicsBreadcrumb items={navigations} topic={topic}/>
+                <TopicTitle items={navigations} topic={topic}/>
                 {content}
                 <Padding>&nbsp;</Padding>
             </DocumentContentWithAside>
@@ -111,9 +123,7 @@ const replaceFootnotes = (
         if (!number)
             throw Error(`Assertion Failure: Cannot parse number for ${topic}'s footnote ${type} with position ${it.index}`)
 
-        const heading = findNearestHeading(content, it.index + indexShifted)
-        if (!heading)
-            throw Error(`Assertion Failure: Cannot find nearest heading for ${topic}'s footnote ${type} with position ${it.index}`)
+        const heading = findNearestHeading(content, it.index + indexShifted) ?? "root"
 
         const replaceWith = transform(heading.replaceAll(" ", "-"), number)
         content = content.replace(it[0], replaceWith)

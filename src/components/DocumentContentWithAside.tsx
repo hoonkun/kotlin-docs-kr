@@ -1,16 +1,28 @@
 "use client"
 
-import React, {PropsWithChildren, useCallback, useEffect, useRef, useState} from "react";
+import React, {PropsWithChildren, useCallback, useEffect, useMemo, useRef, useState} from "react";
 import styled from "styled-components";
 import Link from "next/link";
+import {NavigationItemData} from "@/app/docs/[topic]/page";
+import {findSelectedTopic} from "@/components/TopicsNavigation";
 
-type Props = { summary: { type: string, text: string }[] }
+type Props = { summary?: { type: string, text: string }[], items: NavigationItemData[], topic: string }
 
 export const DocumentContentWithAside: React.FC<PropsWithChildren<Props>> = props => {
 
-    const { children, summary } = props
+    const {
+        children,
+        summary: _summary,
+        items,
+        topic
+    } = props
 
-    const defaultViewing = summary[0].text
+    const summary = useMemo(() => {
+        const root = { type: "h1", text: findSelectedTopic({ title: "_", children: items, enabled: true }, topic)![0].title }
+        return _summary ? [root, ..._summary] : [root]
+    }, [_summary, items, topic])
+
+    const defaultViewing = summary[0]?.text
 
     const scroller = useRef<HTMLDivElement>(null)
 
@@ -96,6 +108,7 @@ export const Breadcrumb = styled.ul`
     
     & > li:nth-of-type(n+2):before {
         content: "/";
+        font-weight: 300;
         color: #d1d1d2;
         margin: 0 4px;
     }
@@ -236,7 +249,7 @@ const TopicSectionItem = styled(Link)<{ $indent: number, $selected: boolean }>`
 `
 
 const TopicSectionsAside = styled.aside`
-    width: 209px;
+    width: 241px;
     position: sticky;
     top: 0;
     flex-shrink: 0;

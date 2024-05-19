@@ -1,5 +1,3 @@
-# 코루틴의 예외 핸들링
-
 이 영역에서는 예외의 핸들링과 예외 시 취소에 관한 내용을 다룹니다. 우리는 취소된 코루틴이 정지 포인트에서 [CancellationException](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-cancellation-exception/index.html) 를 던진다는 것을 알고 있고, 코루틴의 작동에서 무시된다는 것을 알고 있습니다. 여기서는 취소 중에 예외가 발생하거나 하나의 코루틴의 여러 자식들이 각각 예외를 발생시킬 때 어떤 일이 일어나는지를 살펴봅니다.
 
 ## 예외의 전파
