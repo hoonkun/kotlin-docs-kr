@@ -111,6 +111,12 @@ const Article = styled.article`
     }
   }
   
+  ${LessThen640} {
+    & > * {
+      width: min(706px, 100vw - 32px);
+    }
+  }
+  
   & p {
     margin-top: 32px;
     margin-bottom: 0;
