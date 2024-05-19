@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import styled from "styled-components"
 import { LessThen1000, LessThen640 } from "@/utils/ReactiveStyles"
 
@@ -14,11 +14,25 @@ import {
 export const AppGlobalHeader: React.FC = () => {
 
   const [expanded, setExpanded] = useState(false)
+  const savedScrollState = useRef(0)
 
   useEffect(() => {
     const handler = (e: Event) => {
       if (!(e instanceof DocumentNavigatorExpandedEvent)) return
-      setExpanded(e.newState)
+      setExpanded(prevState => {
+        const { newState } = e
+        if (prevState === newState) return newState
+        if (newState) {
+          if (document.scrollingElement!.classList.contains("disabled-scroll")) return newState
+          savedScrollState.current = document.scrollingElement!.scrollTop
+          document.scrollingElement!.classList.add("disabled-scroll")
+        } else {
+          if (!document.scrollingElement!.classList.contains("disabled-scroll")) return newState
+          document.scrollingElement!.scrollTo({ top: savedScrollState.current, behavior: "instant" })
+          document.scrollingElement!.classList.remove("disabled-scroll")
+        }
+        return newState
+      })
     }
 
     DocumentNavigatorExpandedEvents.addEventListener("state_changed", handler)
@@ -26,7 +40,7 @@ export const AppGlobalHeader: React.FC = () => {
   }, [])
 
   return (
-    <Root>
+    <Root id="app-global-header">
       <KotlinIcon className={"wide"}/>
       <KotlinIconSmall className={"narrow"}/>
       <HeaderTitle>문서</HeaderTitle>
@@ -65,9 +79,10 @@ const Close: React.FC<ClickableButtonProps> = ({ onClick }) =>
   </HeaderButton>
 
 const Root = styled.header`
-  position: sticky;
+  position: fixed;
   top: 0;
   z-index: 5;
+  width: 100vw;
   
   flex-shrink: 0;
   

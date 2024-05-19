@@ -16,7 +16,19 @@ body {
   background-color: white;
   display: flex;
   flex-direction: column;
+  margin-top: 64px;
   -webkit-text-size-adjust: 100%;
+}
+
+@media only screen and (max-width: 1000px) {
+  html.disabled-scroll {
+    overflow: hidden;
+    height: 100vh;
+  }
+
+  body {
+    margin-top: 52px;
+  }
 }
 
 * {
