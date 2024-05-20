@@ -75,8 +75,60 @@ main runBlocking: After delay in thread main
 > 갇히지 않은 디스패쳐는 고급 매커니즘으로, 일부 나중에 실행할 필요가 없거나 특정할 수 없는 부수효과를 만드는, 곧바로 실행되어야 하는 경우 등의 코너 케이스에 도움이 될 수 있습니다. 갇히지 않은 디스패쳐는 일반적인 코드에서는 사용하지 않는 것이 좋습니다.
 
 ## 코루틴과 스레드의 디버깅
-{>author}
-> ***이 영역은 문서의 기술 범위를 벗어난다고 판단해 *아직* 번역하지 않았습니다.**
+코루틴은 어떤 스레드에서 정지하여 다른 스레드에서 재게될 수 있습니다. 싱글스레드 디스패쳐를 사용하더라도 특별한 도구를 사용하지 않으면 코루틴이 무엇을 하고 있는지 찾아내기 어려울 수 있습니다.
+
+### IDEA 로 디버깅
+코틀린 플러그인인 코루틴 디버거가 Intellij IDEA 에서 코루틴의 디버깅을 편리하게 합니다.  
+
+> 디버깅은 `kotlinx-coroutines-core` 버전 1.3.8 과 그 이후부터 사용할 수 있습니다.
+
+**Debug** 도구 윈도우는 **Coroutines** 탭을 포함합니다. 이 탭에서, 현재 동작중이거나 정지한 코루틴들의 정보를 찾아볼 수 있습니다. 코루틴들은 그들이 동작중인 디스패쳐로 그룹화됩니다.
+
+![Debug 도구 윈도우의 Coroutine 탭](/coroutine-idea-debugging-1.png)
+
+코루틴 디버거를 사용하면, 아래와 같은 일들을 할 수 있습니다:
+
+{*large-spacing}
+- 각 코루틴의 상태를 확인합니다.
+- 실행 중이거나 정지된 코루틴의 로컬 변수, 캡쳐된 변수 등을 확인합니다.
+- 코루틴 내부의 콜스택을 비롯한 코루틴 생성 스택을 확인합니다. 각 스택은 모든 프레임과 각각의 변수 값들을 포함하며 표준 디버깅 내에서 잃어버리지 않습니다.
+- 코루틴의 상태와 스택을 포함한 완전한 보고서를 가져올 수 있습니다. 가져오려면, **Coroutines** 탭에서 우클릭하여 **Get Coroutines Dump** 를 선택합니다.
+
+코루틴 디버깅을 시작하려면, 중단점을 설정하고 어플리케이션을 디버그 모드에서 실행하기만 하면 됩니다.  
+
+코루틴 디버깅에 대한 더 자세한 내용을 [이 튜토리얼](https://kotlinlang.org/docs/tutorials/coroutines/debug-coroutines-with-idea.html) 에서 알아보세요.
+
+### 로깅으로 디버깅
+스레드를 사용하는 어플리케이션을, Coroutine Debugger 를 사용하지 않고 디버깅하는 또다른 접근은 로그파일의 각 문장에 스레드의 이름을 출력하는 방법입니다.
+이 기능은 보편적으로 로깅 프레임워크들에 의해 지원되고 있습니다. 코루틴을 사용할 때는 스레드의 이름만으로는 충분한 정보를 가져올 수 없으므로, `kotlinx.coroutines` 는 그를 더 쉽게 하기 위한 도구들을 포함합니다.  
+
+아래 코드를 `-Dkotlinx.coroutines.debug` JVM 옵션과 함께 실행해보세요:
+
+```kotlin
+val a = async {
+    log("I'm computing a piece of the answer")
+    6
+}
+val b = async {
+    log("I'm computing another piece of the answer")
+    7
+}
+log("The answer is ${a.await() * b.await()}")
+```
+
+여기에는 세 개의 코루틴이 있습니다. `runBlocking` 안쪽의 메인 코루틴(#1), 그리고 두 개의 연기된 값들을 계산하는 a(#2) 와 b(#3) 두 개의 코루틴입니다.
+그들은 모두 `runBlocking` 의 컨텍스트를 사용하므로, 메인 스레드에 갇혀있습니다. 코드의 출력은 아래와 같습니다:
+
+```
+[main @coroutine#2] I'm computing a piece of the answer
+[main @coroutine#3] I'm computing another piece of the answer
+[main @coroutine#1] The answer is 42
+```
+
+`log` 함수는 스레드의 이름을 대괄호 안에 출력하며, 그와 같이 현재 실행 중인 코루틴의 ID가 뒤따르는 것을 볼 수 있습니다.
+이 ID는 디버그 모드가 켜져있을 때 모든 생성된 코루틴에게 연속적으로 부여됩니다.
+
+> 디버그 모드는 JVM 이 `-ea` 옵션과 함께 실행되었을 때도 켜집니다. 디버그 도구에 대한 더 자세한 내용을 [DEBUG_PROPERTY_NAME](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-d-e-b-u-g_-p-r-o-p-e-r-t-y_-n-a-m-e.html) 속성의 문서에서 확인할 수 있습니다.
 
 ## 스레드 사이를 오가기
 

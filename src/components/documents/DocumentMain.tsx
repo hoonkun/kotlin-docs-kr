@@ -138,12 +138,7 @@ const Article = styled.article<{ $disableWidthLimiting?: boolean }>`
     margin-bottom: 0;
   }
   
-  & h1 + p, h2 + p, h3 + p, h4 + p, h5 + p, h6 + p {
-    margin-top: 32px;
-    margin-bottom: 0;
-  }
-  
-  & p + p {
+  & h1 + p, h2 + p, h3 + p, h4 + p, h5 + p, h6 + p, p + p, ul + p, ol + p, pre + p, blockquote + p {
     margin-top: 32px;
     margin-bottom: 0;
   }
