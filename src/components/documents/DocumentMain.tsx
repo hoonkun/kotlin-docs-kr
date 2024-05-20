@@ -6,12 +6,13 @@ import Link from "next/link"
 import { DocumentSection } from "@/app/docs/[document_key]/page"
 import { LessThen1000, LessThen640 } from "@/utils/ReactiveStyles"
 
-type DocumentMainProps = { sections: DocumentSection[] }
+type DocumentMainProps = { sections: DocumentSection[], withoutAside?: boolean }
 
 export const DocumentMain: React.FC<PropsWithChildren<DocumentMainProps>> = props => {
   const {
     children,
-    sections: sections,
+    sections,
+    withoutAside
   } = props
 
   const defaultViewing = sections[0].text
@@ -54,18 +55,20 @@ export const DocumentMain: React.FC<PropsWithChildren<DocumentMainProps>> = prop
         <Article className={"article"}>
           {children}
         </Article>
-        <Aside>
-          {sections.map(it =>
-            <DocumentSectionItem
-              key={`${it.type}_${it.text}`}
-              href={`#${it.text.replaceAll(" ", "_")}`}
-              $indent={Math.max(parseInt(it.type.slice(1)) - 2, 0)}
-              $selected={it.text === viewing}
-            >
-              {it.text}
-            </DocumentSectionItem>
-          )}
-        </Aside>
+        {!withoutAside &&
+          <Aside>
+            {sections.map(it =>
+              <DocumentSectionItem
+                key={`${it.type}_${it.text}`}
+                href={`#${it.text.replaceAll(" ", "_")}`}
+                $indent={Math.max(parseInt(it.type.slice(1)) - 2, 0)}
+                $selected={it.text === viewing}
+              >
+                {it.text}
+              </DocumentSectionItem>
+            )}
+          </Aside>
+        }
       </Arranger>
     </Root>
   )

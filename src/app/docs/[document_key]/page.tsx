@@ -12,11 +12,12 @@ import {
 } from "@/components/documents/DocumentPageTemplate"
 
 import Documents from "@/../docs/registry.json"
+import { DocumentHome } from "@/components/documents/DocumentHome"
 
 export default async function DocumentPage(props: { params: { document_key: string } }) {
   const { params: { document_key: key } } = props
 
-  if (!key.endsWith(".md"))
+  if (key !== "home" && !key.endsWith(".md"))
     notFound()
 
   const documents = (Documents as RawDocumentData[]).map(documentItemMapper)
@@ -31,8 +32,12 @@ export default async function DocumentPage(props: { params: { document_key: stri
     document, documents, documentKey: key, sections, breadcrumbs
   }
 
+  if (key === "home") {
+    return <DocumentPageTemplate {...DocumentPageTemplateProps} withoutAdditionalUi><DocumentHome/></DocumentPageTemplate>
+  }
+
   if (!fs.existsSync(`./docs/${key}`)) {
-    return <DocumentPageTemplate {...DocumentPageTemplateProps} hasContent={false}><NotYetTranslated/></DocumentPageTemplate>
+    return <DocumentPageTemplate {...DocumentPageTemplateProps}><NotYetTranslated/></DocumentPageTemplate>
   }
 
   let markdown: string = fs.readFileSync(`./docs/${key}`, { encoding: "utf8" })
@@ -62,13 +67,13 @@ export default async function DocumentPage(props: { params: { document_key: stri
       .map(it => ({ type: it.groups?.["opening"] ?? "h6", text: replaceTag(it.groups?.["text"] ?? "") }))
   )
 
-  return <DocumentPageTemplate {...DocumentPageTemplateProps} hasContent={true}>{content}</DocumentPageTemplate>
+  return <DocumentPageTemplate {...DocumentPageTemplateProps} hasContent>{content}</DocumentPageTemplate>
 }
 
 export async function generateMetadata({ params }: { params: { document_key: string } }) {
   const { document_key: key } = params
 
-  if (!key.endsWith(".md"))
+  if (key !== "home" && !key.endsWith(".md"))
     return { title: "404 | Kotlin 문서" }
 
   const documents = (Documents as RawDocumentData[]).map(documentItemMapper)
@@ -77,13 +82,15 @@ export async function generateMetadata({ params }: { params: { document_key: str
   if (!document)
     return { title: "404 | Kotlin 문서" }
 
+  const title = key === "home" ? "Kotlin 문서" : `${document[0].title} | Kotlin 문서`
+
   return {
-    title: `${document[0].title} | Kotlin 문서`,
+    title,
     icons: {
       icon: { url: "/favicon.svg", type: "image/svg+xml" }
     },
     openGraph: {
-      title: `${document[0].title} | Kotlin 문서`,
+      title,
       description: "",
       images: {
         url: "https://kotlinlang.org/assets/images/open-graph/docs.png"
@@ -93,7 +100,7 @@ export async function generateMetadata({ params }: { params: { document_key: str
       type: "website"
     },
     twitter: {
-      title: `${document[0].title} | Kotlin 문서`,
+      title,
       description: "",
       card: "summary_large_image",
       site: "@kotlin",
@@ -109,7 +116,7 @@ export type DocumentSection = { type: string, text: string }
 
 const documentItemMapper: (it: RawDocumentData) => DocumentData = it => it.children ?
   { ...it, enabled: true, children: it.children.map(documentItemMapper) } :
-  { ...it, enabled: fs.existsSync(`./docs/${it.href}`), children: undefined }
+  { ...it, enabled: it.href === "home" || fs.existsSync(`./docs/${it.href}`), children: undefined }
 
 const replaceTag = (input: string): string => input
   .replaceAll(/<([0-z]+)>/g, "")

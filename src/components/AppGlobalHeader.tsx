@@ -1,20 +1,27 @@
 "use client"
 
 import React, { useEffect, useRef, useState } from "react"
-import styled from "styled-components"
+import styled, { css } from "styled-components"
 import { LessThen1000, LessThen640 } from "@/utils/ReactiveStyles"
-
-import KotlinIcon from "@/resources/kotlin-header-icon.svg"
-import KotlinIconSmall from "@/resources/kotlin-header-icon-small.svg"
 import {
   DocumentNavigatorExpandedEvent,
   DocumentNavigatorExpandedEvents
 } from "@/components/documents/DocumentNavigator"
+import { usePathname } from "next/navigation"
+import Link from "next/link"
+
+import KotlinIcon from "@/resources/kotlin-header-icon.svg"
+import KotlinIconLarge from "@/resources/kotlin-header-icon-large.svg"
+import KotlinIconSmall from "@/resources/kotlin-header-icon-small.svg"
 
 export const AppGlobalHeader: React.FC = () => {
 
   const [expanded, setExpanded] = useState(false)
   const savedScrollState = useRef(0)
+
+  const pathname = usePathname()
+  const isInDocument = pathname.startsWith("/docs/")
+  const isHome = pathname === "/"
 
   useEffect(() => {
     const handler = (e: Event) => {
@@ -40,17 +47,25 @@ export const AppGlobalHeader: React.FC = () => {
   }, [])
 
   return (
-    <Root id="app-global-header">
-      <KotlinIcon className={"wide"}/>
-      <KotlinIconSmall className={"narrow"}/>
-      <HeaderTitle>문서</HeaderTitle>
-      <Description>코틀린 문서 비공식 한국어 번역</Description>
+    <Root id="app-global-header" $darker={isHome}>
+      <Link href={"/"}>
+        {isHome ? <KotlinIconLarge className={"wide"}/> : <KotlinIcon className={"wide"}/>}
+        <KotlinIconSmall className={"narrow"}/>
+      </Link>
+      <HeaderTitle className={"narrow"}>문서</HeaderTitle>
+      <Description className={"description"}>코틀린 문서 비공식 한국어 번역</Description>
       <Spacer/>
       <HeaderLink>GitHub</HeaderLink>
-      <HeaderTab>문서</HeaderTab>
+      <HeaderTab
+        href={"/docs/home"}
+        className={"force-display-when-narrow-home"}
+        $selected={isInDocument}
+      >
+        문서
+      </HeaderTab>
       {expanded ?
-        <Close onClick={DocumentNavigatorExpandEvents.toggleNavigator}/> :
-        <Hamburger onClick={DocumentNavigatorExpandEvents.toggleNavigator}/>
+        <Close className={"force-hide-when-narrow-home"} onClick={DocumentNavigatorExpandEvents.toggleNavigator}/> :
+        <Hamburger className={"force-hide-when-narrow-home"} onClick={DocumentNavigatorExpandEvents.toggleNavigator}/>
       }
     </Root>
   )
@@ -60,17 +75,17 @@ export const DocumentNavigatorExpandEvents = new class extends EventTarget {
   toggleNavigator = () => this.dispatchEvent(new Event("navigator_toggle"))
 }
 
-type ClickableButtonProps = { onClick: React.MouseEventHandler<HTMLButtonElement> }
+type ClickableButtonProps = { onClick: React.MouseEventHandler<HTMLButtonElement>, className?: string }
 
-const Hamburger: React.FC<ClickableButtonProps> = ({ onClick }) =>
-  <HeaderButton onClick={onClick}>
+const Hamburger: React.FC<ClickableButtonProps> = props =>
+  <HeaderButton {...props}>
     <svg viewBox="0 0 24 24" data-test="icon-hamburger" className="hamburger">
       <path fill="currentColor" d="M4 5h16v2H4zm0 6h16v2H4zm0 6h16v2H4z"></path>
     </svg>
   </HeaderButton>
 
-const Close: React.FC<ClickableButtonProps> = ({ onClick }) =>
-  <HeaderButton onClick={onClick}>
+const Close: React.FC<ClickableButtonProps> = props =>
+  <HeaderButton {...props}>
     <svg viewBox="0 0 24 24" data-test="icon-close" className="close">
       <path
         fill="currentColor"
@@ -78,7 +93,26 @@ const Close: React.FC<ClickableButtonProps> = ({ onClick }) =>
     </svg>
   </HeaderButton>
 
-const Root = styled.header`
+
+const DarkerAppHeaderStyles = ({ $darker }: { $darker: boolean }) => !$darker ?
+  css`
+    ${LessThen640} {
+      & > a > svg.wide { display: none }
+      & > a > svg.narrow { display: block }
+      & > span.narrow { display: block } 
+      & > span.description { margin-left: 4px }
+    }
+  ` :
+  css`
+    background-color: #19191C;
+    ${LessThen1000} {
+      & > .force-display-when-narrow-home { display: flex !important }
+      & > .force-hide-when-narrow-home { display: none !important }
+      padding: 0 16px 0 16px;
+    }
+  `
+
+const Root = styled.header<{ $darker: boolean }>`
   position: fixed;
   top: 0;
   z-index: 5;
@@ -90,15 +124,16 @@ const Root = styled.header`
   height: 64px;
   display: flex;
   color: white;
-  padding: 0 48px 0 32px;
+  padding: 0 32px;
   align-items: center;
-
-  & > svg.wide {
+  
+  & > a > svg.wide {
+    display: block;
     width: 100px;
     height: 24px;
   }
 
-  & > svg.narrow {
+  & > a > svg.narrow {
     display: none;
     width: 20px;
     height: 20px;
@@ -109,15 +144,7 @@ const Root = styled.header`
     padding: 0 0 0 16px;
   }
 
-  ${LessThen640} {
-    & > svg.wide {
-      display: none
-    }
-
-    & > svg.narrow {
-      display: block
-    }
-  }
+  ${DarkerAppHeaderStyles}
 `
 
 const HeaderButton = styled.button`
@@ -136,13 +163,9 @@ const HeaderButton = styled.button`
   }
 `
 
-const HeaderTitle = styled.a`
+const HeaderTitle = styled.span`
   display: none;
   margin-left: 12px;
-
-  ${LessThen640} {
-    display: block;
-  }
 `
 
 const Description = styled.span`
@@ -150,20 +173,16 @@ const Description = styled.span`
   font-size: 12px;
   margin-top: -12px;
   font-weight: 200;
-
-  ${LessThen640} {
-    margin-left: 4px;
-  }
 `
 
 const Spacer = styled.div`
   flex: 1;
 `
 
-const HeaderTab = styled.div`
+const HeaderTab = styled(Link)<{ $selected: boolean }>`
   font-weight: 300;
   align-self: stretch;
-  border-bottom: 2px solid white;
+  border-bottom: 2px solid ${({ $selected }) => $selected ? "white" : "transparent"};
   display: flex;
   align-items: center;
   margin-left: 32px;

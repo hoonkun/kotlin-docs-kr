@@ -13,22 +13,27 @@ export type DocumentPageTemplateProps = {
   documentKey: string
   sections: DocumentSection[]
   breadcrumbs: DocumentData[]
-  hasContent: boolean
+  hasContent?: boolean
+  withoutAdditionalUi?: boolean
 }
 
 export const DocumentPageTemplate: React.FC<PropsWithChildren<DocumentPageTemplateProps>> = props =>
   <Root>
     <DocumentNavigator items={props.documents} documentKey={props.documentKey}/>
-    <DocumentMain sections={props.sections}>
-      <Breadcrumbs>
-        {props.breadcrumbs.slice(1).map(it => <li key={`${it.title}_${it.href}`}>{it.title}</li>)}
-      </Breadcrumbs>
-      <h1 id={props.document.title.replaceAll(" ", "_")}>{props.document.title}</h1>
-      {props.hasContent &&
-        <GithubEditRow>
-          <GithubIcon/>
-          <GithubEditPage href={"https://github.com/"}>편집하기</GithubEditPage>{/* TODO! */}
-        </GithubEditRow>
+    <DocumentMain sections={props.sections} withoutAside={props.withoutAdditionalUi}>
+      {!props.withoutAdditionalUi &&
+        <>
+          <Breadcrumbs>
+            {props.breadcrumbs.slice(1).map(it => <li key={`${it.title}_${it.href}`}>{it.title}</li>)}
+          </Breadcrumbs>
+          <h1 id={props.document.title.replaceAll(" ", "_")}>{props.document.title}</h1>
+          {props.hasContent &&
+            <GithubEditRow>
+              <GithubIcon/>
+              <GithubEditPage href={"https://github.com/"}>편집하기</GithubEditPage>{/* TODO! */}
+            </GithubEditRow>
+          }
+        </>
       }
       {props.children}
       <EndPadding/>
