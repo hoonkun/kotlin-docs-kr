@@ -9,7 +9,7 @@ JetBrains 가 개발한 `kotlinx.coroutines` 는 코루틴을 위한 중요한 �
 코루틴을 사용하는 이 문서의 예제를 따라하려면, [이 프로젝트의 README 문서](https://github.com/Kotlin/kotlinx.coroutines/blob/master/README.md#using-in-your-projects)에 설명된 대로 프로젝트의 종속에 `kotlinx-coroutines-core` 모듈을 추가해야합니다.   
 
 --- 
-{&[1]}원문: suspending function. 코틀린에서 제공하는 특정 개념을 지칭하는 표현.  
+{&[1]}원문: suspending function. Kotlin 에서 제공하는 특정 개념을 지칭하는 표현.  
 {&[2]}원문: safer and less error-prone  
 {&[3]}원문: primitives
 
