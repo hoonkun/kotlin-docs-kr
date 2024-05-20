@@ -243,7 +243,18 @@ export const HomeReadMeHeading = styled.p`
   padding: 16px !important;
   margin: 0;
   border-radius: 8px 8px 0 0;
-  background-color: #10101060;
+  background-color: #171717C0;
+  
+  position: sticky;
+  top: 64px;
+  backdrop-filter: blur(64px);
+  -webkit-backdrop-filter: blur(64px);
+  opacity: unset !important;
+  z-index: 2;
+  
+  ${LessThen(1000)} {
+    top: 52px;
+  }
 `
 
 export const HomeReadMe = styled.div`
