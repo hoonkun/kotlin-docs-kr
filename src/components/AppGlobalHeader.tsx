@@ -53,7 +53,7 @@ export const AppGlobalHeader: React.FC = () => {
         <KotlinIconSmall className={"narrow"}/>
       </Link>
       <HeaderTitle className={"narrow"}>문서</HeaderTitle>
-      <Description className={"description"}>코틀린 문서 비공식 한국어 번역</Description>
+      <Description className={"description"}>비공식 한국어 번역</Description>
       <Spacer/>
       <HeaderLink>GitHub</HeaderLink>
       <HeaderTab

@@ -110,6 +110,10 @@ export async function generateMetadata({ params }: { params: { document_key: str
   }
 }
 
+export const viewport = {
+  themeColor: "#27282c"
+}
+
 type RawDocumentData = { title: string, href?: string, children?: RawDocumentData[] }
 export type DocumentData = Omit<RawDocumentData, "children"> & { enabled: boolean, children?: DocumentData[] }
 export type DocumentSection = { type: string, text: string }

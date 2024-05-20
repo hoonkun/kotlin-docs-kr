@@ -113,7 +113,7 @@ const Article = styled.article`
   flex: 1;
 
   & > * {
-    width: min(706px, 100vw - 300px - 209px - 32px - 32px - 22px); /* TODO: 모바일 대응 시에 수정할 것 */
+    width: min(706px, 100vw - 300px - 209px - 32px - 32px - 22px);
     min-width: 0;
   }
 

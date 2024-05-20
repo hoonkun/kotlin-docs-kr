@@ -45,6 +45,16 @@ a {
   background-color: rgba(107, 87, 255, .2)
 }
 
+@font-face{
+  font-family: "JetBrains Sans";
+  src:
+          url('./../resources/fonts/JetBrainsSans.woff2') format("woff2 supports variations"),
+          url('./../resources/fonts/JetBrainsSans.woff2') format("woff2-variations"),
+          url('./../resources/fonts/JetBrainsSans.woff') format("woff-variations");
+  font-weight: 100 900;
+  font-style:normal
+}
+
 @font-face {
   font-family: "JetBrains Mono Light";
   src: url('./../resources/fonts/JetBrainsMono-Light.woff2') format('woff2');
