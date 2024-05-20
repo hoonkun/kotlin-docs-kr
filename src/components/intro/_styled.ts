@@ -145,6 +145,10 @@ export const HomeTitleFooterRow = styled.div`
     margin-right: 12px;
     flex-shrink: 0;
   }
+  
+  ${LessThen(1000)} {
+    margin-top: 32px;
+  }
 `
 
 export const GetStartedButton = styled.a`
