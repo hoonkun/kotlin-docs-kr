@@ -8,10 +8,6 @@
     "href": "getting-started.md"
   },
   {
-    "title": "Kotlin으로의 여행",
-    "href": "kotlin-tour-welcome.md"
-  },
-  {
     "title": "Kotlin 훑어보기",
     "children": [
       {
@@ -282,6 +278,100 @@
       {
         "title": "리플렉션",
         "href": "reflection.md"
+      }
+    ]
+  },
+  {
+    "title": "표준 라이브러리",
+    "children": [
+      {
+        "title": "컬렉션",
+        "children": [
+          {
+            "title": "훑어보기",
+            "href": "collections-overview.md"
+          },
+          {
+            "title": "컬렉션 만들기",
+            "href": "constructing-collections.md"
+          },
+          {
+            "title": "이터레이터",
+            "href": "iterators.md"
+          },
+          {
+            "title": "범위와 수열",
+            "href": "ranges.md"
+          },
+          {
+            "title": "시퀀스",
+            "href": "sequences.md"
+          },
+          {
+            "title": "연산자 훑어보기",
+            "href": "collection-operators.md"
+          },
+          {
+            "title": "변환",
+            "href": "collection-transformations.md"
+          },
+          {
+            "title": "필터",
+            "href": "collection-filtering.md"
+          },
+          {
+            "title": "더하기 및 빼기 연산자",
+            "href": "collection-plus-minus.md"
+          },
+          {
+            "title": "요소의 그룹화",
+            "href": "collection-grouping.md"
+          },
+          {
+            "title": "컬렉션의 일부분 가져오기",
+            "href": "collection-parts.md"
+          },
+          {
+            "title": "하나의 요소 가져오기",
+            "href": "collection-elements.md"
+          },
+          {
+            "title": "정렬",
+            "href": "collection-ordering.md"
+          },
+          {
+            "title": "종합",
+            "href": "collection-aggregate.md"
+          },
+          {
+            "title": "변경하는 오퍼레이션",
+            "href": "collection-write.md"
+          },
+          {
+            "title": "List 오퍼레이션",
+            "href": "list-operations.md"
+          },
+          {
+            "title": "Set 오퍼레이션",
+            "href": "set-operations.md"
+          },
+          {
+            "title": "Map 오퍼레이션",
+            "href": "map-operations.md"
+          }
+        ]
+      },
+      {
+        "title": "Opt-in 필요 사항",
+        "href": "opt-in-requirements.md"
+      },
+      {
+        "title": "스코프 함수",
+        "href": "scope-functions.md"
+      },
+      {
+        "title": "시간 측정",
+        "href": "time-measurement.md"
       }
     ]
   },
