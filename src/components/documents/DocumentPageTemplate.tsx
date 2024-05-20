@@ -6,6 +6,7 @@ import { DocumentMain } from "@/components/documents/DocumentMain"
 import { DocumentData, DocumentSection } from "@/app/docs/[document_key]/page"
 import styled from "styled-components"
 import GithubIcon from "@/resources/github-icon.svg"
+import { titleOf } from "@/utils/Documentation"
 
 export type DocumentPageTemplateProps = {
   document: DocumentData
@@ -24,9 +25,9 @@ export const DocumentPageTemplate: React.FC<PropsWithChildren<DocumentPageTempla
       {!props.withoutAdditionalUi &&
         <>
           <Breadcrumbs>
-            {props.breadcrumbs.slice(1).map(it => <li key={`${it.title}_${it.href}`}>{it.title}</li>)}
+            {props.breadcrumbs.slice(1).map(it => <li key={`${titleOf(it)}_${it.href}`}>{titleOf(it)}</li>)}
           </Breadcrumbs>
-          <h1 id={props.document.title.replaceAll(" ", "_")}>{props.document.title}</h1>
+          <h1 id={titleOf(props.document).replaceAll(" ", "_")}>{titleOf(props.document)}</h1>
           {props.hasContent &&
             <GithubEditRow>
               <GithubIcon/>

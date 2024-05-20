@@ -4,7 +4,7 @@ import React from "react"
 import { BaseProcessor, GlobalMarkdownComponents, GlobalRehypeReactOptions } from "@/utils/MarkdownProcessor"
 import rehypeReact from "rehype-react"
 import { notFound } from "next/navigation"
-import { findDocumentation } from "@/utils/Documentation"
+import { findDocumentation, titleOf } from "@/utils/Documentation"
 import {
   DocumentPageTemplate,
   DocumentPageTemplateProps,
@@ -26,7 +26,7 @@ export default async function DocumentPage(props: { params: { document_key: stri
     notFound()
 
   const [document, breadcrumbs] = foundDocumentation
-  const sections: DocumentSection[] = [{ type: "h1", text: document.title }]
+  const sections: DocumentSection[] = [{ type: "h1", text: titleOf(document) }]
 
   const DocumentPageTemplateProps: Omit<DocumentPageTemplateProps, "hasContent"> = {
     document, documents, documentKey: key, sections, breadcrumbs
@@ -82,7 +82,7 @@ export async function generateMetadata({ params }: { params: { document_key: str
   if (!document)
     return { title: "404 | Kotlin 문서" }
 
-  const title = key === "home" ? "Kotlin 문서" : `${document[0].title} | Kotlin 문서`
+  const title = key === "home" ? "Kotlin 문서" : `${titleOf(document[0])} | Kotlin 문서`
 
   return {
     title,
@@ -114,7 +114,7 @@ export const viewport = {
   themeColor: "#27282c"
 }
 
-type RawDocumentData = { title: string, href?: string, children?: RawDocumentData[] }
+type RawDocumentData = { title: string, page_title?: string, href?: string, children?: RawDocumentData[] }
 export type DocumentData = Omit<RawDocumentData, "children"> & { enabled: boolean, children?: DocumentData[] }
 export type DocumentSection = { type: string, text: string }
 

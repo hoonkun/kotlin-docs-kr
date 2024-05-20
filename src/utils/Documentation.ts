@@ -17,3 +17,5 @@ export const findDocumentation = (
 
   return null
 }
+
+export const titleOf = (from: DocumentData) => from.page_title ?? from.title

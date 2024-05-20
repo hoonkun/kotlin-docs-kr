@@ -4,7 +4,7 @@ import React, { useEffect, useMemo, useState } from "react"
 import styled from "styled-components"
 import Link from "next/link"
 import { DocumentData } from "@/app/docs/[document_key]/page"
-import { findDocumentation } from "@/utils/Documentation"
+import { findDocumentation, titleOf } from "@/utils/Documentation"
 import { LessThen1000 } from "@/utils/ReactiveStyles"
 import { DocumentNavigatorExpandEvents } from "@/components/AppGlobalHeader"
 
@@ -42,7 +42,7 @@ export const DocumentNavigator: React.FC<DocumentNavigatorProps> = props => {
         .map(it => ({ ...it, selected: documentKey === it.href }))
         .map(it =>
           <DocumentNavigatorItem
-            key={`${it.title}_${it.href}`}
+            key={`${titleOf(it)}_${it.href}`}
             item={it}
             depth={0}
             documentKey={documentKey}
@@ -90,13 +90,13 @@ const DocumentNavigatorItem: React.FC<DocumentNavigatorItemProps> = props => {
           $expanded={expanded}
         >
           <svg viewBox="-5 -3 24 24" data-test="toc-expander"><path fill="currentColor" d="M11 9l-6 5.25V3.75z"></path></svg>
-          {item.title}
+          {titleOf(item)}
         </DocumentNavigatorExpanderItem>
         {expanded && item.children
           .map(it => ({ ...it, selected: it.href === documentKey }))
           .map(it =>
             <DocumentNavigatorItem
-              key={`${it.title}_${it.href}`}
+              key={`${titleOf(it)}_${it.href}`}
               item={it}
               depth={depth + 1}
               documentKey={documentKey}
@@ -114,7 +114,7 @@ const DocumentNavigatorItem: React.FC<DocumentNavigatorItemProps> = props => {
         $selected={item.selected}
         $disabled={!item.enabled}
       >
-        {item.title}
+        {titleOf(item)}
       </DocumentNavigatorLinkItem>
     )
   }
