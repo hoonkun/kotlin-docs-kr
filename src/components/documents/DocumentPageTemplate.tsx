@@ -24,8 +24,11 @@ export const DocumentPageTemplate: React.FC<PropsWithChildren<DocumentPageTempla
     <DocumentMain sections={props.sections} withoutAside={props.withoutAdditionalUi}>
       {!props.withoutAdditionalUi &&
         <>
-          <Breadcrumbs>
-            {props.breadcrumbs.slice(1).map(it => <li key={`${titleOf(it)}_${it.href}`}>{titleOf(it)}</li>)}
+          <Breadcrumbs className={"breadcrumb"}>
+            {props.breadcrumbs.length > 2 ?
+              props.breadcrumbs.slice(1).map(it => <li key={`${titleOf(it)}_${it.href}`}>{titleOf(it)}</li>) :
+              <></>
+            }
           </Breadcrumbs>
           <h1 id={titleOf(props.document).replaceAll(" ", "_")}>{titleOf(props.document)}</h1>
           {props.hasContent &&
@@ -59,6 +62,7 @@ const Root = styled.div`
 const Breadcrumbs = styled.ul`
   list-style-type: none;
   display: flex;
+  height: 24px;
 
   font-size: 15px;
   font-weight: 300;

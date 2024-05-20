@@ -1,0 +1,1 @@
+export const EmptyFunction = (...args: any[]): any => { }

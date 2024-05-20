@@ -4,6 +4,7 @@ import React from "react"
 import { BaseProcessor, GlobalMarkdownComponents, GlobalRehypeReactOptions } from "@/utils/MarkdownProcessor"
 import rehypeReact from "rehype-react"
 import { notFound } from "next/navigation"
+import Image from "next/image"
 import { findDocumentation, titleOf } from "@/utils/Documentation"
 import {
   DocumentPageTemplate,
@@ -13,6 +14,7 @@ import {
 
 import Documents from "@/../docs/registry.json"
 import { DocumentHome } from "@/components/documents/DocumentHome"
+import { TabHost, TabItem } from "@/components/markdown/Tab"
 
 export default async function DocumentPage(props: { params: { document_key: string } }) {
   const { params: { document_key: key } } = props
@@ -50,15 +52,29 @@ export default async function DocumentPage(props: { params: { document_key: stri
   markdown = replaceFootnotes(markdown, footnoteRefs, { documentKey: key, type: "ref" }, buildFootnoteRefDOM)
   markdown = replaceFootnotes(markdown, footnoteContents, { documentKey: key, type: "content" }, buildFootnoteContentDOM)
 
+  markdown = replaceTabHosts(markdown)
+  markdown = replaceTabs(markdown)
+
   markdown = replaceSurvey(markdown, survey)
 
-  markdown = replaceAuthorQuote(markdown)
+  markdown = replaceQuoteTypes(markdown)
 
   const html = await BaseProcessor()
     .process(markdown)
 
   const content = await BaseProcessor()
-    .use(rehypeReact, { ...GlobalRehypeReactOptions, components: { ...GlobalMarkdownComponents } })
+    .use(
+      rehypeReact,
+      {
+        ...GlobalRehypeReactOptions,
+        components: {
+          ...GlobalMarkdownComponents,
+          img: props => <ContentImage {...props} documentKey={key}/>,
+          tabs: (props: any) => <TabHost {...props}>{props.children}</TabHost>,
+          tab: (props: any) => <TabItem {...props}/>
+        }
+      }
+    )
     .process(markdown)
     .then(it => it.result)
 
@@ -110,6 +126,15 @@ export async function generateMetadata({ params }: { params: { document_key: str
   }
 }
 
+const ContentImage: React.FC<{ alt?: string, documentKey: string, src?: string }> = async (props) => {
+  if (!props.src) return <></>
+
+  const Source = await import(`$/docs/images/${props.documentKey}${props.src}`)
+  if (typeof Source.default === "function") return <Source.default/>
+
+  return <Image src={Source.default} alt={props.alt ?? ""} style={{ width: "100%", height: "auto", marginTop: 15 }} />
+}
+
 export const viewport = {
   themeColor: "#27282c"
 }
@@ -146,8 +171,10 @@ const replaceSurvey = (markdown: string, survey: RegExpMatchArray | null) => {
   return markdown
 }
 
-const replaceAuthorQuote = (markdown: string) =>
-  markdown.replaceAll("{>author}", `<div class="quote-author"></div>\n`)
+const replaceQuoteTypes = (markdown: string) =>
+  markdown
+    .replaceAll("{>author}", `<div class="quote-author"></div>\n`)
+    .replaceAll("{>tip}", `<div class="quote-tip"></div>\n`)
 
 const findNearestHeading = (content: string, position: number) =>
   content
@@ -156,6 +183,13 @@ const findNearestHeading = (content: string, position: number) =>
     .findLast(it => it.startsWith("# ") || it.startsWith("## "))
     ?.slice(2)
     ?.trim()
+
+const replaceTabHosts = (markdown: string) => markdown
+  .replaceAll("{-}", "<tabs>")
+  .replaceAll("{/-}", "</tabs>")
+const replaceTabs = (markdown: string) => markdown
+  .replaceAll(/\{--(.+?)--(.+?)}/g, `<tab title="$1" identifier="$2">`)
+  .replaceAll(/\{\/--(.*?)}/g, `</tab>`)
 
 const replaceFootnotes = (
   markdown: string,

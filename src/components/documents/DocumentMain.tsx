@@ -130,6 +130,16 @@ const Article = styled.article`
   }
   
   & p {
+    margin-top: 16px;
+    margin-bottom: 0;
+  }
+  
+  & h1 + p, h2 + p, h3 + p, h4 + p, h5 + p, h6 + p {
+    margin-top: 32px;
+    margin-bottom: 0;
+  }
+  
+  & p + p {
     margin-top: 32px;
     margin-bottom: 0;
   }
@@ -148,23 +158,27 @@ const Article = styled.article`
     margin-top: 0;
   }
 
-  & a {
+  & a:not(:has(svg, img)) {
     border-bottom: 1px solid #d1d1d2;
     transition: border-color 0.1s linear;
   }
 
-  & a.external-link:after, a.api-doc:after {
+  & a:not(:has(svg, img)).external-link:after, a:not(:has(svg, img)).api-doc:after {
     content: "\\2197";
     transform: translateY(2px);
     display: inline-block;
   }
 
-  & a:hover {
+  & a:not(:has(svg, img)):hover {
     border-bottom: 1px solid #19191c;
   }
 
-  & a.external-link {
+  & a:not(:has(svg, img)).external-link {
     color: #3083d1;
+  }
+  
+  & ol p, ul p {
+    margin-top: 0;
   }
 
   & .survey a.api-doc {
@@ -176,16 +190,51 @@ const Article = styled.article`
     line-height: 0;
   }
 
-  & ul:nth-of-type(n+2) {
-    padding-inline-start: 1em;
+  & ol {
+    margin-top: 16px;
+    margin-bottom: 0;
+    padding-inline-start: 22px;
   }
-
-  & ul:nth-of-type(n+2) > li {
+  & ol > li {
     margin-bottom: 0;
   }
+  & ol > li:nth-of-type(n+2) {
+    margin-top: 16px;
+  }
 
-  & ul:nth-of-type(n+2) > li:nth-of-type(n+2) {
-    margin-top: 24px;
+  & ul:not(.breadcrumb) {
+    margin-top: 6px;
+    margin-bottom: 0;
+    padding-inline-start: 0;
+    list-style-type: none;
+  }
+  & ul:not(.breadcrumb) > li {
+    margin-bottom: 0;
+    padding-left: 22px;
+    position: relative;
+  }
+  & ul:not(.breadcrumb) > li:before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    top: -2px;
+    font-size: 20px;
+  }
+  & ul:not(.breadcrumb) > li:nth-of-type(n+2) {
+    margin-top: 8px;
+  }
+  
+  & table {
+    border-collapse: collapse;
+    margin-top: 8px;
+    width: 100%;
+  }
+  & table thead th {
+    background-color: #f4f4f4;
+  }
+  & table td, th {
+    border: 1px solid #d1d1d2;
+    padding: 16px;
   }
 
   & h1, h2, h3, h4, h5, h6 {

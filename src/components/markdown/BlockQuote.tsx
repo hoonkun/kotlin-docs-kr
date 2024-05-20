@@ -1,14 +1,40 @@
 "use client"
 
-import React, { PropsWithChildren } from "react"
+import React, { PropsWithChildren, useEffect, useRef, useState } from "react"
 import styled from "styled-components"
-import BlockquoteIcon from "@/resources/blockquote-icon.svg"
 
-export const BlockQuote: React.FC<PropsWithChildren> = props =>
-  <BlockQuoteTag>
-    <BlockquoteIcon/>
-    {props.children}
-  </BlockQuoteTag>
+import BlockquoteIcon from "@/resources/blockquote-icon.svg"
+import BlockquoteTipIcon from "@/resources/blockquote-tip-icon.svg"
+import BlockquoteAuthorIcon from "@/resources/blockquote-author-icon.svg"
+
+export const BlockQuote: React.FC<PropsWithChildren> = props => {
+
+  const quote = useRef<HTMLQuoteElement>(null)
+  const [quoteType, setQuoteType] = useState<QuoteType | null>(null)
+
+  useEffect(() => {
+    const prevNode = quote.current!.previousElementSibling
+    if (!prevNode) return
+
+    if (prevNode.classList.contains("quote-author"))
+      return setQuoteType("author")
+    if (prevNode.classList.contains("quote-tip"))
+      return setQuoteType("tip")
+
+    setQuoteType("information")
+  }, [])
+
+  return (
+    <BlockQuoteTag ref={quote}>
+      {quoteType === "information" && <BlockquoteIcon/>}
+      {quoteType === "author" && <BlockquoteAuthorIcon/>}
+      {quoteType === "tip" && <BlockquoteTipIcon/>}
+      {props.children}
+    </BlockQuoteTag>
+  )
+}
+
+type QuoteType = "information" | "tip" | "author"
 
 const BlockQuoteTag = styled.blockquote`
   display: flex;
@@ -38,5 +64,13 @@ const BlockQuoteTag = styled.blockquote`
 
   .quote-author + & > svg {
     color: #4D9ABB;
+  }
+  
+  .quote-tip + & {
+    background-color: rgba(25, 25, 28, 0.05);
+  }
+  
+  .quote-tip + & > svg {
+    color: rgba(25,25,28,0.7);
   }
 `
