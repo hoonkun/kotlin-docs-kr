@@ -5,7 +5,7 @@ import { BaseProcessor, GlobalMarkdownComponents, GlobalRehypeReactOptions } fro
 import rehypeReact from "rehype-react"
 import { notFound } from "next/navigation"
 import Image from "next/image"
-import { findDocumentation, titleOf } from "@/utils/Documentation"
+import { findDocumentation, flatDocumentation, titleOf } from "@/utils/Documentation"
 import {
   DocumentPageTemplate,
   DocumentPageTemplateProps,
@@ -84,6 +84,11 @@ export default async function DocumentPage(props: { params: { document_key: stri
   )
 
   return <DocumentPageTemplate {...DocumentPageTemplateProps} hasContent>{content}</DocumentPageTemplate>
+}
+
+export async function generateStaticParams() {
+  return flatDocumentation((Documents as RawDocumentData[]).map(documentItemMapper))
+    .map(it => ({ document_key: it.href }))
 }
 
 export async function generateMetadata({ params }: { params: { document_key: string } }) {

@@ -18,4 +18,15 @@ export const findDocumentation = (
   return null
 }
 
+export const flatDocumentation = (root: DocumentData[]): DocumentData[] => {
+  const result: DocumentData[] = []
+  for (const item of root) {
+    if (item.children)
+      result.push(...flatDocumentation(item.children))
+    else
+      result.push(item)
+  }
+  return result
+}
+
 export const titleOf = (from: DocumentData) => from.page_title ?? from.title
