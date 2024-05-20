@@ -284,4 +284,13 @@ export const HomeReadMe = styled.div`
   & > * {
     padding: 0 16px;
   }
+
+  & a {
+    border-bottom: 1px solid #d1d1d2;
+    transition: border-color 0.1s linear;
+  }
+
+  & a:hover {
+    border-bottom: 1px solid white;
+  }
 `
