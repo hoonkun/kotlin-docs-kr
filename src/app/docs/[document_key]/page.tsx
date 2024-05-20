@@ -143,7 +143,7 @@ const ContentImage: React.FC<{ alt?: string, documentKey: string, src?: string }
 }
 
 export const viewport = {
-  themeColor: "#27282c"
+  themeColor: "#19191C"
 }
 
 type RawDocumentData = { title: string, page_title?: string, href?: string, children?: RawDocumentData[] }
