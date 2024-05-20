@@ -1,21 +1,22 @@
 "use client"
 
 import React, { PropsWithChildren, useCallback, useEffect, useRef, useState } from "react"
-import styled from "styled-components"
+import styled, { css } from "styled-components"
 import Link from "next/link"
 import { DocumentSection } from "@/app/docs/[document_key]/page"
 import { LessThen1000, LessThen640 } from "@/utils/ReactiveStyles"
 
-type DocumentMainProps = { sections: DocumentSection[], withoutAside?: boolean }
+type DocumentMainProps = { sections: DocumentSection[], withoutAside?: boolean, disableWidthLimiting?: boolean }
 
 export const DocumentMain: React.FC<PropsWithChildren<DocumentMainProps>> = props => {
   const {
     children,
     sections,
-    withoutAside
+    withoutAside,
+    disableWidthLimiting
   } = props
 
-  const defaultViewing = sections[0].text
+  const defaultViewing = sections[0]?.text ?? ""
 
   const scroller = useRef<Element | null>(null)
 
@@ -51,8 +52,11 @@ export const DocumentMain: React.FC<PropsWithChildren<DocumentMainProps>> = prop
 
   return (
     <Root>
-      <Arranger>
-        <Article className={"article"}>
+      <Arranger $adjustPaddings={disableWidthLimiting}>
+        <Article
+          className={"article"}
+          $disableWidthLimiting={disableWidthLimiting}
+        >
           {children}
         </Article>
         {!withoutAside &&
@@ -83,12 +87,12 @@ const Root = styled.main`
   align-items: flex-start;
 `
 
-const Arranger = styled.div`
+const Arranger = styled.div<{ $adjustPaddings?: boolean }>`
   max-width: calc(calc(1520px - 22px * 2) - 310px);
   flex: 1;
   display: flex;
   align-items: flex-start;
-  padding: 0 22px 0 32px;
+  padding: 0 ${({ $adjustPaddings }) => $adjustPaddings ? "32px" : "22px"} 0 32px;
   margin: 0 auto;
   
   ${LessThen1000} {
@@ -100,7 +104,7 @@ const Arranger = styled.div`
   }
 `
 
-const Article = styled.article`
+const Article = styled.article<{ $disableWidthLimiting?: boolean }>`
   line-height: 24px;
   font-size: 16px;
   font-weight: 300;
@@ -113,19 +117,19 @@ const Article = styled.article`
   flex: 1;
 
   & > * {
-    width: min(706px, 100vw - 300px - 209px - 32px - 32px - 22px);
+    width: ${({ $disableWidthLimiting }) => $disableWidthLimiting ? "auto" : css`min(706px, 100vw - 300px - 209px - 32px - 32px - 22px)`};
     min-width: 0;
   }
 
   ${LessThen1000} {
     & > * {
-      width: min(706px, 100vw - 44px);
+      width: ${({ $disableWidthLimiting }) => $disableWidthLimiting ? "auto" : css`min(706px, 100vw - 44px)`};
     }
   }
   
   ${LessThen640} {
     & > * {
-      width: min(706px, 100vw - 32px);
+      width: ${({ $disableWidthLimiting }) => $disableWidthLimiting ? "auto" : css`min(706px, 100vw - 32px)`};
     }
   }
   
@@ -171,10 +175,6 @@ const Article = styled.article`
 
   & a:not(:has(svg, img)):hover {
     border-bottom: 1px solid #19191c;
-  }
-
-  & a:not(:has(svg, img)).external-link {
-    color: #3083d1;
   }
   
   & ol p, ul p {

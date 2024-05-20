@@ -16,12 +16,13 @@ export type DocumentPageTemplateProps = {
   breadcrumbs: DocumentData[]
   hasContent?: boolean
   withoutAdditionalUi?: boolean
+  disableWidthLimiting?: boolean
 }
 
 export const DocumentPageTemplate: React.FC<PropsWithChildren<DocumentPageTemplateProps>> = props =>
   <Root>
     <DocumentNavigator items={props.documents} documentKey={props.documentKey}/>
-    <DocumentMain sections={props.sections} withoutAside={props.withoutAdditionalUi}>
+    <DocumentMain sections={props.sections} withoutAside={props.withoutAdditionalUi} disableWidthLimiting={props.disableWidthLimiting}>
       {!props.withoutAdditionalUi &&
         <>
           <Breadcrumbs className={"breadcrumb"}>

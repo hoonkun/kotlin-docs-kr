@@ -35,7 +35,7 @@ export default async function DocumentPage(props: { params: { document_key: stri
   }
 
   if (key === "home") {
-    return <DocumentPageTemplate {...DocumentPageTemplateProps} withoutAdditionalUi><DocumentHome/></DocumentPageTemplate>
+    return <DocumentPageTemplate {...DocumentPageTemplateProps} withoutAdditionalUi disableWidthLimiting><DocumentHome/></DocumentPageTemplate>
   }
 
   if (!fs.existsSync(`./docs/${key}`)) {
