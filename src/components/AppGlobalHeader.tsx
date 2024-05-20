@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react"
 import styled, { css } from "styled-components"
-import { LessThen1000, LessThen640 } from "@/utils/ReactiveStyles"
+import { LessThen, LessThen1000, LessThen640 } from "@/utils/ReactiveStyles"
 import {
   DocumentNavigatorExpandedEvent,
   DocumentNavigatorExpandedEvents
@@ -219,5 +219,11 @@ const HeaderLink = styled.a`
     content: "\\2197";
     display: inline-block;
     transform: translateY(2px);
+  }
+  
+  ${LessThen(1000)} {
+    &:before {
+      bottom: 16px;
+    }
   }
 `
