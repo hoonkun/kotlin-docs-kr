@@ -261,7 +261,7 @@ export const HomeReadMe = styled.div`
   background:
     radial-gradient(circle at 100% 100%, rgba(84, 56, 173, 0.25), transparent),
     radial-gradient(circle at 0 10%, rgba(134, 54, 111, 0.05), transparent),
-    linear-gradient(to bottom, rgba(30, 30, 33, 0.4), rgba(30, 30, 33, 0.4));
+    linear-gradient(to bottom, rgba(30, 30, 33, 0.8), rgba(30, 30, 33, 0.8));
   font-weight: 300;
   width: 100%;
   word-break: keep-all;

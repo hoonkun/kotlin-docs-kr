@@ -223,6 +223,9 @@ const Article = styled.article<{ $disableWidthLimiting?: boolean }>`
   & ul:not(.breadcrumb) > li:nth-of-type(n+2) {
     margin-top: 8px;
   }
+  & .large-spacing + ul > li:nth-of-type(n) {
+    margin-top: 24px;
+  }
   
   & table {
     border-collapse: collapse;

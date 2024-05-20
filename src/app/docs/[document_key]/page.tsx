@@ -59,6 +59,8 @@ export default async function DocumentPage(props: { params: { document_key: stri
 
   markdown = replaceQuoteTypes(markdown)
 
+  markdown = replaceLargeSpacingLists(markdown)
+
   const html = await BaseProcessor()
     .process(markdown)
 
@@ -80,7 +82,7 @@ export default async function DocumentPage(props: { params: { document_key: stri
 
   sections.push(
     ...Array.from(html.value.toString().matchAll(/<(?<opening>h1|h2|h3|h4|h5|h6)>(?<text>.+?)<\/(?<closing>h1|h2|h3|h4|h5|h6)>/gi))
-      .map(it => ({ type: it.groups?.["opening"] ?? "h6", text: replaceTag(it.groups?.["text"] ?? "") }))
+      .map(it => ({ type: it.groups?.["opening"] ?? "h6", text: removeTags(it.groups?.["text"] ?? "") }))
   )
 
   return <DocumentPageTemplate {...DocumentPageTemplateProps} hasContent>{content}</DocumentPageTemplate>
@@ -152,10 +154,6 @@ const documentItemMapper: (it: RawDocumentData) => DocumentData = it => it.child
   { ...it, enabled: true, children: it.children.map(documentItemMapper) } :
   { ...it, enabled: it.href === "home" || fs.existsSync(`./docs/${it.href}`), children: undefined }
 
-const replaceTag = (input: string): string => input
-  .replaceAll(/<([0-z]+)>/g, "")
-  .replaceAll(/<\/([0-z]+)>/g, "")
-
 const buildSurveyDOM = (url: string): string =>
   `<p class="survey">이 페이지가 도움이 되셨다면, <a href="${url}">원문 페이지</a>에 방문해 엄지척을 해주세요!</p>`
 
@@ -175,6 +173,13 @@ const replaceSurvey = (markdown: string, survey: RegExpMatchArray | null) => {
 
   return markdown
 }
+
+const removeTags = (input: string): string => input
+  .replaceAll(/<([0-z]+)>/g, "")
+  .replaceAll(/<\/([0-z]+)>/g, "")
+
+const replaceLargeSpacingLists = (markdown: string) =>
+  markdown.replaceAll("{*large-spacing}", `<div class="large-spacing"></div>\n`)
 
 const replaceQuoteTypes = (markdown: string) =>
   markdown

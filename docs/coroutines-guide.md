@@ -15,6 +15,9 @@ JetBrains 가 개발한 `kotlinx.coroutines` 는 코루틴을 위한 중요한 �
 
 
 ## 이 문서의 내용
+
+{*large-spacing}
+
 - [코루틴 기초](/docs/coroutines-basics.md)
 - [취소와 타임아웃](/docs/cancellation-and-timeouts.md)
 - [정지함수의 구성](/docs/composing-suspending-functions.md)
