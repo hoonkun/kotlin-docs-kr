@@ -28,6 +28,14 @@ export const DocumentMain: React.FC<PropsWithChildren<DocumentMainProps>> = prop
     setViewing(found ? found.text : defaultViewing)
   }, [defaultViewing])
 
+  const initializeHeadings = useCallback(() => {
+    const newHeadings = Array.from(document.querySelectorAll(".article > .anchor-container"))
+      .map(it => ({ top: (it as HTMLDivElement).offsetTop, text: (it as HTMLHeadingElement).innerText }))
+    setHeadings(newHeadings)
+
+    onScroll(newHeadings, scroller.current!.scrollTop)
+  }, [onScroll])
+
   useEffect(() => {
     scroller.current = document.scrollingElement
   }, [])
@@ -43,12 +51,11 @@ export const DocumentMain: React.FC<PropsWithChildren<DocumentMainProps>> = prop
   }, [headings, onScroll])
 
   useEffect(() => {
-    const newHeadings = Array.from(document.querySelectorAll(".article > .anchor-container"))
-      .map(it => ({ top: (it as HTMLDivElement).offsetTop, text: (it as HTMLHeadingElement).innerText }))
-    setHeadings(newHeadings)
+    initializeHeadings()
 
-    onScroll(newHeadings, scroller.current!.scrollTop)
-  }, [onScroll])
+    window.addEventListener("resize", initializeHeadings)
+    return () => window.removeEventListener("resize", initializeHeadings)
+  }, [initializeHeadings])
 
   return (
     <Root>
