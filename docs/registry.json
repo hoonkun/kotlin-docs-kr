@@ -223,6 +223,7 @@
           },
           {
             "title": "람다",
+            "page_title": "고차함수와 람다",
             "href": "lambdas.md"
           },
           {
