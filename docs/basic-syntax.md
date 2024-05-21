@@ -143,7 +143,7 @@ fun incrementX() {
 // x = 1; PI = 3.14
 ```
 
-[속성](/docs/properties.md) 문서 에서 클래스의 속성을 선언하는 방법에 대해 살펴보세요.
+[프로퍼티](/docs/properties.md) 문서 에서 클래스의 프로퍼티를 선언하는 방법에 대해 살펴보세요.
 
 ## 클래스와 인스턴스의 생성
 
@@ -153,7 +153,7 @@ fun incrementX() {
 class Shape
 ```
 
-클래스의 속성은 그의 클래스 정의나 몸체에 선언될 수 있습니다:
+클래스의 프로퍼티는 그의 클래스 정의나 몸체에 선언될 수 있습니다:
 
 ```kotlin 
 class Rectangle(val height: Double, val length: Double) {

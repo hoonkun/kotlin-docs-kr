@@ -153,7 +153,7 @@
             "href": "inheritance.md"
           },
           {
-            "title": "속성",
+            "title": "프로퍼티",
             "href": "properties.md"
           },
           {
@@ -205,7 +205,7 @@
             "href": "delegation.md"
           },
           {
-            "title": "위임된 속성",
+            "title": "위임된 프로퍼티",
             "href": "delegated-properties.md"
           },
           {

@@ -133,7 +133,7 @@ log("The answer is ${a.await() * b.await()}")
 `log` 함수는 스레드의 이름을 대괄호 안에 출력하며, 그와 같이 현재 실행 중인 코루틴의 ID가 뒤따르는 것을 볼 수 있습니다.
 이 ID는 디버그 모드가 켜져있을 때 모든 생성된 코루틴에게 연속적으로 부여됩니다.
 
-> 디버그 모드는 JVM 이 `-ea` 옵션과 함께 실행되었을 때도 켜집니다. 디버그 도구에 대한 더 자세한 내용을 [DEBUG_PROPERTY_NAME](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-d-e-b-u-g_-p-r-o-p-e-r-t-y_-n-a-m-e.html) 속성의 문서에서 확인할 수 있습니다.
+> 디버그 모드는 JVM 이 `-ea` 옵션과 함께 실행되었을 때도 켜집니다. 디버그 도구에 대한 더 자세한 내용을 [DEBUG_PROPERTY_NAME](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-d-e-b-u-g_-p-r-o-p-e-r-t-y_-n-a-m-e.html) 프로퍼티의 문서에서 확인할 수 있습니다.
 
 ## 스레드 사이를 오가기
 
