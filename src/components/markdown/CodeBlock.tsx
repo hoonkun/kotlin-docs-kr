@@ -20,7 +20,7 @@ export const InlineCode = styled.code`
   padding: 2px 6px;
   background-color: #19191C0D;
   border-radius: 3px;
-  font-size: 15px;
+  font-size: calc(100% * 15 / 16);
 `
 
 const Pre: React.FC<PropsWithChildren> = props => <Fragment>{props.children}</Fragment>

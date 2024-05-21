@@ -56,7 +56,7 @@ Kotlin 의 서버사이드 어플리케이션을 만들기 위한 첫 발자국�
    </table>
 
 2. **어플리케이션에 Kotlin 과 서드파티 라이브러리 사용하기.** [프로젝트에 라이브러리를 추가하는 방법](https://kotlinlang.org/docs/gradle-configure-project.html#configure-dependencies)에 대해 더 알아보세요.
-   - [Kotlin 표준 라이브러리](https://kotlinlang.org/api/latest/jvm/stdlib/)는 [컬렉션](https://kotlinlang.org/docs/collections-overview.html) 이나 [코루틴](https://kotlinlang.org/docs/coroutines-guide.html) 등의 쓸만한 것들을 제공합니다.
+   - [Kotlin 표준 라이브러리](https://kotlinlang.org/api/latest/jvm/stdlib/)는 [컬렉션](https://kotlinlang.org/docs/collections-overview.html) 이나 [코루틴](/docs/coroutines-guide.md) 등의 쓸만한 것들을 제공합니다.
    - [Kotlin 을 위한 서드파티 프레임워크, 라이브러리, 도구](https://blog.jetbrains.com/kotlin/2020/11/server-side-development-with-kotlin-frameworks-and-libraries/)들을 살펴보세요.
 
 3. **서버사이드 Kotlin 에 대해 더 알아보기**

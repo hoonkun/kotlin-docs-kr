@@ -84,6 +84,13 @@ suspend fun doWorld() {
     println("World!")
 }
 ```
+---
+정지 함수를 만들고 코루틴 내에서 호출하면 무조건 동시적으로 실행된다는 오해에 빠지기 쉬운데, 사실은 그렇지 않습니다.  
+우리가 실제로 만드는 함수의 suspend 수정자는 '정지할 수도 있다'라는 의미이지, 실제로 정지한다는 의미가 아닙니다.  
+즉, 정지 함수를 만들어도 실제로 그 안에서 '정지' 하지 않으면 그 함수는 여전히 코루틴 안에서 해당 코루틴이 동작하는 스레드를 막으며, 그 스레드에 *갇힌* 다른 코루틴들이 동작할 수 없습니다.  
+실제로 코루틴을 '정지' 시키는 정지 함수는 `kotlinx.coroutines` 패키지 안의 [delay](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/delay.html), [yield](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/yield.html) 등이며, 우리가 만든 정지 함수 안에서 이러한 함수들 중 하나를 호출해야 비로소 코루틴이 '정지' 하고, 다른 코루틴이 해당 스레드에서 동작할 수 있게 합니다.  
+&nbsp;  
+스레드나 '*갇힌*' 이라는 표현과 연관된, 예제를 동반한 더 자세한 내용은 [이 문서](/docs/coroutine-context-and-dispatchers.md) 에서 다룹니다.
 
 ## Scope builder
 
