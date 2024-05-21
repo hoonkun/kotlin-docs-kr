@@ -24,7 +24,7 @@ export const DocumentMain: React.FC<PropsWithChildren<DocumentMainProps>> = prop
   const [headings, setHeadings] = useState<DocumentHeading[]>([])
 
   const onScroll = useCallback((fromHeadings: DocumentHeading[], scrollTop: number) => {
-    const found = fromHeadings.findLast(it => it.top < scrollTop)
+    const found = fromHeadings.findLast(it => it.top <= scrollTop)
     setViewing(found ? found.text : defaultViewing)
   }, [defaultViewing])
 
