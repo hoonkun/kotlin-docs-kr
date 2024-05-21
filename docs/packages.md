@@ -72,4 +72,4 @@ import org.test.Message as TestMessage // TestMessage 는 'org.test.Message' 로
 
 최상위 레벨의 엔티티가 `private` 으로 마크되어 있으면 해당 엔티티는 그 엔티티가 정의된 파일 내에서만 사용할 수 있습니다([가시성 수정자](/docs/visibility-modifiers.md) 문서를 확인해보세요).
 
-{&?https://kotlinlang.org/docs/packages.html}
+{&?}

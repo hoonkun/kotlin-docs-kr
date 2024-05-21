@@ -208,7 +208,7 @@ fun main() = runBlocking {
 {&[1]} 원문: expressed
 
 
-{&?https://kotlinlang.org/docs/coroutines-basics.html}
+{&?}
 
 {~}
 {<~coroutines-guide.md} {~>cancellation-and-timeouts.md}

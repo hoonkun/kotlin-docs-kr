@@ -367,4 +367,4 @@ private fun findFixPoint(): Double {
 - [함수 매개변수를 가지는 함수와 람다](/docs/lambdas.md)
 
 
-{&?https://kotlinlang.org/docs/functions.html}
+{&?}

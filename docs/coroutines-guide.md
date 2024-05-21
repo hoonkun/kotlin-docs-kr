@@ -40,7 +40,7 @@ JetBrains 가 개발한 `kotlinx.coroutines` 는 코루틴을 위한 중요한 �
 - [안드로이드에서의 코루틴 사용 권장사항](https://developer.android.com/kotlin/coroutines/coroutines-best-practices)
 - [코루틴 및 플로우와 관련된 추가적인 안드로이드 리소스](https://developer.android.com/kotlin/coroutines/additional-resources)
 
-{&?https://kotlinlang.org/docs/coroutines-guide.html}
+{&?}
 
 {~}
 {~>coroutines-basics.md}

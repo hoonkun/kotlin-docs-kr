@@ -319,7 +319,7 @@ CoroutineExceptionHandler got java.lang.AssertionError
 The scope is completed
 ```
 
-{&?https://kotlinlang.org/docs/exception-handling.html}
+{&?}
 
 
 {~}

@@ -402,7 +402,7 @@ Post-main, current thread: Thread[main @coroutine#1,5,main], thread local value:
 
 MDC 와 통합된 로깅이나 트랜잭션 컨텍스트, 데이터 전달에 스레드 로컬 데이터를 사용하는 기타 라이브러리 등과 같이 더 고차원적으로 사용하려면, [ThreadContextElement](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-thread-context-element/index.html) 인터페이스의 구현과 관련된 문서를 참고해주십시오.
 
-{&?https://kotlinlang.org/docs/coroutine-context-and-dispatchers.html}
+{&?}
 
 
 {~}

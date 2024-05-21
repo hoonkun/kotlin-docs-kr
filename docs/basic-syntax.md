@@ -461,3 +461,5 @@ fun getStringLength(obj: Any): Int? {
 ```
 
 [클래스](/docs/classes.md) 문서와 [타입 캐스트](/docs/typecasts.md) 문서를 확인해보세요.
+
+{&?}

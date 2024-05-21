@@ -293,7 +293,7 @@ println(acquired) // Print the number of resources still acquired
 
 이렇게 하면 항상 0을 출력합니다. 리소스가 누수되지 않습니다.
 
-{&?https://kotlinlang.org/docs/cancellation-and-timeouts.html}
+{&?}
 
 
 {~}

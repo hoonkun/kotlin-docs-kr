@@ -56,7 +56,7 @@ export default async function DocumentPage(props: { params: { document_key: stri
 
   markdown = replaceNonExistingReferenceToOriginal(markdown)
 
-  markdown = replaceSurvey(markdown)
+  markdown = replaceSurvey(markdown, key)
 
   markdown = replaceQuoteTypes(markdown)
 
@@ -166,17 +166,8 @@ const buildFootnoteRefDOM = (heading: string, number: string): string =>
 const buildFootnoteContentDOM = (heading: string, number: string) =>
   `<span id="${heading}-content-${number}" class="footnote-content">[${number}]&nbsp;</span>`
 
-const replaceSurvey = (markdown: string) => {
-  const survey = markdown.match(/\{&\?(?<doc_url>.+?)}/)
-  if (!survey) return markdown
-
-  const replaceTarget = survey[0]
-  const url = survey.groups?.["doc_url"]
-  if (replaceTarget && url)
-    return markdown.replace(replaceTarget, buildSurveyDOM(url))
-
-  return markdown
-}
+const replaceSurvey = (markdown: string, documentKey: string) =>
+  markdown.replace("{&?}", buildSurveyDOM(`https://kotlinlang.org/docs/${documentKey.replace(".md", ".html")}`))
 
 const removeTags = (input: string): string => input
   .replaceAll(/<([0-z]+)>/g, "")
