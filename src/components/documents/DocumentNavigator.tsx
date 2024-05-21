@@ -135,7 +135,7 @@ const DocumentNavigatorRoot = styled.nav<{ $narrowOnlyExpanded: boolean }>`
   padding: 8px 0;
   background-color: white;
 
-  max-height: 100vh;
+  max-height: calc(100vh - 64px);
   overflow: auto;
     
   & a, button {
