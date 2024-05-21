@@ -36,7 +36,7 @@ export const GlobalMarkdownComponents = {
     <CodeBlock className={props.className}>{props.children}</CodeBlock> :
     <InlineCode {...props}/>,
   a: (props: any) => props.href.startsWith("/") ?
-    <Link href={props.href} className={"local-link"}>{props.children}</Link> :
+    <Link href={props.href} className={`local-link ${props.className ?? ""}`}>{props.children}</Link> :
     <a {...props}
        className={props.href?.startsWith("https://kotlinlang.org/") ? "api-doc" : "external-link"}>{props.children}</a>,
   blockquote: (props: any) => <BlockQuote {...props}/>,

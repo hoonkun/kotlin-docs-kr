@@ -23,6 +23,7 @@ export default async function DocumentPage(props: { params: { document_key: stri
     notFound()
 
   const documents = (Documents as RawDocumentData[]).map(documentItemMapper)
+  const flattenDocuments = flatDocumentation(documents)
   const foundDocumentation = findDocumentation(documents, key)
   if (!foundDocumentation)
     notFound()
@@ -60,6 +61,8 @@ export default async function DocumentPage(props: { params: { document_key: stri
   markdown = replaceQuoteTypes(markdown)
 
   markdown = replaceLargeSpacingLists(markdown)
+
+  markdown = replaceDocumentPager(markdown, flattenDocuments)
 
   const html = await BaseProcessor()
     .process(markdown)
@@ -177,6 +180,25 @@ const replaceSurvey = (markdown: string, survey: RegExpMatchArray | null) => {
 const removeTags = (input: string): string => input
   .replaceAll(/<([0-z]+)>/g, "")
   .replaceAll(/<\/([0-z]+)>/g, "")
+
+const replaceDocumentPager = (markdown: string, flattenDocuments: DocumentData[]) => {
+  markdown = markdown.replaceAll("{~}", `<div class="document-pager">`)
+  markdown = markdown.replaceAll("{/~}", `</div>`)
+  const previous = markdown.match(/\{<~(?<href>.+?)}/)
+  if (previous) {
+    const key = previous.groups!.href
+    const title = titleOf(flattenDocuments.find(it => it.href === key)!)
+    markdown = markdown.replaceAll(previous[0], `<a class="previous" href="/docs/${key}">${title}</a>`)
+  }
+  const next = markdown.match(/\{~>(?<href>.+?)}/)
+  if (next) {
+    const key = next.groups!.href
+    const title = titleOf(flattenDocuments.find(it => it.href === key)!)
+    markdown = markdown.replaceAll(next[0], `<a class="next" href="/docs/${key}">${title}</a>`)
+  }
+
+  return  markdown
+}
 
 const replaceLargeSpacingLists = (markdown: string) =>
   markdown.replaceAll("{*large-spacing}", `<div class="large-spacing"></div>\n`)

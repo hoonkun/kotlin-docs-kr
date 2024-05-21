@@ -145,3 +145,7 @@ fun main() = runBlocking {
 이 예제에서 의 locking 은 세밀하게 조정되었으므로 그만큼의 비용이 들어갑니다. 그러나, 명백하게 공유 자원에 점진적으로 값을 써야하지만 해당 오퍼레이션을 특별하게 가둘만한 스레드가 없는 상황일 때 적절한 해결책입니다.
 
 {&?https://kotlinlang.org/docs/shared-mutable-state-and-concurrency.html}
+
+{~}
+{<~exception-handling.md}
+{/~}

@@ -117,7 +117,7 @@ const GithubEditPage = styled.a`
 `
 
 const EndPadding = styled.div`
-  min-height: 128px;
+  min-height: 64px;
 `
 
 const NotYetTranslatedRoot = styled.p`

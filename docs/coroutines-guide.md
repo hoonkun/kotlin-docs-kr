@@ -28,3 +28,7 @@ JetBrains 가 개발한 `kotlinx.coroutines` 는 코루틴을 위한 중요한 �
 - [변경 가능한 공유 자원과 동시성](/docs/shared-mutable-state-and-concurrency.md)
  
 {&?https://kotlinlang.org/docs/coroutines-guide.html}
+
+{~}
+{~>coroutines-basics.md}
+{/~}

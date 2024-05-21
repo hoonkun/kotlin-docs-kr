@@ -391,3 +391,8 @@ Next element is ready in 100ms after consumer pause in 300ms: kotlin.Unit
 선택적으로 `mode` 인수에 [TickerMode.FIXED_DELAY](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.channels/-ticker-mode/-f-i-x-e-d_-d-e-l-a-y/index.html) 를 전달하여 항상 고정된 딜레이를 설정할 수 있습니다.
 
 {&?https://kotlinlang.org/docs/channels.html}
+
+
+{~}
+{<~flow.md} {~>exception-handling.md}
+{/~}

@@ -283,6 +283,34 @@ const Article = styled.article<{ $disableWidthLimiting?: boolean }>`
     padding: 16px 32px;
     margin-top: 64px;
   }
+  
+  & > .document-pager {
+    margin-top: 96px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  
+  & > .document-pager > .previous {
+    grid-column: 1;
+    grid-row: 1;
+    justify-self: start;
+  }
+
+  & > .document-pager > .previous:before {
+    content: "\\2190";
+    margin-right: 8px;
+  }
+  
+  & > .document-pager > .next {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: end;
+  }
+
+  & > .document-pager > .next:after {
+    content: "\\2192";
+    margin-left: 8px;
+  }
 `
 
 const Aside = styled.aside`

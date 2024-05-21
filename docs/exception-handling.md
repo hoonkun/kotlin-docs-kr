@@ -320,3 +320,8 @@ The scope is completed
 ```
 
 {&?https://kotlinlang.org/docs/exception-handling.html}
+
+
+{~}
+{<~channels.md} {~>shared-mutable-state-and-concurrency.md}
+{/~}
