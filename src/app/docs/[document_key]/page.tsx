@@ -48,15 +48,15 @@ export default async function DocumentPage(props: { params: { document_key: stri
   const footnoteRefs = Array.from(markdown.matchAll(/\{\^\[(?<number>[0-9]+)]}/gi))
   const footnoteContents = Array.from(markdown.matchAll(/\{&\[(?<number>[0-9]+)]}/gi))
 
-  const survey = markdown.match(/\{&\?(?<doc_url>.+?)}/)
-
   markdown = replaceFootnotes(markdown, footnoteRefs, { documentKey: key, type: "ref" }, buildFootnoteRefDOM)
   markdown = replaceFootnotes(markdown, footnoteContents, { documentKey: key, type: "content" }, buildFootnoteContentDOM)
 
   markdown = replaceTabHosts(markdown)
   markdown = replaceTabs(markdown)
 
-  markdown = replaceSurvey(markdown, survey)
+  markdown = replaceNonExistingReferenceToOriginal(markdown, flattenDocuments)
+
+  markdown = replaceSurvey(markdown)
 
   markdown = replaceQuoteTypes(markdown)
 
@@ -166,7 +166,8 @@ const buildFootnoteRefDOM = (heading: string, number: string): string =>
 const buildFootnoteContentDOM = (heading: string, number: string) =>
   `<span id="${heading}-content-${number}" class="footnote-content">[${number}]&nbsp;</span>`
 
-const replaceSurvey = (markdown: string, survey: RegExpMatchArray | null) => {
+const replaceSurvey = (markdown: string) => {
+  const survey = markdown.match(/\{&\?(?<doc_url>.+?)}/)
   if (!survey) return markdown
 
   const replaceTarget = survey[0]
@@ -180,6 +181,20 @@ const replaceSurvey = (markdown: string, survey: RegExpMatchArray | null) => {
 const removeTags = (input: string): string => input
   .replaceAll(/<([0-z]+)>/g, "")
   .replaceAll(/<\/([0-z]+)>/g, "")
+
+const replaceNonExistingReferenceToOriginal = (markdown: string, flattenDocuments: DocumentData[]) => {
+  const links = Array.from(markdown.matchAll(/\[(?<text>.+?)]\((?<href>.+?)\)/g))
+
+  for (const link of links) {
+    const reference = link.groups!.href
+    if (!reference.startsWith("/docs/")) continue
+    if (fs.existsSync(`.${reference}`)) continue
+
+    markdown = markdown.replace(reference, `https://kotlinlang.org${reference.replace(".md", "")}.html`)
+  }
+
+  return markdown
+}
 
 const replaceDocumentPager = (markdown: string, flattenDocuments: DocumentData[]) => {
   markdown = markdown.replaceAll("{~}", `<div class="document-pager">`)
