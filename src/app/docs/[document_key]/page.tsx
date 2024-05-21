@@ -84,7 +84,7 @@ export default async function DocumentPage(props: { params: { document_key: stri
     .then(it => it.result)
 
   sections.push(
-    ...Array.from(html.value.toString().matchAll(/<(?<opening>h1|h2|h3|h4|h5|h6)>(?<text>.+?)<\/(?<closing>h1|h2|h3|h4|h5|h6)>/gi))
+    ...Array.from(html.value.toString().matchAll(/<(?<opening>h1|h2|h3)>(?<text>.+?)<\/(?<closing>h1|h2|h3)>/gi))
       .map(it => ({ type: it.groups?.["opening"] ?? "h6", text: removeTags(it.groups?.["text"] ?? "") }))
   )
 
