@@ -4,7 +4,7 @@ import React, { PropsWithChildren, useCallback, useEffect, useRef, useState } fr
 import styled, { css } from "styled-components"
 import Link from "next/link"
 import { DocumentSection } from "@/app/docs/[document_key]/page"
-import { LessThen1000, LessThen640 } from "@/utils/ReactiveStyles"
+import { LessThen, LessThen1000, LessThen640 } from "@/utils/ReactiveStyles"
 
 type DocumentMainProps = { sections: DocumentSection[], withoutAside?: boolean, disableWidthLimiting?: boolean }
 
@@ -126,6 +126,12 @@ const Article = styled.article<{ $disableWidthLimiting?: boolean }>`
   & > * {
     width: ${({ $disableWidthLimiting }) => $disableWidthLimiting ? "auto" : css`min(706px, 100vw - 300px - 209px - 32px - 32px - 22px)`};
     min-width: 0;
+  }
+  
+  ${LessThen(1276)} {
+    & > * {
+      width: ${({ $disableWidthLimiting }) => $disableWidthLimiting ? "auto" : css`min(706px, 100vw - 300px - 209px - 32px - 32px - 22px + 28px)`};
+    }
   }
 
   ${LessThen1000} {
