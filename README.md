@@ -22,6 +22,8 @@
 이 중 번역이 완료된 문서들은 아래와 같습니다:
 
 - Home, Get started
+- Basics/
+  - [Basic syntax](/docs/basic-syntax.md)
 - Official libraries/Coroutines (kotlinx.coroutines)
   - [Coroutines guide](/docs/coroutines-guide.md) 를 비롯한 일부 하위 문서
 
