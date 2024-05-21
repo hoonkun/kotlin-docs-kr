@@ -90,7 +90,7 @@ const DocumentNavigatorItem: React.FC<DocumentNavigatorItemProps> = props => {
           $expanded={expanded}
         >
           <svg viewBox="-5 -3 24 24" data-test="toc-expander"><path fill="currentColor" d="M11 9l-6 5.25V3.75z"></path></svg>
-          {titleOf(item)}
+          {item.title}
         </DocumentNavigatorExpanderItem>
         {expanded && item.children
           .map(it => ({ ...it, selected: it.href === documentKey }))
@@ -114,7 +114,7 @@ const DocumentNavigatorItem: React.FC<DocumentNavigatorItemProps> = props => {
         $selected={item.selected}
         $disabled={!item.enabled}
       >
-        {titleOf(item)}
+        {item.title}
       </DocumentNavigatorLinkItem>
     )
   }
