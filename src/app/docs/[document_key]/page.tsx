@@ -186,11 +186,14 @@ const replaceNonExistingReferenceToOriginal = (markdown: string, flattenDocument
   const links = Array.from(markdown.matchAll(/\[(?<text>.+?)]\((?<href>.+?)\)/g))
 
   for (const link of links) {
-    const reference = link.groups!.href
-    if (!reference.startsWith("/docs/")) continue
-    if (fs.existsSync(`.${reference}`)) continue
+    const rawReference = link.groups!.href
+    if (!rawReference.startsWith("/docs/")) continue
 
-    markdown = markdown.replace(reference, `https://kotlinlang.org${reference.replace(".md", "")}.html`)
+    const referenceName = rawReference.replace(/#(.+)$/, "")
+    if (fs.existsSync(`.${referenceName}`)) continue
+
+    const originalReference = referenceName.replace(".md", "")
+    markdown = markdown.replace(rawReference, `https://kotlinlang.org${originalReference}.html`)
   }
 
   return markdown

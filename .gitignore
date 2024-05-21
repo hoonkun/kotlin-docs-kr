@@ -46,3 +46,6 @@ next-env.d.ts
 
 # jetbrains ide
 .idea
+
+# others
+searches.txt

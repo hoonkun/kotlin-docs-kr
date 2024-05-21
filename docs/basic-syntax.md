@@ -218,7 +218,7 @@ a = 2
 val s2 = "${s1.replace("is", "was")}, but now is $a"
 ```
 
-더 자세한 사항은 [문자열 템플릿](/docs/strings.md#string-templates) 섹션을 확인해보세요.
+더 자세한 사항은 [문자열 템플릿](/docs/strings.md#문자열-템플릿) 섹션을 확인해보세요.
 
 ## 조건적인 표현
 
@@ -238,7 +238,7 @@ Kotlin 에서, `if` 문은 표현식으로 사용될 수 있습니다:
 fun maxOf(a: Int, b: Int) = if (a > b) a else b
 ```
 
-[`if`-표현](/docs/control-flow.md#if-expression) 섹션을 확인해보세요.
+[`if`-표현](/docs/control-flow.md#if-표현식) 섹션을 확인해보세요.
 
 ## for 반복
 
@@ -258,7 +258,7 @@ for (index in items.indices) {
 }
 ```
 
-[for 반복](/docs/control-flow.md#for-loops) 섹션을 확인해보세요.
+[for 반복](/docs/control-flow.md#for-반복) 섹션을 확인해보세요.
 
 ## while 반복
 
@@ -271,7 +271,7 @@ while (index < items.size) {
 }
 ```
 
-[while 반복](/docs/control-flow.md#while-loops) 섹션을 확인해보세요.
+[while 반복](/docs/control-flow.md#while-반복) 섹션을 확인해보세요.
 
 ## when 표현
 
@@ -286,7 +286,7 @@ fun describe(obj: Any): String =
     }
 ```
 
-[when 표현](/docs/control-flow.md#when-expression) 섹션을 확인해보세요.
+[when 표현](/docs/control-flow.md#when-표현식) 섹션을 확인해보세요.
 
 ## 범위
 

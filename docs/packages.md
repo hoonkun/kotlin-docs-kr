@@ -65,7 +65,7 @@ import org.test.Message as TestMessage // TestMessage 는 'org.test.Message' 로
 `import` 구문은 단지 클래스를 임포트하는 것으로 한정되지 않으며, 다른 정의된 엔티티들도 임포트할 수 있습니다:
 
 - 최상위 레벨의 함수와 프로퍼티
-- [오브젝트 정의](/docs/object-declarations.md#object-declarations-overview)에 포함된 함수와 프로퍼티
+- [오브젝트 정의](/docs/object-declarations.md#오브젝트-선언-훑어보기)에 포함된 함수와 프로퍼티
 - [열겨형 상수](/docs/enum-classes.md)
 
 ## 최상위 레벨에 정의된 엔티티들의 가시성

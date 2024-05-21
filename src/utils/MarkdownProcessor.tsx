@@ -28,14 +28,14 @@ const retrieveNodeText = (node: any): string => {
   return ""
 }
 
-const replaceSpaces = (input: string): string => input.replaceAll(" ", "_")
+const replaceSpaces = (input: string): string => input.replaceAll(" ", "-")
 
 export const GlobalMarkdownComponents = {
   pre: (props: any) => <PreTag {...props}>{props.children}<PreTagSpacer/></PreTag>,
   code: (props: any) => props.className ?
     <CodeBlock className={props.className}>{props.children}</CodeBlock> :
     <InlineCode {...props}/>,
-  a: (props: any) => props.href.startsWith("/") ?
+  a: (props: any) => props.href.startsWith("/") || props.href.startsWith("#") ?
     <Link href={props.href} className={`local-link ${props.className ?? ""}`}>{props.children}</Link> :
     <a {...props}
        className={props.href?.startsWith("https://kotlinlang.org/") ? "api-doc" : "external-link"}>{props.children}</a>,
