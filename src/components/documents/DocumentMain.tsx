@@ -205,10 +205,13 @@ const Article = styled.article<{ $disableWidthLimiting?: boolean }>`
   }
 
   & ul:not(.breadcrumb) {
-    margin-top: 6px;
+    margin-top: 12px;
     margin-bottom: 0;
     padding-inline-start: 0;
     list-style-type: none;
+  }
+  & > ul:not(.breadcrumb) {
+    margin-top: 32px;
   }
   & ul:not(.breadcrumb) > li {
     margin-bottom: 0;
@@ -225,8 +228,14 @@ const Article = styled.article<{ $disableWidthLimiting?: boolean }>`
   & ul:not(.breadcrumb) > li:nth-of-type(n+2) {
     margin-top: 8px;
   }
+  & .large-spacing + ul li:nth-of-type(n+2) {
+    margin-top: 16px;
+  }
   & .large-spacing + ul > li:nth-of-type(n) {
     margin-top: 24px;
+  }
+  & .large-spacing + ul > li:nth-of-type(1) {
+    margin-top: 0;
   }
   
   & table {
