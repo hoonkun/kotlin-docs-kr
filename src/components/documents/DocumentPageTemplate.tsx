@@ -7,6 +7,7 @@ import { DocumentData, DocumentSection } from "@/app/docs/[document_key]/page"
 import styled from "styled-components"
 import GithubIcon from "@/resources/github-icon.svg"
 import { titleOf } from "@/utils/Documentation"
+import { GitRepository } from "@/config"
 
 export type DocumentPageTemplateProps = {
   document: DocumentData
@@ -35,7 +36,7 @@ export const DocumentPageTemplate: React.FC<PropsWithChildren<DocumentPageTempla
           {props.hasContent &&
             <GithubEditRow>
               <GithubIcon/>
-              <GithubEditPage href={"https://github.com/"}>편집하기</GithubEditPage>{/* TODO! */}
+              <GithubEditPage href={`${GitRepository}/edit/main/docs/${props.documentKey}`}>편집하기</GithubEditPage>
             </GithubEditRow>
           }
         </>
@@ -45,11 +46,11 @@ export const DocumentPageTemplate: React.FC<PropsWithChildren<DocumentPageTempla
     </DocumentMain>
   </Root>
 
-export const NotYetTranslated: React.FC = () => {
+export const NotYetTranslated: React.FC<{ documentKey: string }> = props => {
   return (
     <NotYetTranslatedRoot>
       아직 번역되지 않았어요...
-      <span>GitHub 에 방문하여 번역에 기여해보세요!</span>
+      <span><a href={GitRepository}>GitHub</a> 에 방문하여 번역에 <a href={`${GitRepository}/new/main?filename=docs/${props.documentKey}`}>기여</a>해보세요!</span>
     </NotYetTranslatedRoot>
   )
 }

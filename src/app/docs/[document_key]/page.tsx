@@ -39,7 +39,7 @@ export default async function DocumentPage(props: { params: { document_key: stri
   }
 
   if (!fs.existsSync(`./docs/${key}`)) {
-    return <DocumentPageTemplate {...DocumentPageTemplateProps}><NotYetTranslated/></DocumentPageTemplate>
+    return <DocumentPageTemplate {...DocumentPageTemplateProps}><NotYetTranslated documentKey={key}/></DocumentPageTemplate>
   }
 
   let markdown: string = fs.readFileSync(`./docs/${key}`, { encoding: "utf8" })
