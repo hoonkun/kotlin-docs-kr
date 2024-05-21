@@ -13,6 +13,7 @@ import Link from "next/link"
 import KotlinIcon from "@/resources/kotlin-header-icon.svg"
 import KotlinIconLarge from "@/resources/kotlin-header-icon-large.svg"
 import KotlinIconSmall from "@/resources/kotlin-header-icon-small.svg"
+import { GitRepository } from "@/config"
 
 export const AppGlobalHeader: React.FC = () => {
 
@@ -55,7 +56,7 @@ export const AppGlobalHeader: React.FC = () => {
       <HeaderTitle className={"narrow"}>문서</HeaderTitle>
       <Description className={"description"}>비공식 한국어 번역</Description>
       <Spacer/>
-      <HeaderLink>GitHub</HeaderLink>
+      <HeaderLink href={GitRepository}>GitHub</HeaderLink>
       <HeaderTab
         href={"/docs/home"}
         className={"force-display-when-narrow-home"}
