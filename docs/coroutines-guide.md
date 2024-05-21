@@ -26,7 +26,20 @@ JetBrains 가 개발한 `kotlinx.coroutines` 는 코루틴을 위한 중요한 �
 - [채널](/docs/channels.md)
 - [코루틴의 예외 핸들링](/docs/exception-handling.md)
 - [변경 가능한 공유 자원과 동시성](/docs/shared-mutable-state-and-concurrency.md)
- 
+- [Select 표현(실험적)](https://kotlinlang.org/docs/select-expressions.html)
+- [튜토리얼: IntellijIDEA 를 사용하여 코루틴 디버깅](https://kotlinlang.org/docs/debug-coroutines-with-idea)
+- [튜토리얼: IntellijIDEA 를 사용하여 Flow 디버깅](https://kotlinlang.org/docs/debug-flow-with-idea)
+
+## 추가 레퍼런스
+
+{*large-spacing}
+
+- [코루틴을 사용한 UI 프로그래밍 가이드](https://github.com/Kotlin/kotlinx.coroutines/blob/master/ui/coroutines-guide-ui.md)
+- [코루틴 디자인 문서 (KEEP)](https://github.com/Kotlin/KEEP/blob/master/proposals/coroutines.md)
+- [전체 kotlinx.coroutines API 레퍼런스](https://kotlinlang.org/api/kotlinx.coroutines/)
+- [안드로이드에서의 코루틴 사용 권장사항](https://developer.android.com/kotlin/coroutines/coroutines-best-practices)
+- [코루틴 및 플로우와 관련된 추가적인 안드로이드 리소스](https://developer.android.com/kotlin/coroutines/additional-resources)
+
 {&?https://kotlinlang.org/docs/coroutines-guide.html}
 
 {~}

@@ -23,7 +23,7 @@
 
 - Home, Get started
 - Official libraries/Coroutines (kotlinx.coroutines)
-  - [Coroutines guide](/docs/coroutines-guide.md) 를 비롯한 하위 문서 전체
+  - [Coroutines guide](/docs/coroutines-guide.md) 를 비롯한 일부 하위 문서
 
 ### 기여할 수 있나요?
 필자가 번역 프로젝트를 진행/기여해본 경험이 전혀 없어서, 기여를 원하시면 진행을 위한 조언을 같이 부탁드리고자 합니다. 
