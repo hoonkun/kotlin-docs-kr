@@ -56,9 +56,25 @@ a {
 }
 
 @font-face {
-  font-family: "JetBrains Mono Light";
+  font-family: "JetBrains Mono";
+  src: url('./../resources/fonts/JetBrainsMono-Thin.woff2') format('woff2');
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url('./../resources/fonts/JetBrainsMono-ExtraLight.woff2') format('woff2');
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
   src: url('./../resources/fonts/JetBrainsMono-Light.woff2') format('woff2');
-  font-weight: normal;
+  font-weight: 300;
   font-style: normal;
   font-display: swap;
 }
@@ -66,7 +82,39 @@ a {
 @font-face {
   font-family: "JetBrains Mono";
   src: url('./../resources/fonts/JetBrainsMono-Regular.woff2') format('woff2');
-  font-weight: normal;
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url('./../resources/fonts/JetBrainsMono-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url('./../resources/fonts/JetBrainsMono-SemiBold.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url('./../resources/fonts/JetBrainsMono-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url('./../resources/fonts/JetBrainsMono-ExtraBold.woff2') format('woff2');
+  font-weight: 800;
   font-style: normal;
   font-display: swap;
 }

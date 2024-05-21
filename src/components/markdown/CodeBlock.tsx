@@ -21,6 +21,8 @@ export const InlineCode = styled.code`
   background-color: #19191C0D;
   border-radius: 3px;
   font-size: calc(100% * 15 / 16);
+  font-family: "JetBrains Mono", monospace;
+  font-weight: 300;
 `
 
 const Pre: React.FC<PropsWithChildren> = props => <Fragment>{props.children}</Fragment>
@@ -55,192 +57,54 @@ export const PreTag = styled.pre`
     border-radius: 0;
     white-space: pre;
     font-size: 15px;
+
+    font-family: "JetBrains Mono", monospace;
+    font-weight: 300;
   }
 
-  .comment {
-    color: #708090
-  }
-
-  .prolog {
-    color: #708090
-  }
-
-  .cdata {
-    color: #708090
-  }
-
-  .delimiter {
-    color: #CF8E6D
-  }
-
-  .boolean {
-    color: #CF8E6D
-  }
-
-  .keyword {
-    color: #0077aa;
-    font-weight: bold;
-  }
-
-  .selector {
-    color: #CF8E6D
-  }
-
-  .important {
-    color: #CF8E6D
-  }
-
-  .atrule {
-    color: #CF8E6D
-  }
-
-  .operator {
-    color: #9a6e3a
-  }
-
-  .punctuation {
-    color: #bcbec4
-  }
-
-  .tag {
-    color: #e8bf6a
-  }
-
-  .tag.punctuation {
-    color: #e8bf6a
-  }
-
-  .tag.script {
-    color: #bcbec4
-  }
-
-  .attr-name {
-    color: #bcbec4
-  }
-
-  .tag.class-name {
-    color: #2FBAA3
-  }
-
-  .doctype {
-    color: #e8bf6a
-  }
-
-  .builtin {
-    color: #CF8E6D
-  }
-
-  .entity {
-    color: #6897bb
-  }
-
-  .number {
-    color: #990055
-  }
-
-  .symbol {
-    color: #6897bb
-  }
-
-  .property {
-    color: #c77dbb
-  }
-
-  .property-access {
-    color: #c77dbb
-  }
-
-  .constant {
-    color: #c77dbb
-  }
-
-  .variable {
-    color: #c77dbb
-  }
-
-  .string {
-    color: #669900;
-    font-weight: bold;
-  }
-
-  .char {
-    color: #6AAB73
-  }
-
-  .attr-value {
-    color: #a5c261
-  }
-
-  .attr-value.punctuation {
-    color: #a5c261
-  }
-
-  .attr-value.punctuation:first-of-type {
-    color: #bcbec4
-  }
-
-  .url {
-    color: #287bde;
-    text-decoration: underline;
-  }
-
-  .function {
-    color: #27282c
-  }
-
-  .method {
-    color: #27282c
-  }
-
-  .regex {
-    background: #364135
-  }
-
-  .bold {
-    font-weight: bold
-  }
-
-  .italic {
-    font-style: italic
-  }
-
-  .inserted {
-    background: #294436
-  }
-
-  .deleted {
-    background: #484a4a
-  }
-
-  .code.language-css .token.property {
-    color: #bcbec4
-  }
-
-  .code.language-css .token.property + .token.punctuation {
-    color: #999999
-  }
-
-  .code.language-css .token.id {
-    color: #ffc66d
-  }
-
-  .code.language-css .token.selector > .token.class {
-    color: #ffc66d
-  }
-
-  .code.language-css .token.selector > .token.attribute {
-    color: #ffc66d
-  }
-
-  .code.language-css .token.selector > .token.pseudo-class {
-    color: #ffc66d
-  }
-
-  .code.language-css .token.selector > .token.pseudo-element {
-    color: #ffc66d
-  }
-
-  .maybe-class-name {
-    color: #bcbec4
-  }
-`
+  .comment { color: #8c8c8c }
+  .prolog { color: #708090 }
+  .cdata { color: #708090 }
+  .delimiter { color: #CF8E6D }
+  .boolean { color: #871094 }
+  .keyword { color: #0033b3; }
+  .selector { color: #CF8E6D }
+  .important { color: #CF8E6D }
+  .atrule { color: #CF8E6D }
+  .operator { color: #9a6e3a }
+  .punctuation { color: #999999 }
+  .tag { color: #e8bf6a }
+  .tag.punctuation { color: #e8bf6a }
+  .tag.script { color: #999999 }
+  .attr-name { color: #999999 }
+  .tag.class-name { color: #2FBAA3 }
+  .doctype { color: #e8bf6a }
+  .builtin { color: #CF8E6D }
+  .entity { color: #6897bb }
+  .number { color: #871094 }
+  .symbol { color: #6897bb }
+  .property { color: #c77dbb }
+  .property-access { color: #c77dbb }
+  .constant { color: #c77dbb }
+  .variable { color: #c77dbb }
+  .string { color: #067d17 }
+  .char { color: #6AAB73 }
+  .attr-value { color: #a5c261 }
+  .attr-value.punctuation { color: #a5c261 }
+  .attr-value.punctuation:first-of-type { color: #999999 }
+  .url { color: #287bde; text-decoration: underline; }
+  .function { color: #00627a }
+  .method { color: #27282c }
+  .regex { background: #364135 }
+  .bold { font-weight: bold }
+  .italic { font-style: italic }
+  .inserted { background: #294436 }
+  .deleted { background: #484a4a }
+  .code.language-css .token.property { color: #999999 }
+  .code.language-css .token.property + .token.punctuation { color: #999999 }
+  .code.language-css .token.id { color: #ffc66d }
+  .code.language-css .token.selector > .token.class { color: #ffc66d }
+  .code.language-css .token.selector > .token.attribute { color: #ffc66d }
+  .code.language-css .token.selector > .token.pseudo-class { color: #ffc66d }
+  .code.language-css .token.selector > .token.pseudo-element { color: #ffc66d }
+  .maybe-class-name { color: #bcbec4 }`
