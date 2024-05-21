@@ -29,7 +29,9 @@ export const BlockQuote: React.FC<PropsWithChildren> = props => {
       {quoteType === "information" && <BlockquoteIcon/>}
       {quoteType === "author" && <BlockquoteAuthorIcon/>}
       {quoteType === "tip" && <BlockquoteTipIcon/>}
-      {props.children}
+      <BlockQuoteContent>
+        {props.children}
+      </BlockQuoteContent>
     </BlockQuoteTag>
   )
 }
@@ -72,5 +74,15 @@ const BlockQuoteTag = styled.blockquote`
   
   .quote-tip + & > svg {
     color: rgba(25,25,28,0.7);
+  }
+`
+
+const BlockQuoteContent = styled.div`
+  & > ul + p {
+    margin-top: 12px !important;
+  }
+  
+  & > p + p {
+    margin-top: 12px !important;
   }
 `
