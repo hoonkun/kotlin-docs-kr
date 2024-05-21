@@ -54,7 +54,7 @@ export default async function DocumentPage(props: { params: { document_key: stri
   markdown = replaceTabHosts(markdown)
   markdown = replaceTabs(markdown)
 
-  markdown = replaceNonExistingReferenceToOriginal(markdown, flattenDocuments)
+  markdown = replaceNonExistingReferenceToOriginal(markdown)
 
   markdown = replaceSurvey(markdown)
 
@@ -182,7 +182,7 @@ const removeTags = (input: string): string => input
   .replaceAll(/<([0-z]+)>/g, "")
   .replaceAll(/<\/([0-z]+)>/g, "")
 
-const replaceNonExistingReferenceToOriginal = (markdown: string, flattenDocuments: DocumentData[]) => {
+const replaceNonExistingReferenceToOriginal = (markdown: string) => {
   const links = Array.from(markdown.matchAll(/\[(?<text>.+?)]\((?<href>.+?)\)/g))
 
   for (const link of links) {
