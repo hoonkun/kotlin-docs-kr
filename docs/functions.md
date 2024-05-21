@@ -364,7 +364,7 @@ private fun findFixPoint(): Double {
 
 - [인라인 함수](/docs/inline-functions.md)
 - [확장 함수](/docs/extensions.md)
-- [함수 매개변수를 가지는 함수와 람다](/docs/lambdas.md)
+- [고차 함수와 람다](/docs/lambdas.md)
 
 
 {&?}
