@@ -24,6 +24,8 @@
 - Home, Get started
 - Basics/
   - [Basic syntax](/docs/basic-syntax.md)
+- Concepts/
+  - [Packages and imports](/docs/packages.md)
 - Official libraries/Coroutines (kotlinx.coroutines)
   - [Coroutines guide](/docs/coroutines-guide.md) 를 비롯한 일부 하위 문서
 
