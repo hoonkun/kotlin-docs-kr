@@ -1,4 +1,5 @@
 import fs from "fs"
+import { execSync } from "child_process"
 
 import React from "react"
 import { BaseProcessor, GlobalMarkdownComponents, GlobalRehypeReactOptions } from "@/utils/MarkdownProcessor"
@@ -11,7 +12,6 @@ import {
   DocumentPageTemplateProps,
   NotYetTranslated
 } from "@/components/documents/DocumentPageTemplate"
-
 import Documents from "@/../docs/registry.json"
 import { DocumentHome } from "@/components/documents/DocumentHome"
 import { TabHost, TabItem } from "@/components/markdown/Tab"
@@ -42,6 +42,8 @@ export default async function DocumentPage(props: { params: { document_key: stri
   if (!fs.existsSync(`./docs/${key}`)) {
     return <DocumentPageTemplate {...DocumentPageTemplateProps}><NotYetTranslated documentKey={key}/></DocumentPageTemplate>
   }
+
+  const lastModified = formatLastModified(new Date(execSync(`git log -1 --pretty="format:%ci" ./docs/${key}`).toString()))
 
   let markdown: string = fs.readFileSync(`./docs/${key}`, { encoding: "utf8" })
 
@@ -88,7 +90,7 @@ export default async function DocumentPage(props: { params: { document_key: stri
       .map(it => ({ type: it.groups?.["opening"] ?? "h6", text: removeTags(it.groups?.["text"] ?? "") }))
   )
 
-  return <DocumentPageTemplate {...DocumentPageTemplateProps} hasContent>{content}</DocumentPageTemplate>
+  return <DocumentPageTemplate {...DocumentPageTemplateProps} lastModified={lastModified} hasContent>{content}</DocumentPageTemplate>
 }
 
 export async function generateStaticParams() {
@@ -152,6 +154,11 @@ export const viewport = {
 type RawDocumentData = { title: string, page_title?: string, href?: string, children?: RawDocumentData[] }
 export type DocumentData = Omit<RawDocumentData, "children"> & { enabled: boolean, children?: DocumentData[] }
 export type DocumentSection = { type: string, text: string }
+
+const formatLastModified = (_date: Date): string => {
+  const [year, month, date] = _date.toLocaleDateString("ko-KR").split(".").map(it => it.trim())
+  return `${year}년 ${month}월 ${date}일`
+}
 
 const documentItemMapper: (it: RawDocumentData) => DocumentData = it => it.children ?
   { ...it, enabled: true, children: it.children.map(documentItemMapper) } :
