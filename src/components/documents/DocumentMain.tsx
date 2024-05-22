@@ -270,13 +270,13 @@ const Article = styled.article<{ $disableWidthLimiting?: boolean }>`
   }
 
   & h1, h2, h3, h4, h5, h6 {
-    margin-top: 1em;
-    padding-top: 0.6em;
     margin-bottom: 0;
     line-height: initial;
   }
 
   & h1 {
+    margin-top: 1em;
+    padding-top: 0.6em;
     font-weight: 600;
     font-size: 43px;
     line-height: 49px;
@@ -287,6 +287,7 @@ const Article = styled.article<{ $disableWidthLimiting?: boolean }>`
   }
 
   & h2 {
+    margin-top: 64px;
     font-weight: 600;
     font-size: 35px;
     
@@ -296,9 +297,19 @@ const Article = styled.article<{ $disableWidthLimiting?: boolean }>`
   }
 
   & h3 {
+    margin-top: 48px;
     font-weight: 600;
     font-size: 20px;
     
+    ${LessThen640} {
+      font-size: 20px;
+    }
+  }
+  
+  & h4 {
+    font-weight: 600;
+    font-size: 20px;
+
     ${LessThen640} {
       font-size: 20px;
     }
