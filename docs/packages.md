@@ -18,7 +18,6 @@ class Message { /*...*/ }
 
 몇몇 개의 패키지는 Kotlin 소스 파일에 기본적으로 임포트됩니다:
 
-{*large-spacing}
 
 - [kotlin.*](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/index.html)
 - [kotlin.annotation.*](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.annotation/index.html)
@@ -31,7 +30,6 @@ class Message { /*...*/ }
 
 타겟팅하는 플랫폼에 따라, 다음 패키지들이 기본으로 추가 임포트됩니다:
 
-{*large-spacing}
 
 - JVM:
   - java.lang.*

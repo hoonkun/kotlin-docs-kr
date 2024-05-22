@@ -234,13 +234,16 @@ const Article = styled.article<{ $disableWidthLimiting?: boolean }>`
   & ul:not(.breadcrumb) > li:nth-of-type(n+2) {
     margin-top: 8px;
   }
-  & .large-spacing + ul li:nth-of-type(n+2) {
+  & > ol > li > ul:not(.breadcrumb) {
+    margin-top: 8px;
+  }
+  & :not(.compact) + ul li:nth-of-type(n+2) {
     margin-top: 16px;
   }
-  & .large-spacing + ul > li:nth-of-type(n) {
+  & :not(.compact) + ul > li:nth-of-type(n) {
     margin-top: 24px;
   }
-  & .large-spacing + ul > li:nth-of-type(1) {
+  & :not(.compact) + ul > li:nth-of-type(1) {
     margin-top: 0;
   }
   

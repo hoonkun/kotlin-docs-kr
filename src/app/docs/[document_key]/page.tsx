@@ -60,7 +60,7 @@ export default async function DocumentPage(props: { params: { document_key: stri
 
   markdown = replaceQuoteTypes(markdown)
 
-  markdown = replaceLargeSpacingLists(markdown)
+  markdown = replaceCompactLists(markdown)
 
   markdown = replaceDocumentPager(markdown, flattenDocuments)
 
@@ -209,8 +209,8 @@ const replaceDocumentPager = (markdown: string, flattenDocuments: DocumentData[]
   return  markdown
 }
 
-const replaceLargeSpacingLists = (markdown: string) =>
-  markdown.replaceAll("{*large-spacing}", `<div class="large-spacing"></div>\n`)
+const replaceCompactLists = (markdown: string) =>
+  markdown.replaceAll("{*compact}", `<div class="compact"></div>\n`)
 
 const replaceQuoteTypes = (markdown: string) =>
   markdown

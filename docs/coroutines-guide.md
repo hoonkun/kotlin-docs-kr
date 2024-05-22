@@ -16,7 +16,6 @@ JetBrains 가 개발한 `kotlinx.coroutines` 는 코루틴을 위한 중요한 �
 
 ## 이 문서의 내용
 
-{*large-spacing}
 
 - [코루틴 기초](/docs/coroutines-basics.md)
 - [취소와 타임아웃](/docs/cancellation-and-timeouts.md)
@@ -32,7 +31,6 @@ JetBrains 가 개발한 `kotlinx.coroutines` 는 코루틴을 위한 중요한 �
 
 ## 추가 레퍼런스
 
-{*large-spacing}
 
 - [코루틴을 사용한 UI 프로그래밍 가이드](https://github.com/Kotlin/kotlinx.coroutines/blob/master/ui/coroutines-guide-ui.md)
 - [코루틴 디자인 문서 (KEEP)](https://github.com/Kotlin/KEEP/blob/master/proposals/coroutines.md)

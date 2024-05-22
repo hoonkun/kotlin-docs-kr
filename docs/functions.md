@@ -225,7 +225,6 @@ val list = asList(-1, 0, *a.toTypedArray(), 4)
 
 `infix` 키워드로 마크된 함수들은 infix 노테이션(호출 시 점과 괄호를 생략)을 사용하여 호출될 수도 있습니다. Infix 함수는 반드시 아래 요구사항들을 만족해야합니다:
 
-{*large-spacing}
 
 - 반드시 멤버 함수이거나 [확장 함수](/docs/extensions.html)여야 합니다.
 - 단 하나의 매개변수만 가져야합니다.
@@ -360,7 +359,6 @@ private fun findFixPoint(): Double {
 
 #### 더 알아보기:
 
-{*large-spacing}
 
 - [인라인 함수](/docs/inline-functions.md)
 - [확장 함수](/docs/extensions.md)

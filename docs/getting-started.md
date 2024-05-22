@@ -22,6 +22,8 @@ Kotlin 사용을 시작하려면 이 IDE 중 하나를 다운로드받고 설치
 Kotlin 의 서버사이드 어플리케이션을 만들기 위한 첫 발자국을 어떻게 내딛을지에 대한 가이드입니다.  
 
 1. **첫 백엔드 어플리케이션 만들기:**
+
+   {*compact}
    - 가볍게 시작하려면, [Intellij IDEA 프로젝트 마법사를 통해 JVM 플랫폼의 어플리케이션을 만드세요.](https://kotlinlang.org/docs/jvm-get-started.html)
    - 조금 더 큰 프로젝트를 시작하려면, 아래 중 하나의 프레임워크를 선택하여 프로젝트를 만드세요:
    
@@ -56,14 +58,20 @@ Kotlin 의 서버사이드 어플리케이션을 만들기 위한 첫 발자국�
    </table>
 
 2. **어플리케이션에 Kotlin 과 서드파티 라이브러리 사용하기.** [프로젝트에 라이브러리를 추가하는 방법](https://kotlinlang.org/docs/gradle-configure-project.html#configure-dependencies)에 대해 더 알아보세요.
+   
+   {*compact}
    - [Kotlin 표준 라이브러리](https://kotlinlang.org/api/latest/jvm/stdlib/)는 [컬렉션](https://kotlinlang.org/docs/collections-overview.html) 이나 [코루틴](/docs/coroutines-guide.md) 등의 쓸만한 것들을 제공합니다.
    - [Kotlin 을 위한 서드파티 프레임워크, 라이브러리, 도구](https://blog.jetbrains.com/kotlin/2020/11/server-side-development-with-kotlin-frameworks-and-libraries/)들을 살펴보세요.
 
 3. **서버사이드 Kotlin 에 대해 더 알아보기**
+   
+   {*compact}
    - [첫 유닛 테스트를 작성하는 방법](https://kotlinlang.org/docs/jvm-test-using-junit.html)
    - [Kotlin 과 Java 코드를 같이 사용하는 방법](https://kotlinlang.org/docs/mixing-java-kotlin-intellij.html)
 
 4. **Kotlin 서버사이드 커뮤니티에 참여하기**
+   
+   {*compact}
    - Slack: [초대를 요청한 뒤](https://surveys.jetbrains.com/s3/kotlin-slack-sign-up), [#getting-started](https://kotlinlang.slack.com/archives/C0B8MA7FA), [#server](https://kotlinlang.slack.com/archives/C0B8RC352), [#spring](https://kotlinlang.slack.com/archives/C0B8ZTWE4), 혹은 [#ktor](https://kotlinlang.slack.com/archives/C0A974TJ9) 채널에 참여하세요.
    - StackOverflow: ["kotlin"](https://stackoverflow.com/questions/tagged/kotlin), ["spring-kotlin"](https://stackoverflow.com/questions/tagged/spring-kotlin), 혹은 ["ktor"](https://stackoverflow.com/questions/tagged/ktor) 태그를 구독하세요.
 
@@ -82,6 +90,7 @@ Kotlin 의 서버사이드 어플리케이션을 만들기 위한 첫 발자국�
 
 2. **iOS 와 Android 환경의 첫 어플리케이션 셋업하기:**
 
+   {*compact}
    * 스크래치로부터 시작하려면, [프로젝트 마법사를 통해 기본 크로스 플랫폼 어플리케이션을 만드세요](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-create-first-app.html).
    * 이미 Android 어플리케이션 프로젝트가 있고 그것을 크로스 플랫폼으로 전환하고 싶다면, [Android 어플리케이션을 iOS 에서 돌아가게 만들기](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-integrate-in-existing-app.html) 튜토리얼을 완료하세요.
    * 실사용 예제가 궁금하시다면, 네트워킹이나 데이터 스토리지 프로젝트 등의 예제 프로젝트를 [Ktor 와 SQLdelight 를 사용하는 멀티플랫폼 어플리케이션 만들기](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-ktor-sqldelight.html) 에서 클론하거나 기타 다른 [샘플 프로젝트](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-samples.html)를 클론하여 가지고 놀아보세요.
@@ -100,6 +109,8 @@ Kotlin 의 서버사이드 어플리케이션을 만들기 위한 첫 발자국�
    > [커뮤니티 리스트](https://libs.kmp.icerock.dev/)에서도 멀티플랫폼 라이브러리를 찾아보실 수 있습니다.
 
 4. **Kotlin 멀티플랫폼에 대해 더 알아보기:**
+
+   {*compact}
    * [Kotlin Multiplatform](https://kotlinlang.org/docs/multiplatform-get-started.md) 에서 Kotlin 멀티플랫폼에 대해 더 알아보세요.
    * [샘플 프로젝트](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-samples.html)들을 둘러보세요.
    * [멀티플랫폼 라이브러리를 배포해보세요](https://kotlinlang.org/docs/multiplatform-publish-lib.md).
@@ -107,6 +118,7 @@ Kotlin 의 서버사이드 어플리케이션을 만들기 위한 첫 발자국�
 
 5. **Kotlin 멀티플랫폼 커뮤니티에 참여하세요:**
 
+   {*compact}
    * Slack: [초대를 요청한 뒤](https://surveys.jetbrains.com/s3/kotlin-slack-sign-up), [#getting-started](https://kotlinlang.slack.com/archives/C0B8MA7FA) 그리고 [#multiplatform](https://kotlinlang.slack.com/archives/C3PQML5NU) 채널에 참여하세요.
    * StackOverflow: ["kotlin-multiplatform" tag](https://stackoverflow.com/questions/tagged/kotlin-multiplatform) 태그를 구독하세요.
 
@@ -119,8 +131,8 @@ Kotlin 의 서버사이드 어플리케이션을 만들기 위한 첫 발자국�
 
 {--Android--android}
 
+{*compact}
 * 안드로이드 개발을 위해 Kotlin 을 사용하시려면, [Android 에서 Kotlin 을 사용하기 위한 구글의 추천 사항](https://developer.android.com/kotlin/get-started)을 확인해보세요.
-
 * 만약 안드로이드에 처음이고 Kotlin 을 사용하여 어플리케이션을 개발하려고 한다면, [이 Udacity 코스](https://www.udacity.com/course/developing-android-apps-with-kotlin--ud9012)를 확인해보세요.
 
 [Twitter](https://twitter.com/kotlin), [Reddit](https://www.reddit.com/r/Kotlin/), 그리고 [Youtube](https://www.youtube.com/channel/UCP7uiEZIqci43m22KDl0sNw) 에서 Kotlin 을 구독하여 중요한 생태계 업데이트를 놓치지 마세요.
@@ -133,15 +145,18 @@ Kotlin 의 서버사이드 어플리케이션을 만들기 위한 첫 발자국�
 
 1. **IDE 를 통해 Notebook 을 만들고 원활하게 실행해보세요:**
 
+   {*compact}
    * [Kotlin Notebook 시작하기](https://kotlinlang.org/docs/get-started-with-kotlin-notebooks.md).
 
 2. **데이터를 탐색하고 정제해보세요:**
 
+   {*compact}
    * [DataFrame](https://kotlin.github.io/dataframe/overview.html) – 데이터 분석과 취합을 위한 라이브러리.
    * [Kandy](https://kotlin.github.io/kandy/welcome.html) – 데이터 시각화를 위한 그래프를 그리는 라이브러리.
 
 3. **Data Analysis 를 위한 Kotlin 의 최신 정보를 받아보세요:**
 
+   {*compact}
    * Slack: [초대를 요청한 뒤](https://surveys.jetbrains.com/s3/kotlin-slack-sign-up), [#datascience](https://kotlinlang.slack.com/archives/C4W52CFEZ) 채널에 참여하세요.
    * Twitter: [KotlinForData](http://twitter.com/KotlinForData) 를 구독하세요.
 
