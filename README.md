@@ -29,6 +29,7 @@
   - Functions/
     - [Functions](/docs/functions.md)
   - [Null-safety](/docs/null-safety.md)
+  - [Equality](/docs/equality.md)
   - [Asynchronous programming techniques](/docs/async-programming.md)
   - [Coroutines](/docs/coroutines-overview.md)
 - Official libraries/Coroutines (kotlinx.coroutines)
