@@ -102,7 +102,7 @@ fun main() {
 - `NaN` 은 `POSITIVE_INFINITY` 를 포함하여 다른 어떠한 값보다도 큽니다.
 - `-0.0` 은 `0.0` 과 다릅니다.
 
-더 자세한 사항은 [부동 소수점 수의 비교](/docs/numbers.md#floating-point-numbers-comparison) 문서를 확인해보세요.
+더 자세한 사항은 [부동 소수점 수의 비교](/docs/numbers.md#부동-소수점-수의-비교) 문서를 확인해보세요.
 
 ## 배열의 동일성
 
