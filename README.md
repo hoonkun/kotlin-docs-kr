@@ -25,6 +25,9 @@
 - Basics/
   - [Basic syntax](/docs/basic-syntax.md)
 - Concepts/
+  - Types/
+    - BasicTypes/
+      - [Numbers](/docs/numbers.md)
   - [Packages and imports](/docs/packages.md)
   - Functions/
     - [Functions](/docs/functions.md)
