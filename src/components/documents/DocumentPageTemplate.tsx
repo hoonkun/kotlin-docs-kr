@@ -15,6 +15,7 @@ export type DocumentPageTemplateProps = {
   documentKey: string
   sections: DocumentSection[]
   breadcrumbs: DocumentData[]
+  lastModified?: string
   hasContent?: boolean
   withoutAdditionalUi?: boolean
   disableWidthLimiting?: boolean
@@ -22,8 +23,15 @@ export type DocumentPageTemplateProps = {
 
 export const DocumentPageTemplate: React.FC<PropsWithChildren<DocumentPageTemplateProps>> = props =>
   <Root>
-    <DocumentNavigator items={props.documents} documentKey={props.documentKey}/>
-    <DocumentMain sections={props.sections} withoutAside={props.withoutAdditionalUi} disableWidthLimiting={props.disableWidthLimiting}>
+    <DocumentNavigator
+      items={props.documents}
+      documentKey={props.documentKey}
+    />
+    <DocumentMain
+      sections={props.sections}
+      withoutAside={props.withoutAdditionalUi}
+      disableWidthLimiting={props.disableWidthLimiting}
+    >
       {!props.withoutAdditionalUi &&
         <>
           <Breadcrumbs className={"breadcrumb"}>
@@ -34,10 +42,13 @@ export const DocumentPageTemplate: React.FC<PropsWithChildren<DocumentPageTempla
           </Breadcrumbs>
           <h1 id={titleOf(props.document).replaceAll(" ", "_")}>{titleOf(props.document)}</h1>
           {props.hasContent &&
-            <GithubEditRow>
+            <DocumentDescriptionRow>
               <GithubIcon/>
               <GithubEditPage href={`${GitRepository}/edit/main/docs/${props.documentKey}`}>편집하기</GithubEditPage>
-            </GithubEditRow>
+              <LastModifiedDate>
+                &nbsp;마지막 수정: {props.lastModified}
+              </LastModifiedDate>
+            </DocumentDescriptionRow>
           }
         </>
       }
@@ -92,7 +103,7 @@ const Breadcrumbs = styled.ul`
   }
 `
 
-const GithubEditRow = styled.div`
+const DocumentDescriptionRow = styled.div`
   display: flex;
   align-items: center;
   margin-top: 10px;
@@ -114,6 +125,12 @@ const GithubEditPage = styled.a`
   font-size: 13px;
   width: unset !important;
   line-height: 16px !important;
+`
+
+const LastModifiedDate = styled.p`
+  margin: 0 0 0 4px !important;
+  font-size: 13px;
+  color: #19191cb3;
 `
 
 const EndPadding = styled.div`
