@@ -5,6 +5,7 @@ import styled from "styled-components"
 
 import GettingStartedIcon from "$/docs/images/home/getting-started.svg"
 import KotlinOnlineIcon from "$/docs/images/home/kotlin-online.svg"
+import { LessThen640 } from "@/utils/ReactiveStyles"
 
 export const DocumentHome: React.FC = () => {
   return (
@@ -186,6 +187,10 @@ const DocumentHomeItems = styled.div<{ $noMargin?: boolean }>`
   align-self: stretch;
   margin-top: ${({ $noMargin }) => $noMargin ? "0" : "48px"};
   grid-gap: 32px;
+  
+  ${LessThen640} {
+    grid-template-columns: 1fr;
+  }
 `
 
 type DocumentHomeItemProps = { title: string, icon?: React.FC, enabled?: boolean, href?: string }
@@ -223,7 +228,7 @@ const DocumentHomeItemRoot = styled.a<{ $enabled: boolean }>`
   & > svg {
     width: 72px;
     height: 72px;
-    margin-bottom: 24px;
+    margin-bottom: 30px;
     
     color: #7f52ff;
   }
@@ -235,6 +240,7 @@ const DocumentHomeItemTitle = styled.h3`
   margin-bottom: 12px !important;
   margin-top: 0 !important;
   padding-top: 0 !important;
+  line-height: 28px;
 `
 
 const DocumentHomeItemDescription = styled.p`
