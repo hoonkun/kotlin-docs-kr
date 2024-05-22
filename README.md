@@ -25,11 +25,12 @@
 - Basics/
   - [Basic syntax](/docs/basic-syntax.md)
 - Concepts/
-  - [Asynchronous programming techniques](/docs/async-programming.md)
-  - [Coroutines](/docs/coroutines-overview.md)
   - [Packages and imports](/docs/packages.md)
   - Functions/
     - [Functions](/docs/functions.md)
+  - [Null-safety](/docs/null-safety.md)
+  - [Asynchronous programming techniques](/docs/async-programming.md)
+  - [Coroutines](/docs/coroutines-overview.md)
 - Official libraries/Coroutines (kotlinx.coroutines)
   - [Coroutines guide](/docs/coroutines-guide.md) 를 비롯한 일부 하위 문서
 
