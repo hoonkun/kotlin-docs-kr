@@ -14,7 +14,7 @@ Kotlin 에서 NPE 가 발생하는 경우는 아래에 나열된 원인들 뿐�
   - constructor 에서만 사용 가능한 초기화되지 않은 `this` 가 어딘가로 넘어가서 사용되는 경우("누수된 `this`")
   - 슈퍼클래스의 생성자가, 파생 클래스의 「아직 초기화되지 않은 요소를 사용하도록 구현된 open 멤버」를 호출하는 경우{^[1]}
 - Java 상호운용
-  - [플랫폼 타입](/docs/java-interop.html#null-safety-and-platform-types)으로 숨겨진 null 레퍼런스로의 멤버 접근
+  - [플랫폼 타입](/docs/java-interop.md#null-safety-and-platform-types)으로 숨겨진 null 레퍼런스로의 멤버 접근
   - Java 상호 운용을 위해 사용된 Generic 타입으로부터의 Nullablity 이슈. 
     예를들어, Java 코드 조각이 `MutableList<String>` 에 `null` 을 추가할 수 있기 때문에 이 문제를 방지하려면 `MutableList<String?>` 을 사용해야합니다.
   - 외부 Java 코드에 의한 원인
