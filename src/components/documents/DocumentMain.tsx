@@ -7,14 +7,13 @@ import { DocumentSection } from "@/app/docs/[document_key]/page"
 import { LessThen, LessThen1000, LessThen640 } from "@/utils/ReactiveStyles"
 import { EmptyFunction } from "@/utils/Any"
 
-type DocumentMainProps = { sections: DocumentSection[], withoutAside?: boolean, disableWidthLimiting?: boolean }
+type DocumentMainProps = { sections: DocumentSection[], withoutAside?: boolean }
 
 export const DocumentMain: React.FC<PropsWithChildren<DocumentMainProps>> = props => {
   const {
     children,
     sections,
-    withoutAside,
-    disableWidthLimiting
+    withoutAside
   } = props
 
   const defaultViewing = sections[0]?.text ?? ""
@@ -67,10 +66,10 @@ export const DocumentMain: React.FC<PropsWithChildren<DocumentMainProps>> = prop
 
   return (
     <Root>
-      <Arranger $adjustPaddings={disableWidthLimiting}>
+      <Arranger $adjustPaddings={withoutAside}>
         <Article
           className={"article"}
-          $disableWidthLimiting={disableWidthLimiting}
+          $disableWidthLimiting={withoutAside}
         >
           {children}
         </Article>

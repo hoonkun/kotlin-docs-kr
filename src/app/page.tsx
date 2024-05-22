@@ -19,15 +19,11 @@ import {
 
 import JetbrainsLogo from "@/resources/jetbrains-logo.svg"
 import KotlinHero from "@/resources/hero-cover.png"
-import { BaseProcessor, GlobalMarkdownComponents, GlobalRehypeReactOptions } from "@/utils/MarkdownProcessor"
-import rehypeReact from "rehype-react"
+import { MarkdownToReact } from "@/utils/MarkdownProcessor"
 
 export default async function Home() {
 
-  const readme = await BaseProcessor()
-    .use(rehypeReact, { ...GlobalRehypeReactOptions, components: { ...GlobalMarkdownComponents } })
-    .process(fs.readFileSync("./README.md", { encoding: "utf8" }))
-    .then(it => it.result)
+  const readme = await MarkdownToReact(fs.readFileSync("./README.md", { encoding: "utf8" }))
 
   return (
     <HomeRoot>

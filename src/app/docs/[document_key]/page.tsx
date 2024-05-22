@@ -2,19 +2,17 @@ import fs from "fs"
 import { execSync } from "child_process"
 
 import React from "react"
-import { BaseProcessor, GlobalMarkdownComponents, GlobalRehypeReactOptions } from "@/utils/MarkdownProcessor"
-import rehypeReact from "rehype-react"
+import { HtmlToReact, MarkdownToHtml } from "@/utils/MarkdownProcessor"
 import { notFound } from "next/navigation"
-import Image from "next/image"
 import { findDocumentation, flatDocumentation, titleOf } from "@/utils/Documentation"
 import {
   DocumentPageTemplate,
   DocumentPageTemplateProps,
-  NotYetTranslated
+  NotYetTranslatedContent,
+  TranslatedContent
 } from "@/components/documents/DocumentPageTemplate"
 import Documents from "@/../docs/registry.json"
 import { DocumentHome } from "@/components/documents/DocumentHome"
-import { TabHost, TabItem } from "@/components/markdown/Tab"
 
 export default async function DocumentPage(props: { params: { document_key: string } }) {
   const { params: { document_key: key } } = props
@@ -31,16 +29,14 @@ export default async function DocumentPage(props: { params: { document_key: stri
   const [document, breadcrumbs] = foundDocumentation
   const sections: DocumentSection[] = [{ type: "h1", text: titleOf(document) }]
 
-  const DocumentPageTemplateProps: Omit<DocumentPageTemplateProps, "hasContent"> = {
-    document, documents, documentKey: key, sections, breadcrumbs
-  }
+  const DocumentPageTemplateProps: DocumentPageTemplateProps = { document, documents, sections }
 
   if (key === "home") {
-    return <DocumentPageTemplate {...DocumentPageTemplateProps} withoutAdditionalUi disableWidthLimiting><DocumentHome/></DocumentPageTemplate>
+    return <DocumentPageTemplate {...DocumentPageTemplateProps} withoutAside><DocumentHome/></DocumentPageTemplate>
   }
 
   if (!fs.existsSync(`./docs/${key}`)) {
-    return <DocumentPageTemplate {...DocumentPageTemplateProps}><NotYetTranslated documentKey={key}/></DocumentPageTemplate>
+    return <DocumentPageTemplate {...DocumentPageTemplateProps}><NotYetTranslatedContent breadcrumbs={breadcrumbs}/></DocumentPageTemplate>
   }
 
   const lastModified = formatLastModified(new Date(execSync(`git log -1 --pretty="format:%ci" ./docs/${key}`).toString()))
@@ -57,40 +53,26 @@ export default async function DocumentPage(props: { params: { document_key: stri
   markdown = replaceTabs(markdown)
 
   markdown = replaceNonExistingReferenceToOriginal(markdown)
-
   markdown = replaceSurvey(markdown, key)
-
   markdown = replaceQuoteTypes(markdown)
-
   markdown = replaceCompactLists(markdown)
-
   markdown = replaceDocumentPager(markdown, flattenDocuments)
 
-  const html = await BaseProcessor()
-    .process(markdown)
-
-  const content = await BaseProcessor()
-    .use(
-      rehypeReact,
-      {
-        ...GlobalRehypeReactOptions,
-        components: {
-          ...GlobalMarkdownComponents,
-          img: props => <ContentImage {...props} documentKey={key}/>,
-          tabs: (props: any) => <TabHost {...props}>{props.children}</TabHost>,
-          tab: (props: any) => <TabItem {...props}/>
-        }
-      }
-    )
-    .process(markdown)
-    .then(it => it.result)
+  const html = await MarkdownToHtml(markdown)
+  const content = await HtmlToReact(html, key)
 
   sections.push(
-    ...Array.from(html.value.toString().matchAll(/<(?<opening>h1|h2|h3)>(?<text>.+?)<\/(?<closing>h1|h2|h3)>/gi))
+    ...Array.from(html.matchAll(/<(?<opening>h1|h2|h3)>(?<text>.+?)<\/(?<closing>h1|h2|h3)>/gi))
       .map(it => ({ type: it.groups?.["opening"] ?? "h6", text: removeTags(it.groups?.["text"] ?? "") }))
   )
 
-  return <DocumentPageTemplate {...DocumentPageTemplateProps} lastModified={lastModified} hasContent>{content}</DocumentPageTemplate>
+  return (
+    <DocumentPageTemplate {...DocumentPageTemplateProps}>
+      <TranslatedContent breadcrumbs={breadcrumbs} lastModified={lastModified}>
+        {content}
+      </TranslatedContent>
+    </DocumentPageTemplate>
+  )
 }
 
 export async function generateStaticParams() {
@@ -136,15 +118,6 @@ export async function generateMetadata({ params }: { params: { document_key: str
       images: ["https://kotlinlang.org/assets/images/open-graph/docs.png"]
     }
   }
-}
-
-const ContentImage: React.FC<{ alt?: string, documentKey: string, src?: string }> = async (props) => {
-  if (!props.src) return <></>
-
-  const Source = await import(`$/docs/images/${props.documentKey}${props.src}`)
-  if (typeof Source.default === "function") return <Source.default/>
-
-  return <Image src={Source.default} alt={props.alt ?? ""} style={{ width: "100%", height: "auto", marginTop: 15 }} />
 }
 
 export const viewport = {

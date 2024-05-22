@@ -1,68 +1,93 @@
 "use client"
 
-import React, { PropsWithChildren } from "react"
+import React, { createContext, PropsWithChildren, useContext } from "react"
 import { DocumentNavigator } from "@/components/documents/DocumentNavigator"
 import { DocumentMain } from "@/components/documents/DocumentMain"
 import { DocumentData, DocumentSection } from "@/app/docs/[document_key]/page"
 import styled from "styled-components"
 import GithubIcon from "@/resources/github-icon.svg"
-import { titleOf } from "@/utils/Documentation"
+import { keyOf, titleOf } from "@/utils/Documentation"
 import { GitRepository } from "@/config"
 
 export type DocumentPageTemplateProps = {
   document: DocumentData
   documents: DocumentData[]
-  documentKey: string
   sections: DocumentSection[]
-  breadcrumbs: DocumentData[]
-  lastModified?: string
-  hasContent?: boolean
-  withoutAdditionalUi?: boolean
-  disableWidthLimiting?: boolean
+  withoutAside?: boolean
 }
 
-export const DocumentPageTemplate: React.FC<PropsWithChildren<DocumentPageTemplateProps>> = props =>
-  <Root>
-    <DocumentNavigator
-      items={props.documents}
-      documentKey={props.documentKey}
-    />
-    <DocumentMain
-      sections={props.sections}
-      withoutAside={props.withoutAdditionalUi}
-      disableWidthLimiting={props.disableWidthLimiting}
-    >
-      {!props.withoutAdditionalUi &&
-        <>
-          <Breadcrumbs className={"breadcrumb"}>
-            {props.breadcrumbs.length > 2 ?
-              props.breadcrumbs.slice(1).map(it => <li key={`${titleOf(it)}_${it.href}`}>{titleOf(it)}</li>) :
-              <></>
-            }
-          </Breadcrumbs>
-          <h1 id={titleOf(props.document).replaceAll(" ", "_")}>{titleOf(props.document)}</h1>
-          {props.hasContent &&
-            <DocumentDescriptionRow>
-              <GithubIcon/>
-              <GithubEditPage href={`${GitRepository}/edit/main/docs/${props.documentKey}`}>편집하기</GithubEditPage>
-              <LastModifiedDate>
-                &nbsp;마지막 수정: {props.lastModified}
-              </LastModifiedDate>
-            </DocumentDescriptionRow>
-          }
-        </>
-      }
-      {props.children}
-      <EndPadding/>
-    </DocumentMain>
-  </Root>
+const DocumentContext = createContext<{ document: DocumentData }>({ document: null! })
+const useDocument = () => useContext(DocumentContext)
 
-export const NotYetTranslated: React.FC<{ documentKey: string }> = props => {
+export const DocumentPageTemplate: React.FC<PropsWithChildren<DocumentPageTemplateProps>> = props =>
+  <DocumentContext.Provider value={{ document: props.document }}>
+    <Root>
+      <DocumentNavigator
+        items={props.documents}
+        documentKey={keyOf(props.document)}
+      />
+      <DocumentMain
+        sections={props.sections}
+        withoutAside={props.withoutAside}
+      >
+        {props.children}
+        <EndPadding/>
+      </DocumentMain>
+    </Root>
+  </DocumentContext.Provider>
+
+
+type DocumentContentProps = {
+  breadcrumbs: DocumentData[]
+}
+
+const DocumentContent: React.FC<PropsWithChildren<DocumentContentProps>> = props => {
+  const { document } = useDocument()
   return (
-    <NotYetTranslatedRoot>
-      아직 번역되지 않았어요...
-      <span><a href={GitRepository}>GitHub</a> 에 방문하여 번역에 <a href={`${GitRepository}/new/main?filename=docs/${props.documentKey}`}>기여</a>해보세요!</span>
-    </NotYetTranslatedRoot>
+    <>
+      <Breadcrumbs className={"breadcrumb"}>
+        {props.breadcrumbs.length > 2 ?
+          props.breadcrumbs.slice(1).map(it => <li key={`${titleOf(it)}_${it.href}`}>{titleOf(it)}</li>) :
+          <></>
+        }
+      </Breadcrumbs>
+      <h1 id={titleOf(document).replaceAll(" ", "_")}>{titleOf(document)}</h1>
+      {props.children}
+    </>
+  )
+}
+
+type NotYetTranslatedDocumentContentProps = DocumentContentProps
+
+export const NotYetTranslatedContent: React.FC<NotYetTranslatedDocumentContentProps> = props => {
+  const { document } = useDocument()
+  return (
+    <DocumentContent breadcrumbs={props.breadcrumbs}>
+      <NotYetTranslatedRoot>
+        아직 번역되지 않았어요...
+        <span><a href={GitRepository}>GitHub</a> 에 방문하여 번역에 <a href={`${GitRepository}/new/main?filename=docs/${keyOf(document)}`}>기여</a>해보세요!</span>
+      </NotYetTranslatedRoot>
+    </DocumentContent>
+  )
+}
+
+type ExistingDocumentContentProps = DocumentContentProps & {
+  lastModified: string
+}
+
+export const TranslatedContent: React.FC<PropsWithChildren<ExistingDocumentContentProps>> = props => {
+  const { document } = useDocument()
+  return (
+    <DocumentContent breadcrumbs={props.breadcrumbs}>
+      <DocumentDescriptionRow>
+        <GithubIcon/>
+        <GithubEditPage href={`${GitRepository}/edit/main/docs/${keyOf(document)}`}>편집하기</GithubEditPage>
+        <LastModifiedDate>
+          &nbsp;마지막 수정: {props.lastModified}
+        </LastModifiedDate>
+      </DocumentDescriptionRow>
+      {props.children}
+    </DocumentContent>
   )
 }
 

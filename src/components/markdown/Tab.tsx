@@ -8,7 +8,9 @@ type TabSibling = { title: string, identifier: string }
 type TabContext = { siblings: TabSibling[], selected: string, select: (identifier: string) => unknown }
 const TabContext = createContext<TabContext>({ siblings: [], selected: "", select: EmptyFunction })
 
-export const TabHost: React.FC<{ children: ReactElement[], initialSelectedIdentifier?: string }> = props => {
+export type TabHostProps = { children: ReactElement[], initialSelectedIdentifier?: string }
+
+export const TabHost: React.FC<TabHostProps> = props => {
   const { children, initialSelectedIdentifier } = props
 
   const tabs = useMemo(
@@ -49,9 +51,9 @@ export const TabSelector: React.FC<{ tabs: TabSibling[] }> = props => {
   )
 }
 
-type TabItemProps = TabSibling
+export type TabItemProps = PropsWithChildren<TabSibling>
 
-export const TabItem: React.FC<PropsWithChildren<TabItemProps>> = props => {
+export const TabItem: React.FC<TabItemProps> = props => {
   const { identifier, children } = props
   const { selected } = useContext(TabContext)
 

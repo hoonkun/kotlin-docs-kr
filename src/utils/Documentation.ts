@@ -30,3 +30,9 @@ export const flatDocumentation = (root: DocumentData[]): DocumentData[] => {
 }
 
 export const titleOf = (from: DocumentData) => from.page_title ?? from.title
+
+export const keyOf = (from: DocumentData) => {
+  if (from.href) return from.href
+
+  throw Error(`Invalid Access: cannot access key of document group: ${from.title}`)
+}
