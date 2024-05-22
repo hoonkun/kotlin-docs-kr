@@ -1,10 +1,10 @@
 ## Nullable 타입과 Nullable 하지 않은 타입
 
-Kotlin 의 타입 시스템은 null 레퍼런스의 위험을 제거하는데 초점이 맞춰저 있습니다. 
+Kotlin 의 타입 시스템은 null 레퍼런스의 위험을 제거하는데 초점이 맞춰져 있습니다. 
 이는 또한 [10억 달러의 실수](https://en.wikipedia.org/wiki/Null_pointer#History) 라고도 알려져있지요.
 
 Java 를 포함한 많은 프로그래밍 언어에서 보이는 가장 큰 함정은, null 레퍼런스의 멤버에 접근하면 null 레퍼런스 예외를 발생시킨다는 점입니다. 
-Java 에서 이것은 `NullReferenceException` 이라고 불리며, 줄여서 **NPE** 라고도 합니다.
+Java 에서 이것은 `NullPointerException` 이라고 불리며, 줄여서 **NPE** 라고도 합니다.
 
 Kotlin 에서 NPE 가 발생하는 경우는 아래에 나열된 원인들 뿐입니다:
 
