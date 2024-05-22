@@ -5,6 +5,7 @@ import styled, { css } from "styled-components"
 import Link from "next/link"
 import { DocumentSection } from "@/app/docs/[document_key]/page"
 import { LessThen, LessThen1000, LessThen640 } from "@/utils/ReactiveStyles"
+import { EmptyFunction } from "@/utils/Any"
 
 type DocumentMainProps = { sections: DocumentSection[], withoutAside?: boolean, disableWidthLimiting?: boolean }
 
@@ -18,7 +19,9 @@ export const DocumentMain: React.FC<PropsWithChildren<DocumentMainProps>> = prop
 
   const defaultViewing = sections[0]?.text ?? ""
 
-  const scroller = useRef<Element | null>(null)
+  const aside = useRef<HTMLDivElement>(null)
+  const asideScrollRequestDelay = useRef<NodeJS.Timeout | null>(null )
+  const pendingAsideScrollRequest = useRef<() => void>(EmptyFunction)
 
   const [viewing, setViewing] = useState<string | null>(defaultViewing)
   const [headings, setHeadings] = useState<DocumentHeading[]>([])
@@ -26,6 +29,11 @@ export const DocumentMain: React.FC<PropsWithChildren<DocumentMainProps>> = prop
   const onScroll = useCallback((fromHeadings: DocumentHeading[], scrollTop: number) => {
     const found = fromHeadings.findLast(it => it.top <= scrollTop + 10)
     setViewing(found ? found.text : defaultViewing)
+    if (asideScrollRequestDelay.current) clearTimeout(asideScrollRequestDelay.current)
+    if (pendingAsideScrollRequest.current) {
+      const delayMillis = scrollTop === 0 || Math.abs(scrollTop - document.scrollingElement!.scrollHeight + window.innerHeight) < 5 ? 1250 : 50
+      asideScrollRequestDelay.current = setTimeout(pendingAsideScrollRequest.current, delayMillis)
+    }
   }, [defaultViewing])
 
   const initializeHeadings = useCallback(() => {
@@ -33,18 +41,11 @@ export const DocumentMain: React.FC<PropsWithChildren<DocumentMainProps>> = prop
       .map(it => ({ top: (it as HTMLDivElement).offsetTop, text: (it as HTMLHeadingElement).innerText }))
     setHeadings(newHeadings)
 
-    onScroll(newHeadings, scroller.current!.scrollTop)
+    onScroll(newHeadings, document.scrollingElement!.scrollTop)
   }, [onScroll])
 
   useEffect(() => {
-    scroller.current = document.scrollingElement
-  }, [])
-
-  useEffect(() => {
-    const currentScroller = scroller.current
-    if (!currentScroller) return
-
-    const handler = () => onScroll(headings, currentScroller.scrollTop)
+    const handler = () => onScroll(headings, document.scrollingElement!.scrollTop)
 
     document.addEventListener("scroll", handler)
     return () => document.removeEventListener("scroll", handler)
@@ -57,6 +58,13 @@ export const DocumentMain: React.FC<PropsWithChildren<DocumentMainProps>> = prop
     return () => window.removeEventListener("resize", initializeHeadings)
   }, [initializeHeadings])
 
+  useEffect(() => {
+    const selectedItem = document.querySelector<HTMLAnchorElement>("a.aside-item.selected")
+    if (!selectedItem) return
+
+    pendingAsideScrollRequest.current = () => selectedItem.parentElement!.scrollIntoView({ behavior: "smooth", block: "nearest" })
+  }, [viewing])
+
   return (
     <Root>
       <Arranger $adjustPaddings={disableWidthLimiting}>
@@ -67,16 +75,18 @@ export const DocumentMain: React.FC<PropsWithChildren<DocumentMainProps>> = prop
           {children}
         </Article>
         {!withoutAside &&
-          <Aside>
+          <Aside ref={aside}>
             {sections.map(it =>
-              <DocumentSectionItem
-                key={`${it.type}_${it.text}`}
-                href={`#${it.text.replaceAll(" ", "-")}`}
-                $indent={Math.max(parseInt(it.type.slice(1)) - 2, 0)}
-                $selected={it.text === viewing}
-              >
-                {it.text}
-              </DocumentSectionItem>
+              <DocumentSectionItemScrollPositioner key={`${it.type}_${it.text}`}>
+                <DocumentSectionItem
+                  href={`#${it.text.replaceAll(" ", "-")}`}
+                  className={it.text === viewing ? "aside-item selected" : "aside-item"}
+                  $indent={Math.max(parseInt(it.type.slice(1)) - 2, 0)}
+                  $selected={it.text === viewing}
+                >
+                  {it.text}
+                </DocumentSectionItem>
+              </DocumentSectionItemScrollPositioner>
             )}
           </Aside>
         }
@@ -337,7 +347,7 @@ const Aside = styled.aside`
   top: 64px;
   flex-shrink: 0;
 
-  max-height: calc(100dvh - 64px - 22px);
+  max-height: calc(100dvh - 64px);
   overflow: auto;
   padding: 22px 0 22px 32px;
 
@@ -355,6 +365,17 @@ const Aside = styled.aside`
   }
 `
 
+const DocumentSectionItemScrollPositioner = styled.div`
+  margin-top: -96px;
+  padding: 48px 0;
+  pointer-events: none;
+  position: relative;
+  
+  &:first-of-type {
+    margin-top: -48px;
+  }
+`
+
 const DocumentSectionItem = styled(Link)<{ $indent: number, $selected: boolean }>`
   display: block;
   line-height: 20px;
@@ -364,6 +385,7 @@ const DocumentSectionItem = styled(Link)<{ $indent: number, $selected: boolean }
   font-weight: 300;
   word-break: keep-all;
   position: relative;
+  pointer-events: auto;
 
   transition: border-left-color 0.2s linear;
 
