@@ -127,6 +127,8 @@ const DocumentNavigatorRoot = styled.nav<{ $narrowOnlyExpanded: boolean }>`
   top: 64px;
   z-index: 4;
   
+  flex-shrink: 0;
+  
   width: 311px;
   border-right: 1px solid #d1d1d2;
   display: flex;

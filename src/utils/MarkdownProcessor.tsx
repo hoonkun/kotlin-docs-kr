@@ -64,6 +64,8 @@ export const GlobalMarkdownComponents = (documentKey?: string): Partial<RehypeRe
 
   blockquote: props => <BlockQuote {...props}/>,
 
+  table: props => <div className={"table-wrapper"}><table {...props}/></div>,
+
   h1: props => <HeadingAnchor id={replaceSpaces(retrieveNodeText(props.children))}><h1>{props.children}</h1></HeadingAnchor>,
   h2: props => <HeadingAnchor id={replaceSpaces(retrieveNodeText(props.children))}><h2>{props.children}</h2></HeadingAnchor>,
   h3: props => <HeadingAnchor id={replaceSpaces(retrieveNodeText(props.children))}><h3>{props.children}</h3></HeadingAnchor>,

@@ -125,6 +125,9 @@ const Article = styled.article<{ $disableWidthLimiting?: boolean }>`
   font-size: 16px;
   font-weight: 300;
   word-break: keep-all;
+  
+  /* 이게 없으면 테이블 너비가 망가지는데 어째서인지 모르겠다 CSS 너모 어렵다^^ */
+  width: 0;
 
   display: flex;
   flex-direction: column;
@@ -160,7 +163,17 @@ const Article = styled.article<{ $disableWidthLimiting?: boolean }>`
     margin-bottom: 0;
   }
   
-  & h1 + p, h2 + p, h3 + p, h4 + p, h5 + p, h6 + p, p + p, ul + p, ol + p, pre + p, blockquote + p {
+  & strong {
+    font-weight: 600;
+  }
+  
+  & .document-description + div {
+    & > h1, & > h2, & > h3, & > h4, & > h5, & > h6 {
+      margin-top: 32px;
+    }
+  }
+  
+  & h1 + p, h2 + p, h3 + p, h4 + p, h5 + p, h6 + p, p + p, ul + p, ol + p, pre + p, blockquote + p, .table-wrapper + p {
     margin-top: 32px;
     margin-bottom: 0;
   }
@@ -256,13 +269,32 @@ const Article = styled.article<{ $disableWidthLimiting?: boolean }>`
     margin-top: 0;
   }
   
+  & .table-wrapper {
+    margin-top: 32px;
+    overflow-x: auto;
+    
+    width: ${({ $disableWidthLimiting }) => $disableWidthLimiting ? "auto" : css`min(100%, 100vw - 300px - 209px - 32px - 32px - 22px)`};
+    
+    ${LessThen(1276)} {
+      width: ${({ $disableWidthLimiting }) => $disableWidthLimiting ? "auto" : css`min(100%, 100vw - 300px - 209px - 32px - 32px - 22px + 28px)`};
+    }
+  
+    ${LessThen1000} {
+      width: ${({ $disableWidthLimiting }) => $disableWidthLimiting ? "auto" : css`min(100%, 100vw - 44px)`};
+    }
+    
+    ${LessThen640} {
+      width: ${({ $disableWidthLimiting }) => $disableWidthLimiting ? "auto" : css`min(100%, 100vw - 32px)`};
+    }
+  }
   & table {
-    border-collapse: collapse;
-    margin-top: 8px;
     width: 100%;
+    border-collapse: collapse;
   }
   & table thead th {
     background-color: #f4f4f4;
+    font-weight: 300;
+    text-align: left;
   }
   & table td, th {
     border: 1px solid #d1d1d2;
@@ -277,7 +309,7 @@ const Article = styled.article<{ $disableWidthLimiting?: boolean }>`
   & h1 {
     margin-top: 1em;
     padding-top: 0.6em;
-    font-weight: 600;
+    font-weight: 500;
     font-size: 43px;
     line-height: 49px;
     
@@ -288,7 +320,7 @@ const Article = styled.article<{ $disableWidthLimiting?: boolean }>`
 
   & h2 {
     margin-top: 64px;
-    font-weight: 600;
+    font-weight: 500;
     font-size: 35px;
     
     ${LessThen640} {
@@ -298,7 +330,7 @@ const Article = styled.article<{ $disableWidthLimiting?: boolean }>`
 
   & h3 {
     margin-top: 48px;
-    font-weight: 600;
+    font-weight: 500;
     font-size: 20px;
     
     ${LessThen640} {
@@ -307,7 +339,7 @@ const Article = styled.article<{ $disableWidthLimiting?: boolean }>`
   }
   
   & h4 {
-    font-weight: 600;
+    font-weight: 500;
     font-size: 20px;
 
     ${LessThen640} {

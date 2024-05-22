@@ -79,7 +79,7 @@ export const TranslatedContent: React.FC<PropsWithChildren<ExistingDocumentConte
   const { document } = useDocument()
   return (
     <DocumentContent breadcrumbs={props.breadcrumbs}>
-      <DocumentDescriptionRow>
+      <DocumentDescriptionRow className={"document-description"}>
         <GithubIcon/>
         <GithubEditPage href={`${GitRepository}/edit/main/docs/${keyOf(document)}`}>편집하기</GithubEditPage>
         <LastModifiedDate>
