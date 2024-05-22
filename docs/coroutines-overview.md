@@ -12,15 +12,15 @@ Kotlin 에 처음이신가요? [시작하기](/docs/getting-started.md) 문서�
 
 ### 문서
 
-- [코루틴 사용 설명서](/docs/getting-started.md)
+- [](/docs/coroutines-guide.md)
 - [기초](/docs/coroutines-basics.md)
-- [채널](/docs/channels.md)
-- [코루틴 컨텍스트와 디스패쳐](/docs/coroutine-context-and-dispatchers.md)
-- [변경 가능한 공유 자원과 동시성](/docs/shared-mutable-state-and-concurrency.md)
+- [](/docs/channels.md)
+- [](/docs/coroutine-context-and-dispatchers.md)
+- [](/docs/shared-mutable-state-and-concurrency.md)
 
 ### 튜토리얼
 
-- [비동기 프로그래밍 테크닉](/docs/async-programming.md)
+- [](/docs/async-programming.md)
 - [코루틴과 채널의 소개](/docs/coroutines-and-channels.md)
 - [Intellij IDEA 를 통해 코루틴 디버깅](/docs/debug-coroutines-with-idea.md)
 - [Intellij IDEA 를 통한 플로우 디버깅](/docs/debug-coroutines-with-idea.md)

@@ -52,6 +52,7 @@ export default async function DocumentPage(props: { params: { document_key: stri
   markdown = replaceTabHosts(markdown)
   markdown = replaceTabs(markdown)
 
+  markdown = replaceDefaultTextAnchor(markdown, flattenDocuments)
   markdown = replaceNonExistingReferenceToOriginal(markdown)
   markdown = replaceSurvey(markdown, key)
   markdown = replaceQuoteTypes(markdown)
@@ -146,12 +147,29 @@ const buildFootnoteRefDOM = (heading: string, number: string): string =>
 const buildFootnoteContentDOM = (heading: string, number: string) =>
   `<span id="${heading}-content-${number}" class="footnote-content">[${number}]&nbsp;</span>`
 
-const replaceSurvey = (markdown: string, documentKey: string) =>
-  markdown.replace("{&?}", buildSurveyDOM(`https://kotlinlang.org/docs/${documentKey.replace(".md", ".html")}`))
-
 const removeTags = (input: string): string => input
   .replaceAll(/<([0-z]+)>/g, "")
   .replaceAll(/<\/([0-z]+)>/g, "")
+
+const replaceSurvey = (markdown: string, documentKey: string) =>
+  markdown.replace("{&?}", buildSurveyDOM(`https://kotlinlang.org/docs/${documentKey.replace(".md", ".html")}`))
+
+const replaceDefaultTextAnchor = (markdown: string, flattenDocuments: DocumentData[]): string => {
+  const links = Array.from(markdown.matchAll(/\[]\((?<href>.+?)\)/gi))
+
+  for (const link of links) {
+    if (!link.groups!.href!.startsWith("/docs/") && !link.groups!.href!.endsWith(".md") && link.groups!.href! !== "home")
+      throw Error(`Invalid anchor tag detected: ${link[0]}`)
+
+    const foundDocument = flattenDocuments.find(it => it.href === link.groups!.href.replace("/docs/", ""))
+    if (!foundDocument)
+      throw Error(`Cannot find document to replace default-text anchor: ${link}`)
+
+    markdown = markdown.replace(link[0], `[${titleOf(foundDocument)}](${link.groups!.href})`)
+  }
+
+  return markdown
+}
 
 const replaceNonExistingReferenceToOriginal = (markdown: string) => {
   const links = Array.from(markdown.matchAll(/\[(?<text>.+?)]\((?<href>.+?)\)/g))
