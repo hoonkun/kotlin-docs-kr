@@ -24,7 +24,7 @@ export const DocumentMain: React.FC<PropsWithChildren<DocumentMainProps>> = prop
   const [headings, setHeadings] = useState<DocumentHeading[]>([])
 
   const onScroll = useCallback((fromHeadings: DocumentHeading[], scrollTop: number) => {
-    const found = fromHeadings.findLast(it => it.top <= scrollTop)
+    const found = fromHeadings.findLast(it => it.top <= scrollTop + 10)
     setViewing(found ? found.text : defaultViewing)
   }, [defaultViewing])
 
@@ -71,7 +71,7 @@ export const DocumentMain: React.FC<PropsWithChildren<DocumentMainProps>> = prop
             {sections.map(it =>
               <DocumentSectionItem
                 key={`${it.type}_${it.text}`}
-                href={`#${it.text.replaceAll(" ", "_")}`}
+                href={`#${it.text.replaceAll(" ", "-")}`}
                 $indent={Math.max(parseInt(it.type.slice(1)) - 2, 0)}
                 $selected={it.text === viewing}
               >
