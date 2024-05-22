@@ -26,6 +26,7 @@
   - [Basic syntax](/docs/basic-syntax.md)
 - Concepts/
   - [Asynchronous programming techniques](/docs/async-programming.md)
+  - [Coroutines](/docs/coroutines-overview.md)
   - [Packages and imports](/docs/packages.md)
   - Functions/
     - [Functions](/docs/functions.md)
