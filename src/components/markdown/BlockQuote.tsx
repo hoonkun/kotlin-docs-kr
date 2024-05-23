@@ -1,6 +1,6 @@
 "use client"
 
-import React, { Fragment, PropsWithChildren, useEffect, useRef, useState } from "react"
+import React, { PropsWithChildren, useEffect, useRef, useState } from "react"
 import styled from "styled-components"
 
 import BlockquoteIcon from "@/resources/blockquote-icon.svg"
@@ -27,7 +27,7 @@ export const BlockQuote: React.FC<PropsWithChildren> = props => {
       setQuoteType(type as QuoteType)
   }, [])
 
-  const Icon = quoteType ? QuoteIcons[quoteType] : <></>
+  const Icon = quoteType ? QuoteIcons[quoteType] : <svg/>
 
   return (
     <BlockQuoteTag ref={quote}>
