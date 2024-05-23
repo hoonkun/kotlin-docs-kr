@@ -138,23 +138,34 @@ const Article = styled.article<{ $disableWidthLimiting?: boolean }>`
   & > * {
     width: ${({ $disableWidthLimiting }) => $disableWidthLimiting ? "auto" : css`min(706px, 100vw - 300px - 209px - 32px - 32px - 22px)`};
     min-width: 0;
-  }
-  
-  ${LessThen(1276)} {
-    & > * {
+    
+    ${LessThen(1276)} {
       width: ${({ $disableWidthLimiting }) => $disableWidthLimiting ? "auto" : css`min(706px, 100vw - 300px - 209px - 32px - 32px - 22px + 28px)`};
     }
-  }
-
-  ${LessThen1000} {
-    & > * {
+  
+    ${LessThen(1000)} {
       width: ${({ $disableWidthLimiting }) => $disableWidthLimiting ? "auto" : css`min(706px, 100vw - 44px)`};
+    }
+    
+    ${LessThen(640)} {
+      width: ${({ $disableWidthLimiting }) => $disableWidthLimiting ? "auto" : css`min(706px, 100vw - 32px)`};
     }
   }
   
-  ${LessThen640} {
-    & > * {
-      width: ${({ $disableWidthLimiting }) => $disableWidthLimiting ? "auto" : css`min(706px, 100vw - 32px)`};
+  & > blockquote > div > pre {
+    width: ${({ $disableWidthLimiting }) => $disableWidthLimiting ? "auto" : css`min(634px, 100vw - 300px - 209px - 32px - 32px - 22px - 24px - 16px - 16px * 2)`};
+    min-width: 0;
+
+    ${LessThen(1276)} {
+      width: ${({ $disableWidthLimiting }) => $disableWidthLimiting ? "auto" : css`min(634px, 100vw - 300px - 209px - 32px - 32px - 22px + 28px - 24px - 16px - 16px * 2)`};
+    }
+    
+    ${LessThen(1000)} {
+      width: ${({ $disableWidthLimiting }) => $disableWidthLimiting ? "auto" : css`min(634px, 100vw - 44px - 24px - 16px - 16px * 2)`};
+    }
+    
+    ${LessThen(640)} {
+      width: ${({ $disableWidthLimiting }) => $disableWidthLimiting ? "auto" : css`min(634px, 100vw - 32px - 24px - 16px - 16px * 2)`};
     }
   }
   
@@ -346,10 +357,11 @@ const Article = styled.article<{ $disableWidthLimiting?: boolean }>`
   & h4 {
     font-weight: 500;
     font-size: 20px;
-
-    ${LessThen640} {
-      font-size: 20px;
-    }
+  }
+  
+  & h5 {
+    font-weight: 500;
+    font-size: 17px;
   }
 
   & > .survey {
