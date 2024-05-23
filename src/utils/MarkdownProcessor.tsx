@@ -66,12 +66,12 @@ export const GlobalMarkdownComponents = (documentKey?: string): Partial<RehypeRe
 
   table: props => <div className={"table-wrapper"}><table {...props}/></div>,
 
-  h1: props => <HeadingAnchor id={replaceSpaces(retrieveNodeText(props.children))}><h1>{props.children}</h1></HeadingAnchor>,
-  h2: props => <HeadingAnchor id={replaceSpaces(retrieveNodeText(props.children))}><h2>{props.children}</h2></HeadingAnchor>,
-  h3: props => <HeadingAnchor id={replaceSpaces(retrieveNodeText(props.children))}><h3>{props.children}</h3></HeadingAnchor>,
-  h4: props => <HeadingAnchor id={replaceSpaces(retrieveNodeText(props.children))}><h4>{props.children}</h4></HeadingAnchor>,
-  h5: props => <HeadingAnchor id={replaceSpaces(retrieveNodeText(props.children))}><h5>{props.children}</h5></HeadingAnchor>,
-  h6: props => <HeadingAnchor id={replaceSpaces(retrieveNodeText(props.children))}><h6>{props.children}</h6></HeadingAnchor>,
+  h1: props => <HeadingAnchor id={replaceSigns(retrieveNodeText(props.children))}><h1>{props.children}</h1></HeadingAnchor>,
+  h2: props => <HeadingAnchor id={replaceSigns(retrieveNodeText(props.children))}><h2>{props.children}</h2></HeadingAnchor>,
+  h3: props => <HeadingAnchor id={replaceSigns(retrieveNodeText(props.children))}><h3>{props.children}</h3></HeadingAnchor>,
+  h4: props => <HeadingAnchor id={replaceSigns(retrieveNodeText(props.children))}><h4>{props.children}</h4></HeadingAnchor>,
+  h5: props => <HeadingAnchor id={replaceSigns(retrieveNodeText(props.children))}><h5>{props.children}</h5></HeadingAnchor>,
+  h6: props => <HeadingAnchor id={replaceSigns(retrieveNodeText(props.children))}><h6>{props.children}</h6></HeadingAnchor>,
 
   // eslint-disable-next-line @next/next/no-img-element
   img: props => documentKey ? <ContentImage {...props} documentKey={documentKey}/> : <img alt={props.alt} src={props.src}/>,
@@ -106,5 +106,7 @@ const retrieveNodeText = (node: React.ReactNode): string => {
   return retrieveNodeText((node as ClientReactElement).props.children)
 }
 
-const replaceSpaces = (input: string): string => input.replaceAll(" ", "-")
+const replaceSigns = (input: string): string => input
+  .replaceAll(' ', "-")
+  .replaceAll(/[()\[\]:{}]/gi, "")
 
