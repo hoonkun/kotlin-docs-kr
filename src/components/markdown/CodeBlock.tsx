@@ -17,12 +17,13 @@ export const CodeBlock: React.FC<PropsWithChildren<{ className: string }>> = pro
   </ImportedHighlighter>
 
 export const InlineCode = styled.code`
-  padding: 2px 6px;
+  padding: 1px 6px 0 6px;
   background-color: #19191C0D;
   border-radius: 3px;
   font-size: calc(100% * 15 / 16);
   font-family: "JetBrains Mono", monospace;
   font-weight: 300;
+  box-sizing: border-box;
 `
 
 const Pre: React.FC<PropsWithChildren> = props => <Fragment>{props.children}</Fragment>
