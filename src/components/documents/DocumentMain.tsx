@@ -299,6 +299,7 @@ const Article = styled.article<{ $disableWidthLimiting?: boolean }>`
   & table td, th {
     border: 1px solid #d1d1d2;
     padding: 16px;
+    vertical-align: top;
   }
 
   & h1, h2, h3, h4, h5, h6 {
