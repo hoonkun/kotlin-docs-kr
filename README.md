@@ -32,6 +32,7 @@
       - [Booleans](/docs/booleans.md)
       - [Characters](/docs/characters.md)
       - [Strings](/docs/strings.md)
+      - [Arrays](/docs/arrays.md)
   - [Packages and imports](/docs/packages.md)
   - Functions/
     - [Functions](/docs/functions.md)
