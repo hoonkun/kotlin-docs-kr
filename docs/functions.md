@@ -214,16 +214,16 @@ val a = arrayOf(1, 2, 3)
 val list = asList(-1, 0, *a, 4)
 ```
 
-만약 [원시 타입을 가지는 배열](/docs/arrays.md#원시타입-배열)을 `vararg` 에 전달하고자 한다면, `toTypedArray()` 함수를 통해 일반 배열(타입이 있는)로 변환될 필요가 있습니다.
+만약 [원시 타입을 가지는 배열](/docs/arrays.md#원시-타입-배열)을 `vararg` 에 전달하고자 한다면, `toTypedArray()` 함수를 통해 일반 배열(타입이 있는)로 변환될 필요가 있습니다.
 
 ```kotlin
 val a = intArrayOf(1, 2, 3) // IntArray 는 원시 타입의 배열입니다.
 val list = asList(-1, 0, *a.toTypedArray(), 4)
 ```
 
-### Infix 노테이션
+### Infix 표기법
 
-`infix` 키워드로 마크된 함수들은 infix 노테이션(호출 시 점과 괄호를 생략)을 사용하여 호출될 수도 있습니다. Infix 함수는 반드시 아래 요구사항들을 만족해야합니다:
+`infix` 키워드로 마크된 함수들은 infix 표기법(호출 시 점과 괄호를 생략)을 사용하여 호출될 수도 있습니다. Infix 함수는 반드시 아래 요구사항들을 만족해야합니다:
 
 
 - 반드시 멤버 함수이거나 [확장 함수](/docs/extensions.md)여야 합니다.
@@ -233,7 +233,7 @@ val list = asList(-1, 0, *a.toTypedArray(), 4)
 ```kotlin
 infix fun Int.shl(x: Int): Int { ... }
 
-// Infix 노테이션을 사용하여 함수를 호출합니다.
+// Infix 표기법을 사용하여 함수를 호출합니다.
 1 shl 2
 
 // 이것은 아래와 같은 의미입니다.
@@ -250,7 +250,7 @@ infix fun Int.shl(x: Int): Int { ... }
 > - `a && b xor c` 는 `a && (b xor c)` 와 같습니다.
 > - `a xor b in c` 는 `(a xor b) in c` 와 같습니다.
 
-infix 함수들은 반드시 그것을 수신하는 수신자와 매개변수가 모두 명시되어야한다는 점을 기억하세요. 현재 수신자의 함수를 infix 노테이션으로 호출하려고 한다면 `this` 를 명시하세요. 이는 불확실한 파싱을 막는데 필수적입니다.
+infix 함수들은 반드시 그것을 수신하는 수신자와 매개변수가 모두 명시되어야한다는 점을 기억하세요. 현재 수신자의 함수를 infix 표기법으로 호출하려고 한다면 `this` 를 명시하세요. 이는 불확실한 파싱을 막는데 필수적입니다.
 
 ```kotlin
 class MyStringCollection {
