@@ -32,7 +32,10 @@ export default async function DocumentPage(props: { params: { document_key: stri
   const DocumentPageTemplateProps: DocumentPageTemplateProps = { document, documents, sections }
 
   if (key === "home") {
-    return <DocumentPageTemplate {...DocumentPageTemplateProps} withoutAside><DocumentHome/></DocumentPageTemplate>
+    const existingDocuments = fs.readdirSync("./docs")
+      .map(it => flattenDocuments.find(document => document.href === it))
+      .filter(it => !!it) as DocumentData[]
+    return <DocumentPageTemplate {...DocumentPageTemplateProps} withoutAside><DocumentHome existingDocuments={existingDocuments}/></DocumentPageTemplate>
   }
 
   if (!fs.existsSync(`./docs/${key}`)) {
