@@ -1,11 +1,12 @@
 "use client"
 
-import React, { PropsWithChildren, useEffect, useRef, useState } from "react"
+import React, { Fragment, PropsWithChildren, useEffect, useRef, useState } from "react"
 import styled from "styled-components"
 
 import BlockquoteIcon from "@/resources/blockquote-icon.svg"
 import BlockquoteTipIcon from "@/resources/blockquote-tip-icon.svg"
 import BlockquoteAuthorIcon from "@/resources/blockquote-author-icon.svg"
+import BlockquoteCautionIcon from "@/resources/blockquote-caution-icon.svg"
 
 export const BlockQuote: React.FC<PropsWithChildren> = props => {
 
@@ -16,19 +17,21 @@ export const BlockQuote: React.FC<PropsWithChildren> = props => {
     const prevNode = quote.current!.previousElementSibling
     if (!prevNode) return
 
-    if (prevNode.classList.contains("quote-author"))
-      return setQuoteType("author")
-    if (prevNode.classList.contains("quote-tip"))
-      return setQuoteType("tip")
+    const type = Array.from(prevNode.classList)
+      .filter(it => it.includes("quote-"))
+      .map(it => it.replace("quote-", ""))[0]
 
-    setQuoteType("information")
+    if (!type)
+      setQuoteType("information")
+    else
+      setQuoteType(type as QuoteType)
   }, [])
+
+  const Icon = quoteType ? QuoteIcons[quoteType] : <></>
 
   return (
     <BlockQuoteTag ref={quote}>
-      {quoteType === "information" && <BlockquoteIcon/>}
-      {quoteType === "author" && <BlockquoteAuthorIcon/>}
-      {quoteType === "tip" && <BlockquoteTipIcon/>}
+      {Icon}
       <BlockQuoteContent>
         {props.children}
       </BlockQuoteContent>
@@ -36,7 +39,14 @@ export const BlockQuote: React.FC<PropsWithChildren> = props => {
   )
 }
 
-type QuoteType = "information" | "tip" | "author"
+const QuoteIcons: { [key in QuoteType]: JSX.Element } = {
+  "information": <BlockquoteIcon/>,
+  "author": <BlockquoteAuthorIcon/>,
+  "tip": <BlockquoteTipIcon/>,
+  "caution": <BlockquoteCautionIcon/>
+}
+
+type QuoteType = "information" | "tip" | "author" | "caution"
 
 const BlockQuoteTag = styled.blockquote`
   display: flex;
@@ -74,6 +84,14 @@ const BlockQuoteTag = styled.blockquote`
   
   .quote-tip + & > svg {
     color: rgba(25,25,28,0.7);
+  }
+  
+  .quote-caution + & {
+    background-color: rgba(244, 92, 74, 0.2);
+  }
+  
+  .quote-caution + & > svg {
+    color: #f45c4a;
   }
 `
 

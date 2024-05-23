@@ -213,8 +213,7 @@ const replaceCompactLists = (markdown: string) =>
 
 const replaceQuoteTypes = (markdown: string) =>
   markdown
-    .replaceAll("{>author}", `<div class="quote-author"></div>\n`)
-    .replaceAll("{>tip}", `<div class="quote-tip"></div>\n`)
+    .replaceAll(/\{>(.+?)}/g, `<div class="quote-$1"></div>\n`)
 
 const findNearestHeading = (content: string, position: number) =>
   content
