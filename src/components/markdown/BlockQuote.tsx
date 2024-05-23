@@ -69,6 +69,10 @@ const BlockQuoteTag = styled.blockquote`
   & p {
     margin-top: 0 !important;
   }
+  
+  & pre {
+    margin-top: 16px;
+  }
 
   .quote-author + & {
     background-color: rgba(77, 154, 187, 0.2);
