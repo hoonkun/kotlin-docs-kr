@@ -105,7 +105,7 @@ val bytes = 0b11010010_01101001_10010100_10010010
 
 JVM 플랫폼에서, 숫자들은 원시 타입인 `int` 와 `double` 등의 타입으로 저장됩니다. 
 이 원칙 밖에 있는 예외는, `Int?` 같은 nullable 한 숫자 타입을 사용하거나 제너릭을 사용하는 경우입니다.
-이러한 경우에는 Java 의 `Integer` 나 `Double` 등의 클래스에 담겨(boxed)집니다.
+이러한 경우에는 Java 의 `Integer` 나 `Double` 등의 클래스로 포장(boxed)됩니다.
 
 따라서, 같은 숫자로의 nullable 한 레퍼런스는 서로 다른 오브젝트를 참조할 수 있습니다:
 
@@ -142,8 +142,8 @@ println(boxedB == anotherBoxedB) // Prints 'true'
 
 ```kotlin
 // 실제로 컴파일되지는 않는 가상의 코드입니다:
-val a: Int? = 1 // java.lang.Integer 에 담긴 Int 값
-val b: Long? = a // 암시적인 변환이 java.lang.Long 에 담긴 값을 만듭니다.
+val a: Int? = 1 // java.lang.Integer 로 포장된 Int 값
+val b: Long? = a // 암시적인 변환이 java.lang.Long 로 포장된 값을 만듭니다.
 print(b == a) // 우와! 이 문장은 Long 의 `equals()` 가 비교 대상이 Long 인지 아닌지를 비교하기 때문에 "false" 출력하네요!
 ```
 
