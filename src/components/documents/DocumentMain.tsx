@@ -269,6 +269,10 @@ const Article = styled.article<{ $disableWidthLimiting?: boolean }>`
     margin-top: 0;
   }
   
+  & li > pre {
+    margin-top: 24px;
+  }
+  
   & .table-wrapper {
     margin-top: 32px;
     overflow-x: auto;
