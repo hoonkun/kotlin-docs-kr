@@ -86,6 +86,7 @@
             "children": [
               {
                 "title": "훑어보기",
+                "page_title": "기본 타입",
                 "href": "basic-types.md"
               },
               {

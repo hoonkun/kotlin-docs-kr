@@ -27,12 +27,7 @@
 - Concepts/
   - Types/
     - BasicTypes/
-      - [Numbers](/docs/numbers.md)
-      - [Unsigned integer types](/docs/unsigned-integer-types.md)
-      - [Booleans](/docs/booleans.md)
-      - [Characters](/docs/characters.md)
-      - [Strings](/docs/strings.md)
-      - [Arrays](/docs/arrays.md)
+      - [Overview](/docs/basic-types.md) 를 비롯한 모든 하위문서
   - [Packages and imports](/docs/packages.md)
   - Functions/
     - [Functions](/docs/functions.md)
