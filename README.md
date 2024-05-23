@@ -31,6 +31,7 @@
       - [Unsigned integer types](/docs/unsigned-integer-types.md)
       - [Booleans](/docs/booleans.md)
       - [Characters](/docs/characters.md)
+      - [Strings](/docs/strings.md)
   - [Packages and imports](/docs/packages.md)
   - Functions/
     - [Functions](/docs/functions.md)
