@@ -11,7 +11,7 @@ export const DocumentHome: React.FC = () => {
   return (
     <>
       <Title>Kotlin 문서</Title>
-      <LatestStableVersion>최신 안정 버전: 1.9.24<sup>outdated 되었을 수 있으므로, <a href="https://kotlinlang.org/docs/home.html">여기</a>에서 실제 정보를 확인해주세요.</sup></LatestStableVersion>
+      <LatestStableVersion>최신 안정 버전: 2.0.0<sup>outdated 되었을 수 있으므로, <a href="https://kotlinlang.org/docs/home.html">여기</a>에서 실제 정보를 확인해주세요.</sup></LatestStableVersion>
       <DocumentHomeItems>
         <DocumentHomeItem
           title={"Kotlin 시작하기"}
@@ -99,10 +99,10 @@ export const DocumentHome: React.FC = () => {
       <h2>최신 소식</h2>
       <DocumentHomeItems>
         <DocumentHomeItem
-          title={"Kotlin 1.9.20 의 새로운 기능"}
+          title={"Kotlin 2.0.0 의 새로운 기능"}
           enabled={false}
         >
-          최신 소식: Kotlin K2 가 Beta 단계에 있으며 Kotlin Multiplatform 이 Stable 단계가 되었습니다.
+          최신 기능: K2 컴파일러, 개선된 JavaScript 와의 상호운용성, 개선된 Gradle 빌드 도구, 그리고 더 많은 것들
         </DocumentHomeItem>
         <DocumentHomeItem
           title={"Kotlin 공식 로드맵"}
