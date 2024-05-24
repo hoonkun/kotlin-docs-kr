@@ -203,6 +203,6 @@ val intList: List<Int> = nullableList.filterNotNull()
 ## 더 알아보기
 
 - [Java 와 Kotlin 사이에서 null 을 처리하는 방법](/docs/java-to-kotlin-nullability-guide.md)에 대해 알아보세요.
-- [명백하게 null 일 수 없는](/docs/generics.md#definitely-non-nullable-types) 제너릭 타입에 대해 알아보세요.
+- [명백하게 null 일 수 없는](/docs/generics.md#명백하게-null-이-아닌-타입) 제너릭 타입에 대해 알아보세요.
 
 {&?}
