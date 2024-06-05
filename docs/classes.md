@@ -165,7 +165,7 @@ class DontCreateMe private constructor() { /*...*/ }
 ## 클래스의 인스턴스 만들기
 
 클래스의 인스턴스를 만드려면, 생성자를 일반적인 함수인 것 처럼 호출합니다. 
-생성된 인스턴스를 [변수](/docs/basic-syntax.html#variables)에 할당할 수 있습니다.
+생성된 인스턴스를 [변수](/docs/basic-syntax.md#변수)에 할당할 수 있습니다.
 
 ```kotlin
 val invoice = Invoice()

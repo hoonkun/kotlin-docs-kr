@@ -7,7 +7,7 @@
 
 ## 꼬리표가 붙은 this
 
-바깥쪽 스코프로부터 `this` 를 참조하려면([클래스](/docs/classes.md), [확장함수](/docs/extensions.md), [라벨링된 함수 리터럴의 수신자](/docs/lambdas.html#수신자를-가진-함수-리터럴)), `this@label` 이라고 표현합니다. 
+바깥쪽 스코프로부터 `this` 를 참조하려면([클래스](/docs/classes.md), [확장함수](/docs/extensions.md), [라벨링된 함수 리터럴의 수신자](/docs/lambdas.md#수신자를-가진-함수-리터럴)), `this@label` 이라고 표현합니다. 
 이 때, `@label` 은 [꼬리표](/docs/returns.md)로, `this` 가 어디에서 오는지를 표현합니다:
 
 ```kotlin
