@@ -225,11 +225,11 @@ abstract class WildShape : Polygon() {
 }
 ```
 
-## 동료 오브젝트 (companion object)
+## 동반 오브젝트 (companion object)
 
 클래스의 인스턴스 없이 쓸 수 있어야 하지만 클래스와 연관되어 사용되는 함수(팩토리 함수 같은)를 작성해아한다면, 
 해당 클래스 안에서 작성한 [](/docs/object-declarations.md) 안쪽에 추가할 수 있습니다.
 
-특히, 일반적인 클래스 안에 [동료 오브젝트(companion object)](/docs/object-declarations.md#동료-오브젝트-companion-object) 를 정의하면, 그 오브젝트의 멤버를 해당 클래스 이름만을 사용하여 접근할 수 있습니다.
+특히, 일반적인 클래스 안에 [동반 오브젝트(companion object)](/docs/object-declarations.md#동반-오브젝트-companion-object) 를 정의하면, 그 오브젝트의 멤버를 해당 클래스 이름만을 사용하여 접근할 수 있습니다.
 
 {&?}
