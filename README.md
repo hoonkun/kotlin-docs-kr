@@ -32,6 +32,7 @@
   - Classes and objects/
     - [Classes](/docs/classes.md)
     - [Generics: in, out, where](/docs/generics.md)
+    - [Object expressions and declarations](/docs/object-declarations.md)
   - Functions/
     - [Functions](/docs/functions.md)
   - [Null-safety](/docs/null-safety.md)
