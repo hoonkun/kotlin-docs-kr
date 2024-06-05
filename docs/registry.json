@@ -198,7 +198,7 @@
             "href": "inline-classes.md"
           },
           {
-            "title": "오브젝트 표현과 정의",
+            "title": "오브젝트 표현식과 선언",
             "href": "object-declarations.md"
           },
           {
@@ -275,7 +275,7 @@
         "href": "annotations.md"
       },
       {
-        "title": "분해형 정의",
+        "title": "분해형 선언",
         "href": "destructing-declarations.md"
       },
       {
