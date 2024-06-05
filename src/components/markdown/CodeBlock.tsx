@@ -60,7 +60,7 @@ export const PreTag = styled.pre`
     font-size: 15px;
 
     font-family: "JetBrains Mono", monospace;
-    font-weight: 300;
+    font-weight: 400;
   }
 
   .comment { color: #8c8c8c }
