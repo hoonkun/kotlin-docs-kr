@@ -30,6 +30,7 @@
       - [Overview](/docs/basic-types.md) 를 비롯한 모든 하위문서
   - [Packages and imports](/docs/packages.md)
   - Classes and objects/
+    - [Classes](/docs/classes.md)
     - [Generics: in, out, where](/docs/generics.md)
   - Functions/
     - [Functions](/docs/functions.md)

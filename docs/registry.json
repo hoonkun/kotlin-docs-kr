@@ -186,7 +186,7 @@
             "href": "generics.md"
           },
           {
-            "title": "중첩된 안쪽 클래스",
+            "title": "중첩된 클래스와 안쪽 클래스",
             "href": "nested-classes.md"
           },
           {
