@@ -1084,7 +1084,7 @@ Exception in thread "main" kotlinx.coroutines.JobCancellationException: Blocking
 
 실제로, 이 디자인은 Reactive Streams 와 그의 몇몇 구현에서 영감을 받았습니다. 그러나 Flow 의 주된 목표는 그것이 가능한 한 간단한 디자인을 가지면서, 코틀린스럽고{^[1]} 서스펜션(정지)에 친화적이며 구조화된 동시성을 준수하도록 하는 것입니다. 아마 이 목표는 반응형 디자인의 개척자들과 그들의 엄청난 업적이 아니었다면 달성할 수 없었을 것입니다. [Reactive Streams and Kotlin Flows](https://medium.com/@elizarov/reactive-streams-and-kotlin-flows-bfd12772cda4) 게시글에서 전체 스토리를 읽어보실 수 있습니다.
 
-개념적으로 다르긴 하지만, Flow **는** reactive stream **이며** reactive 제공자나 기타 등등으로 변환될 수 있습니다. 이러한 변환 유틸리티들은 `kotlinx.coroutines` 바깥의, 상응하는 모듈(Reactive Stream 에서는 `kotlinx-coroutines-reactive`, Project Reactor 는 `kotlinx-coroutines-reactor`, RxJava2/RxJava3 는 `kotlinx-coroutines-rx2`/`kotlinx-coroutines-rx3`)에서 확인할 수 있습니다. 통합 모듈들은 Flow 로부터, 그리고 Flow 로의 변환 유틸리티를 포함하며, Reactor 의 `Context` 나 기타 Reactive 엔티티들과 작업하기 위한 서스펜션(정지) 친화적인 방법들을 제공합니다.
+개념적으로 다르긴 하지만, Flow **는** reactive stream **이며** reactive 제공자나 기타 등등으로 변환될 수 있습니다. 이러한 변환 유틸리티들은 `kotlinx.coroutines` 바깥의, 상응하는 모듈(Reactive Stream 에서는 `kotlinx-coroutines-reactive`, Project Reactor 는 `kotlinx-coroutines-reactor`, RxJava2/RxJava3 는 `kotlinx-coroutines-rx2` / `kotlinx-coroutines-rx3`)에서 확인할 수 있습니다. 통합 모듈들은 Flow 로부터, 그리고 Flow 로의 변환 유틸리티를 포함하며, Reactor 의 `Context` 나 기타 Reactive 엔티티들과 작업하기 위한 서스펜션(정지) 친화적인 방법들을 제공합니다.
 
 ---
 
