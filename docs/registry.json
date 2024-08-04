@@ -388,15 +388,15 @@
       {
         "title": "코루틴 (kotlinx.coroutines)",
         "children": [
-          {"title": "코루틴 사용 설명서", "href": "coroutines-guide.md"},
-          {"title": "코루틴의 기초", "href": "coroutines-basics.md"},
-          {"title": "취소와 타임아웃", "href": "cancellation-and-timeouts.md"},
-          {"title": "정지 함수의 구성", "href": "composing-suspending-functions.md"},
-          {"title": "코루틴의 컨텍스트와 디스패쳐", "href": "coroutine-context-and-dispatchers.md"},
-          {"title": "비동기 Flow", "href": "flow.md"},
-          {"title": "채널", "href": "channels.md"},
-          {"title": "코루틴의 예외 핸들링", "href": "exception-handling.md"},
-          {"title": "변경 가능한 공유 자원과 동시성", "href": "shared-mutable-state-and-concurrency.md"}
+          {"title": "코루틴 사용 설명서", "href": "coroutines-guide.md", "repository": "Kotlin/kotlinx.coroutines" },
+          {"title": "코루틴의 기초", "href": "coroutines-basics.md", "repository": "Kotlin/kotlinx.coroutines"},
+          {"title": "취소와 타임아웃", "href": "cancellation-and-timeouts.md", "repository": "Kotlin/kotlinx.coroutines"},
+          {"title": "정지 함수의 구성", "href": "composing-suspending-functions.md", "repository": "Kotlin/kotlinx.coroutines"},
+          {"title": "코루틴의 컨텍스트와 디스패쳐", "href": "coroutine-context-and-dispatchers.md", "repository": "Kotlin/kotlinx.coroutines"},
+          {"title": "비동기 Flow", "href": "flow.md", "repository": "Kotlin/kotlinx.coroutines"},
+          {"title": "채널", "href": "channels.md", "repository": "Kotlin/kotlinx.coroutines"},
+          {"title": "코루틴의 예외 핸들링", "href": "exception-handling.md", "repository": "Kotlin/kotlinx.coroutines"},
+          {"title": "변경 가능한 공유 자원과 동시성", "href": "shared-mutable-state-and-concurrency.md", "repository": "Kotlin/kotlinx.coroutines"}
         ]
       }
     ]

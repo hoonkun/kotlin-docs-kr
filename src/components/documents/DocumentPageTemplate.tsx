@@ -1,6 +1,6 @@
 "use client"
 
-import React, { createContext, PropsWithChildren, useContext } from "react"
+import React, { createContext, PropsWithChildren, useContext, useEffect, useState } from "react"
 import { DocumentNavigator } from "@/components/documents/DocumentNavigator"
 import { DocumentMain } from "@/components/documents/DocumentMain"
 import { DocumentData, DocumentSection } from "@/app/docs/[document_key]/page"
@@ -8,6 +8,7 @@ import styled from "styled-components"
 import GithubIcon from "@/resources/github-icon.svg"
 import { keyOf, titleOf } from "@/utils/Documentation"
 import { GitRepository } from "@/config"
+import { formatLastModified } from "@/utils/Date"
 
 export type DocumentPageTemplateProps = {
   document: DocumentData
@@ -76,19 +77,76 @@ type ExistingDocumentContentProps = DocumentContentProps & {
 }
 
 export const TranslatedContent: React.FC<PropsWithChildren<ExistingDocumentContentProps>> = props => {
+  const { lastModified } = props
+
   const { document } = useDocument()
+
+  const originalRepository = document.repository ?? "JetBrains/kotlin-web-site"
+  const originalLink = `https://github.com/${originalRepository}/tree/master/docs/topics/${keyOf(document)}`
+
+  const [modified]
+    = useState(() => new Date(toISO(lastModified)))
+  const [originalModified, setOriginalModified]
+    = useState<Date | null | undefined>(undefined)
+
+  useEffect(() => {
+    getOriginalDocumentLastModified(keyOf(document), document)
+      .then(it => setOriginalModified(it ? new Date(it) : null))
+  }, [document])
+
   return (
     <DocumentContent breadcrumbs={props.breadcrumbs}>
       <DocumentDescriptionRow className={"document-description"}>
-        <GithubIcon/>
-        <GithubEditPage href={`${GitRepository}/edit/main/docs/${keyOf(document)}`}>편집하기</GithubEditPage>
-        <LastModifiedDate>
-          &nbsp;마지막 수정: {props.lastModified}
-        </LastModifiedDate>
+        <EditRow>
+          <GithubIcon/>
+          <GithubEditPage href={`${GitRepository}/edit/main/docs/${keyOf(document)}`}>편집하기</GithubEditPage>
+        </EditRow>
+        <LastModifiedDateRow>
+          <div>
+            &nbsp;이 페이지의 마지막 수정:&nbsp;
+            <LastModifiedText $outdated={originalModified ? modified < originalModified : false}>
+              {formatLastModified(modified)}
+            </LastModifiedText>
+            {originalModified && ","}
+            &nbsp;
+          </div>
+          {originalModified ?
+            <div>
+              &nbsp;<a href={originalLink}>Github 원문</a>의 마지막 수정: {formatLastModified(originalModified)}
+            </div> :
+            originalModified === undefined ?
+              <div>&nbsp;...</div> :
+              <></>
+          }
+        </LastModifiedDateRow>
       </DocumentDescriptionRow>
       {props.children}
     </DocumentContent>
   )
+}
+
+const toISO = (value: string): string => {
+  const a = value.replace(" ", "T").replace(" ", "")
+  let [time, zone] = a.split("+")
+  zone = [zone.slice(0, 2), zone.slice(2, 4)].join(":")
+  return `${time}+${zone}`
+}
+
+const getOriginalDocumentLastModified = async (key: string, documentation: DocumentData): Promise<string | null> => {
+  try {
+    const repository = documentation.repository ?? "JetBrains/kotlin-web-site"
+
+    const endpoint = `https://api.github.com/repos/${repository}/commits?path=docs%2Ftopics%2F${key}&page=1&per_page=1`
+    const response = await fetch(endpoint)
+
+    if (!response.ok) return null
+
+    const commits = await response.json()
+
+    return commits?.[0]?.commit?.committer?.date ?? null
+  } catch (e) {
+    return null
+  }
 }
 
 const Root = styled.div`
@@ -130,19 +188,24 @@ const Breadcrumbs = styled.ul`
 
 const DocumentDescriptionRow = styled.div`
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   margin-top: 10px;
   margin-bottom: 32px;
-  height: 26px;
+  min-height: 26px;
+
+  & + p {
+    margin-top: 0 !important;
+  }
+`
+
+const EditRow = styled.div`
+  display: flex;
+  align-items: center;
 
   & > svg {
     width: 24px;
     height: 24px;
     margin-right: 2px;
-  }
-
-  & + p {
-    margin-top: 0 !important;
   }
 `
 
@@ -152,10 +215,16 @@ const GithubEditPage = styled.a`
   line-height: 16px !important;
 `
 
-const LastModifiedDate = styled.p`
+const LastModifiedDateRow = styled.div`
+  display: flex;
+  flex-wrap: wrap;
   margin: 0 0 0 4px !important;
   font-size: 13px;
   color: #19191cb3;
+`
+
+const LastModifiedText = styled.span<{ $outdated?: boolean }>`
+  color: ${({ $outdated }) => $outdated ? "#c7562c" : "inherit"}
 `
 
 const EndPadding = styled.div`

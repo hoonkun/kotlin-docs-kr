@@ -46,7 +46,7 @@ export default async function DocumentPage(props: { params: { document_key: stri
   }
 
   const gitLogResult = execSync(`git log -1 --pretty="format:%ci" ./docs/${key}`).toString()
-  const lastModified = formatLastModified(gitLogResult ? new Date(gitLogResult) : new Date())
+  const lastModified = gitLogResult ?? new Date().toISOString()
 
   let markdown: string = fs.readFileSync(`./docs/${key}`, { encoding: "utf8" })
   markdown = moveOriginalAnchorsToChildren(markdown)
@@ -138,14 +138,9 @@ export const viewport = {
   themeColor: "#19191C"
 }
 
-type RawDocumentData = { title: string, page_title?: string, href?: string, children?: RawDocumentData[] }
+type RawDocumentData = { title: string, page_title?: string, href?: string, children?: RawDocumentData[], repository?: string }
 export type DocumentData = Omit<RawDocumentData, "children"> & { enabled: boolean, children?: DocumentData[] }
 export type DocumentSection = { type: string, text: string }
-
-const formatLastModified = (_date: Date): string => {
-  const [year, month, date] = _date.toLocaleDateString("ko-KR").split(".").map(it => it.trim())
-  return `${year}년 ${month}월 ${date}일`
-}
 
 const documentItemMapper: (it: RawDocumentData) => DocumentData = it => it.children ?
   { ...it, enabled: true, children: it.children.map(documentItemMapper) } :
