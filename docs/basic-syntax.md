@@ -106,7 +106,7 @@ fun printSum(a: Int, b: Int) {
 }
 ```
 
-[함수](/docs/functions.md) 문서를 확인해보세요.
+[](/docs/functions.md) 문서를 확인해보세요.
 
 ## 변수
 
@@ -165,7 +165,7 @@ fun incrementX() {
 // x = 1; PI = 3.14
 ```
 
-[프로퍼티](/docs/properties.md) 문서 에서 클래스의 프로퍼티를 선언하는 방법에 대해 살펴보세요.
+[](/docs/properties.md) 문서 에서 클래스의 프로퍼티를 선언하는 방법에 대해 살펴보세요.
 
 ## 클래스와 인스턴스의 생성
 
@@ -205,7 +205,7 @@ class Rectangle(val height: Double, val length: Double): Shape() {
 }
 ```
 
-[클래스](/docs/classes.md) 문서와 [오브젝트와 인스턴스](/docs/object-declarations.md) 문서에서 생성자와 상속에 대한 더 많은 정보를 확인해보세요.
+[](/docs/classes.md) 문서와 [](/docs/object-declarations.md) 문서에서 생성자와 상속에 대한 더 많은 정보를 확인해보세요.
 
 ## 주석
 
@@ -228,7 +228,7 @@ Kotlin 에서 블럭 주석은 중첩될 수 있습니다.
 
 [코틀린 코드의 문서화](https://kotlinlang.org/docs/kotlin-doc.md) 문서에서 문서화 주석 문법에 대해 더 알아보실 수 있습니다.
 
-## 문자열 템플릿
+## 템플릿 문자열
 
 ```kotlin
 var a = 1
@@ -240,7 +240,7 @@ a = 2
 val s2 = "${s1.replace("is", "was")}, but now is $a"
 ```
 
-더 자세한 사항은 [문자열 템플릿](/docs/strings.md#문자열-템플릿) 섹션을 확인해보세요.
+더 자세한 사항은 [템플릿 문자열](/docs/strings.md#템플릿-문자열) 섹션을 확인해보세요.
 
 ## 조건적인 표현
 
@@ -355,7 +355,7 @@ for (x in 9 downTo 0 step 3) {
 }
 ```
 
-[범위와 수열](/docs/ranges.md) 문서를 확인해보세요.
+[](/docs/ranges.md) 문서를 확인해보세요.
 
 ## 컬렉션
 
@@ -376,7 +376,7 @@ when {
 }
 ```
 
-컬렉션을 필터하거나 매핑하려면 [람다 표현](/docs/lambdas.md)을 사용합니다:
+컬렉션을 필터하거나 매핑하려면 [](/docs/lambdas.md)를 사용합니다:
 
 ```kotlin
 val fruits = listOf("banana", "avocado", "apple", "kiwifruit")
@@ -387,7 +387,7 @@ fruits
     .forEach { println(it) }
 ```
 
-[컬렉션 훑어보기](/docs/collections-overview.md) 문서를 확인해보세요.
+[](/docs/collections-overview.md) 문서를 확인해보세요.
 
 ## Nullable 값들과 null 체크
 
@@ -436,7 +436,7 @@ if (y == null) {
 println(x * y)
 ```
 
-[Null 안전성](/docs/null-safety.md) 문서를 확인해보세요.
+[](/docs/null-safety.md) 문서를 확인해보세요.
 
 ---
 null 체크 이후에 자동으로 진행되는 `x`, `y` 변수의 `Int` 타입으로의 캐스팅을 포함하여, 조건문을 통해 어떤 변수가 어떤 타입을 가지는지 확인한 뒤에 자동으로 진행되는 캐스팅을 '스마트 캐스팅' 이라고 부르기도 합니다.  
@@ -482,6 +482,6 @@ fun getStringLength(obj: Any): Int? {
 }
 ```
 
-[클래스](/docs/classes.md) 문서와 [타입 캐스트](/docs/typecasts.md) 문서를 확인해보세요.
+[](/docs/classes.md) 문서와 [](/docs/typecasts.md) 문서를 확인해보세요.
 
 {&?}
