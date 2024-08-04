@@ -1,5 +1,6 @@
 연기된 값들은 하나의 값을 코루틴 사이에서 전달할 때 유용합니다. 채널은 값들의 흐름을 전달할 수 있는 방법을 제시합니다.
 
+{#channel-basics}
 ## 채널 기초
 
 채널은 개념적으로 `BlockingQueue` 와 매우 유사합니다. 가장 큰 차이점은 블락하는 `put` 오퍼레이션 대신 정지하는 [send](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.channels/-send-channel/send.html) 가, 블락하는 `take` 오퍼레이션 대신 정지하는 [receive](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.channels/-receive-channel/receive.html) 가 존재합니다.
@@ -26,6 +27,7 @@ println("Done!")
 Done!
 ```
 
+{#closing-and-iteration-over-channels}
 ## 채널의 폐쇄와 반복
 
 큐와 다르게, 채널은 닫음으로써 더이상 요소가 들어오지 않을 것임을 나타낼 수 있습니다. 수신 측에서는 일반적인 `for` 반복을 통해 편하게 채널에서 요소를 수신할 수 있습니다.
@@ -54,6 +56,7 @@ println("Done!")
 Done!
 ```
 
+{#building-channel-producers}
 ## 채널 생산자 만들기
 
 코루틴이 어떠한 요소들의 나열을 만들어내는 경우는 꽤 흔합니다. 이것은 동시적인 코드에서 자주 찾을 수 있는 생산자-소비자 패턴의 한 부분입니다. 그러한 생산자는 채널을 인수로 받는 함수로 추상화될 수 있지만, 이는 함수로부터 리턴되는 것이 결과라는 일반적인 통념에 반합니다.
@@ -83,6 +86,7 @@ fun main() = runBlocking {
 Done!
 ```
 
+{#pipelines}
 ## 파이프라인
 
 파이프라인은 하나의 코루틴이 무한한 값들을 생산할 가능성이 있을 때 사용되는 패턴입니다:
@@ -127,6 +131,7 @@ Done!
 
 > 모든 코루틴 빌더들은 [CoroutineScope](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-coroutine-scope/index.html) 의 확장 함수이므로, 구조화된 동시성에 의해 어플리케이션의 전역적 코루틴을 방해하지 않는다는 것을 확신할 수 있습니다.
 
+{#prime-numbers-with-pipeline}
 ## 파이프라인과 소수(Prime numbers)
 
 파이프라인으로 소수를 찾아내는 예제를 통해 파이프라인을 골로 보내봅시다. 우선 무한한 숫자를 나열하는 것부터 시작해볼까요.
@@ -183,6 +188,7 @@ coroutineContext.cancelChildren() // main 이 끝나게 하기 위해 모든 자
 
 물론, 이 예제는 소수를 찾는것에 있어서 굉장히 이상한 구현입니다. 그리고 실제로는, 파이프라인은 다른 정지하는 작업(원격 서비스로의 비동기 호출 등)을 수행하고, `sequence` 나 `iterator` 는 `produce` 와 다르게 정지를 허용하지 않으므로 그들로 구성할 수 없습니다.
 
+{#fan-out}
 ## Fan-out
 
 여러 개의 코루틴이 그들 사이에서 작업을 기여하며 하나의 채널로부터 수신받을 수도 있습니다. 일정 간격을 두고 정수를 생산(1초에 10개)하는 생산자를 만들어봅시다:
@@ -235,6 +241,7 @@ Processor #3 received 10
 
 또, fan-out 을 수행하기 위해 `launchProcessor` 코드 안에서 어떻게 명시적으로 `for` 를 사용하였는지 주목하세요. `consumeEach` 와 다르게, 이 `for` 패턴은 여러 개의 코루틴 사이에서 사용해도 명백하게 안전합니다. 하나의 처리자 코루틴이 실패하더라도, 나머지 코루틴들은 마저 작업을 처리합니다. `consumeEach` 는 정상적이거나 비정상적인 종료 시 차지한 채널 하나를 반드시 소비(취소)하는 것에 반하죠.
 
+{#fan-in}
 ## Fan-in
 
 여러 개의 코루틴이 하나의 채널에 값을 발신할 수도 있습니다. 예를 들어, 문자열의 채널 하나가 있고 반복적으로 특정한 시간을 기다린 후 어떤 문자열을 발신하는 정지 함수가 있다고 해봅시다:
@@ -271,6 +278,7 @@ foo
 BAR!
 ```
 
+{#buffered-channels}
 ## 버퍼된 채널
 
 지금까지 등장한 채널들은 버퍼가 없습니다. 버퍼가 없는 채널들은 발신자와 수신자가 서로 결합해야 합니다. 발신이 먼저 수행되었을 경우 그는 수신이 수행될때까지 정지되며, 수신이 먼저 수행되었을 경우 발신이 수행될때까지 정지합니다.
@@ -304,6 +312,7 @@ Sending 4
 
 첫 4개의 요소는 버퍼에 추가되었고, 다섯 번째 요소를 추가하려고 할 때 정지했습니다.
 
+{#channels-are-fair}
 ## 채널은 공정합니다
 
 여러 코루틴 사이에서, 채널에 보내거나 받는 오퍼레이션은 호출된 순서에 따라 공정합니다. 먼저 들어온 것에 대해 먼저 응답하며, 처음 `receive` 를 호출한 코루틴이 값을 받습니다. 아래의 예제는 두 개의 "ping" 과 "pong" 의 이름을 가진 코루틴이 공유된 "table" 채널로부터 "ball" 오브젝트를 수신합니다:
@@ -341,6 +350,7 @@ pong Ball(hits=4)
 
 사용된 executor 의 컨텍스트와 환경에 따라서 채널의 동작이 가끔 공정하지 않은 것 처럼 보일 때도 있습니다. 그럴 때는 [이 이슈](https://github.com/Kotlin/kotlinx.coroutines/issues/111)를 확인해보세요.
 
+{#ticker-channels}
 ## Ticker 채널
 
 Ticker 채널은 특별하게 이 채널의 마지막 소비로부터 일정 시간 이후에 `Unit` 을 생산하는 채널입니다. 혼자서 쓰이는 것이 무의미하게 보일 수도 있지만, 몇몇 복잡한 시간 기반의 [produce](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.channels/produce.html) 파이프라인과 시간에 의존하여 윈도잉하는 연산자를 사용할 때 유용합니다. Ticker 채널은 "틱이 이루어졌을 때" 어떤 행동을 수행하기 위해 [select](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.selects/select.html) 안에서 사용됩니다.

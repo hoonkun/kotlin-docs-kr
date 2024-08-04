@@ -17,11 +17,13 @@ val box: Box<Int> = Box<Int>(1)
 val box = Box(1) // 1 은 Int 이므로, 컴파일러가 이 인스턴스의 타입 파라미터 값이 Box<Int> 임을 유추할 수 있습니다.
 ```
 
+{#variance}
 ## 가변성
 
 Java 의 타입 시스템에서 가장 머리아픈 부분은 와일드카드 타입입니다([Java 의 제너릭 FAQ](http://www.angelikalanger.com/GenericsFAQ/JavaGenericsFAQ.html) 를 확인해보세요).
 Kotlin 에는 이런 것이 없는 대신, 선언 측의 가변성과 타입 투사가 있습니다.
 
+{#variance-and-wildcards-in-java}
 ### 가변성과 Java 의 와일드카드
 
 Java 가 이런 미스터리한 와일드카드를 왜 필요로하는지 생각해볼까요. 
@@ -99,6 +101,7 @@ Joshua Bloch 는 그의 저서 [Effective Java, 3rd Edition](http://www.oracle.c
 > 
 > 와일드카드나 다른 타입 가변적인 타입들이 보장하는 것은 **타입 안전성** 뿐입니다. 수정이 가능한지 그렇지 않은지는 전혀 다른 문제입니다.
 
+{#declaration-site-variance}
 ### 선언측 가변성
 
 어떠한 인터페이스 `Source<T>` 가 있고, `T` 를 가져가는 함수는 없으며 `T` 를 리턴하는 함수만 있다고 해봅시다.
@@ -170,8 +173,10 @@ fun demo(x: Comparable<Number>) {
 
 **The Existential Transformation: Consumer in, Producer out!**:-)
 
+{#type-projections}
 ## 타입 투사
 
+{#use-site-variance-type-projections}
 ### 사용측 가변성: 타입 투사
 
 타입 파라미터 `T` 를 `out` 으로 표기하여 사용처에서 서브타이핑하는 고통에서 쉽게 벗어날 수 있지만, 당연히도 어떤 클래스들은 `T` 가 나가는 측에만 사용되도록 제한될 수 **없습니다**. 이의 좋은 예시는 `Array` 입니다:
@@ -224,6 +229,7 @@ fun fill(dest: Array<in String>, value: String) { ... }
 
 `Array<in String>` 은 Java 의 `Array<? super String>` 과 대응하며, 이는 `CharSequence` 나 `Object` 의 배열만이 `fill()` 함수에 들어올 수 있음을 의미합니다.
 
+{#star-projections}
 ### 별 투사
 
 때로는 들어올 타입 인수에 대해 아는 것이 없지만 그래도 안전하게 사용하고싶을 때가 있을것입니다.
@@ -246,6 +252,7 @@ Kotlin 은 이것을 **별 투사**라는 이름으로 제공합니다.
 
 > 별 투사는 Java 의 raw 타입과 매우 유사하지만, 안전합니다.
 
+{#generic-functions}
 ## 제너릭 함수
 
 클래스 선언만 유일하게 타입 파라미터를 가질 수 있는 것은 아닙니다. 함수도 타입 파라미터를 가질 수 있고, 이러한 경우 함수의 이름 **앞에** 배치됩니다:
@@ -272,10 +279,12 @@ val l = singletonList<Int>(1)
 val l = singletonList(1)
 ```
 
+{#generic-constraints}
 ## 제너릭의 제약
 
 제시된 타입 파라미터로 대체될 수 있는 타입들은 **제너릭 제약**으로 제한될 수 있습니다. 
 
+{#upper-bounds}
 ### 상한선
 
 가장 일반적인 제약은 **상한선**으로, Java 의 **extends** 키워드와 대응됩니다:
@@ -304,6 +313,7 @@ fun <T> copyWhenGreater(list: List<T>, threshold: T): List<String>
 전달된 타입은 반드시 모든 `where` 절에 제공된 조건을 만족해야합니다. 
 즉, 위의 예제에서 `T` 는 `CharSequence` 와 `Comparable` 을 **모두** 구현해야합니다.
 
+{#definitely-non-nullable-types}
 ## 명백하게 null 이 아닌 타입
 
 Java 의 제너릭 클래스와 인터페이스들과의 더 쉬운 상호운용성을 위해, Kotlin 은 제너릭 타입 파라미터를 **명백하게 null 이 아닌 타입**으로 설정할 수 있습니다.
@@ -337,12 +347,14 @@ interface ArcadeGame<T1> : Game<T1> {
 
 Kotlin 으로만 작업할 때는, 이 부분을 컴파일러가 대신 신경쓰므로 위에서 서술한 것 처럼 할 필요가 없습니다.
 
+{#type-erasure}
 ## 타입의 지워짐
 
 Kotlin 이 제너릭 타입에 대해 진행하는 안전성 체크는 컴파일 시점에 이루어집니다. 
 런타임에서, 제너릭 타입들의 인스턴스들은 자신의 타입 파라미터에 어떤 타입이 들어왔는지에 대한 정보를 가지지 않습니다.
 이것을 타입 정보가 **지워졌다** 라고 말합니다. 예를 들어, `Foo<Bar>` 와 `Foo<Baz?>` 는 런타임에서 모두 `Foo<*>` 로 지워집니다.
 
+{#generics-type-checks-and-casts}
 ### 제너릭의 타입 체크와 캐스트
 
 컴파일 이후 타입 파라미터에 대한 정보가 지워졌기 때문에, 런타임에서 제너릭 타입의 인스턴스가 어떤 특정한 타입으로 생성되었는지 확인할 수 있는 일반적인 방법이 없습니다.
@@ -396,6 +408,7 @@ fun main() {
 }
 ```
 
+{#unchecked-casts}
 ### 확인되지 않은 캐스팅
 
 어떤 제너릭 타입에 구체적인 타입 파라미터를 가진 타입으로의 캐스팅은 런타임에 확인될 수 없습니다.  
@@ -435,6 +448,7 @@ inline fun <reified T> List<*>.asListOfType(): List<T>? =
 > **JVM 에서는** [배열 타입](/docs/arrays.md)에 한해 그의 요소에 대한 지워진 타입 정보를 유지하며, 그에 대한 타입 캐스팅은 부분적으로 확인됩니다:
 > null 의 가능 여부나 요소 자체의 타입 파라미터 정보는 여전히 지워진 상태이기 때문에요. 예를 들어, `foo as Array<List<String>?>` 같은 캐스팅은 `foo` 가 아무 `List` 를 요소로 가지는 배열이면 그 요소의 `null` 여부나 `List` 의 타입 파라미터에 관계 없이 성공합니다.
 
+{#underscore-operator-for-type-arguments}
 ## 타입 인수에 사용하는 언더바 연산자
 
 타입 파라미터의 인수에는 언더바 연산자 `_` 가 사용될 수 있습니다. 

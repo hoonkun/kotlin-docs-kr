@@ -14,6 +14,7 @@ JetBrains 가 개발한 `kotlinx.coroutines` 는 코루틴을 위한 중요한 �
 {&[3]}원문: primitives
 
 
+{#table-of-contents}
 ## 이 문서의 내용
 
 
@@ -29,6 +30,7 @@ JetBrains 가 개발한 `kotlinx.coroutines` 는 코루틴을 위한 중요한 �
 - [튜토리얼: IntellijIDEA 를 사용하여 코루틴 디버깅](https://kotlinlang.org/docs/debug-coroutines-with-idea)
 - [튜토리얼: IntellijIDEA 를 사용하여 Flow 디버깅](https://kotlinlang.org/docs/debug-flow-with-idea)
 
+{#additional-references}
 ## 추가 레퍼런스
 
 

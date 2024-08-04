@@ -14,6 +14,7 @@ class Message { /*...*/ }
 
 패키지가 정의되어있지 않은 파일의 내용은 이름이 없는 **default** 패키지에 포함됩니다.
 
+{#default-imports}
 ## 기본 임포트
 
 몇몇 개의 패키지는 Kotlin 소스 파일에 기본적으로 임포트됩니다:
@@ -37,6 +38,7 @@ class Message { /*...*/ }
 - JS:
   - [kotlin.js.*](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.js/index.html)
 
+{#imports}
 ## 임포트
 
 기본 임포트와는 별개로, 소스 파일들은 자신의 독자적인 `import` 표현을 포함할 수 있습니다.  
@@ -66,6 +68,7 @@ import org.test.Message as TestMessage // TestMessage 는 'org.test.Message' 로
 - [오브젝트 정의](/docs/object-declarations.md#오브젝트-선언-훑어보기)에 포함된 함수와 프로퍼티
 - [열겨형 상수](/docs/enum-classes.md)
 
+{#visibility-of-top-level-declarations}
 ## 최상위 레벨에 정의된 엔티티들의 가시성
 
 최상위 레벨의 엔티티가 `private` 으로 마크되어 있으면 해당 엔티티는 그 엔티티가 정의된 파일 내에서만 사용할 수 있습니다([가시성 수정자](/docs/visibility-modifiers.md) 문서를 확인해보세요).

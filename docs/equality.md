@@ -3,6 +3,7 @@ Kotlin 에서, 동일성에는 두 가지 종류가 있습니다:
 - 구조적 동일성(`==`) - `equals()` 함수를 사용하여 비교합니다.
 - 참조적 동일성(`===`) - 두 레퍼런스가 서로 같은 오브젝트를 가리키는지 비교합니다.
 
+{#structural-equality}
 ## 구조적 동일성
 
 구조적 동일성은 두 오브젝트가 같은 내용이나 구조를 가지는지 확인합니다.
@@ -63,6 +64,7 @@ class Point(val x: Int, val y: Int) {
 
 구조적 동일성은 `Comparable<...>` 인터페이스가 정의하는 것과는 아무런 관계가 없으며, 그러므로 커스텀 `equals(Any?)` 구현만이 연산자의 동작을 바꿀 수 있습니다.
 
+{#referential-equality}
 ## 참조적 동일성
 
 참조적 동일성은 어떤 두 오브젝트의 메모리 주소가 완전히 일치하여 서로 같은 인스턴스인지 판단합니다.
@@ -91,6 +93,7 @@ fun main() {
 {>tip}
 > 참조적 동일성은 Kotlin/JS 플랫폼에서 다르게 구현됩니다. 이것에 대한 더 자세한 사항은 [Kotlin/JS](/docs/js-interop.md#equality) 문서를 확인해보세요.
 
+{#floating-point-numbers-equality}
 ## 부동 소수점 수들의 동일성
 
 만약 동일성 판단의 피연산자들이 `Float` 이거나 `Double` 이면, [IEEE 754 부동 소수점 연산 표준](https://en.wikipedia.org/wiki/IEEE_754)의 판단을 따릅니다.
@@ -104,6 +107,7 @@ fun main() {
 
 더 자세한 사항은 [부동 소수점 수의 비교](/docs/numbers.md#부동-소수점-수의-비교) 문서를 확인해보세요.
 
+{#array-equality}
 ## 배열의 동일성
 
 두 배열이 서로 같은 요소들을 가지고 있는지 확인하려면, [`contentEquals()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/content-equals.html) 를 사용합니다.

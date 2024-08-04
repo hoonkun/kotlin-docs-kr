@@ -1,5 +1,6 @@
 이 영역에서는 예외의 핸들링과 예외 시 취소에 관한 내용을 다룹니다. 우리는 취소된 코루틴이 정지 포인트에서 [CancellationException](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-cancellation-exception/index.html) 를 던진다는 것을 알고 있고, 코루틴의 작동에서 무시된다는 것을 알고 있습니다. 여기서는 취소 중에 예외가 발생하거나 하나의 코루틴의 여러 자식들이 각각 예외를 발생시킬 때 어떤 일이 일어나는지를 살펴봅니다.
 
+{#exception-propagation}
 ## 예외의 전파
 
 예외와 관련하여 코루틴 빌더들은 두 종류로 분류됩니다: [launch](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/launch.html) 처럼 자동으로 예외를 전파하거나, 혹은 [async](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/async.html) 나 [produce](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.channels/produce.html) 처럼 사용자에게 노출하는 경우입니다. 
@@ -41,6 +42,7 @@ Throwing exception from async
 Caught ArithmeticException
 ```
 
+{#coroutineexceptionhandler}
 ## CoroutineExceptionHandler
 
 **처리되지 않은** 예외가 콘솔에 출력되는 동작을 커스텀할 수도 있습니다. **루트** 코루틴으로의 [CoroutineExceptionHandler](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-coroutine-exception-handler/index.html) 컨텍스트 요소는 이 코루틴과 그의 자식들이 발생시키는 예외에 대한 일반적인 `catch` 블럭처럼 사용될 수 있습니다. 이는 [`Thread.uncaughtExceptionHandler`](https://docs.oracle.com/javase/8/docs/api/java/lang/Thread.html#setUncaughtExceptionHandler-java.lang.Thread.UncaughtExceptionHandler-) 와 비슷합니다.
@@ -69,6 +71,7 @@ joinAll(job, deferred)
 CoroutineExceptionHandler got java.lang.AssertionError
 ```
 
+{#cancellation-and-exceptions}
 ## 취소와 예외
 
 취소는 예외와 밀접한 관련이 있습니다. 코루틴은 내부적으로 취소에 `CancellationException` 를 사용하며, 이 예외는 모든 핸들러가 무시합니다. 따라서 이들은 `catch` 블럭으로 수집할 수 있는 기타 추가적인 디버깅 정보로만 사용되어야합니다. 코루틴이 [Job.cancel](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/cancel.html) 에 의해 취소되면 해당 코루틴은 제거되지만 그 부모까지 취소하지는 않습니다.
@@ -141,6 +144,7 @@ The first child finished its non cancellable block
 CoroutineExceptionHandler got java.lang.ArithmeticException
 ```
 
+{#exceptions-aggregation}
 ## 예외의 뭉침
 
 여러 개의 자식 코루틴이 예외에 의해 실패하면, 일반적인 규칙은 "먼저 던져진 예외가 이긴다" 입니다. 따라서 먼저 발생한 예외가 핸들링되고, 그 이후에 발생하는 모든 예외는 첫 예외에 부착됩니다:
@@ -208,6 +212,7 @@ Rethrowing CancellationException with original cause
 CoroutineExceptionHandler got java.io.IOException
 ```
 
+{#supervision}
 ## 지도자
 
 앞에서 알아보았듯이, 예외에 의한 취소는 전체 코루틴 계층에 전파되는 양방향 관계입니다. 그런데 만약 단방향 취소가 필요할 때는 어떻게 해야할지 살펴보죠.
@@ -217,6 +222,7 @@ CoroutineExceptionHandler got java.io.IOException
 
 또다른 예시로는 서버의 프로세스로서 여러 자식 코루틴들을 생성하여 그들의 실행을 지도해야할 경우입니다. 이럴 때는 그들의 실패를 추적하여 다시 실행해주어야 합니다.
 
+{#supervision-job}
 ### 지도자 Job
 
 [SupervisorJob](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-supervisor-job.html) 가 이 목적을 위해 사용될 수 있습니다. 일반적인 [Job](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-job.html) 과 비슷하지만 예외가 아래쪽으로만 전파됩니다. 이는 아래 예제를 통해 쉽게 재현해볼 수 있습니다.
@@ -258,7 +264,8 @@ Cancelling the supervisor
 The second child is cancelled because the supervisor was cancelled
 ```
 
-### 지도자 스코프
+{#supervision-scope}
+#### 지도자 스코프
 
 범위 내로 제한된 동시성을 위해, [coroutineScope](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/coroutine-scope.html) 대신 [supervisorScope](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/supervisor-scope.html) 를 쓸 수 있습니다. 그것은 예외로 인한 취소를 한쪽 방향으로만 전파하며 그 자신이 실패했을 때만 모든 자식을 제거합니다. [coroutineScope](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/coroutine-scope.html) 와 마찬가지로 모든 자식이 완료될때까지 기다립니다.
 

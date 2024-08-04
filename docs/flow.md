@@ -1,5 +1,6 @@
 Kotlin 의 Flow 는 ‘정지 함수는 비동기적으로 하나의 값을 리턴하지만, 여러 개의 비동기적으로 계산된 값들은 어떻게 리턴해야할까?’ 에서 시작합니다.
 
+{#representing-multiple-values}
 ## 여러 개의 값들을 표현하기
 
 여러 값들은 Kotlin 에서 [collections](https://kotlinlang.org/docs/reference/collections-overview.html) 를 통해 표현될 수 있습니다. 예를 들어, 세 개의 요소로 구성된 [List](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/) 를 반환하는 `simple` 함수가 있을 때 그 값들을 출력하기 위해 [forEach](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/for-each.html) 를 사용할 수 있습니다:
@@ -20,6 +21,7 @@ fun main() {
 3
 ```
 
+{#sequences}
 ### Sequence
 
 한 요소의 계산에 CPU가 소모되는 작업을 한다면, [Sequence](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.sequences/) 를 사용하여 표현할 수도 있습니다:
@@ -39,6 +41,7 @@ fun main() {
 
 이 코드는 동일한 숫자들을 출력하지만, 매 출력마다 100ms 를 기다립니다.
 
+{#suspending-functions}
 ### 정지 함수들
 
 그러나 이 계산 작업은 메인 스레드를 막습니다. 이 값들이 비동기 코드에서 계산된다면 `simple` 함수를 `suspend` 수정자로 표기할 수 있습니다. 그러면 그 작업을 스레드를 막지 않고 진행하여 리스트로 돌려줄 수 있습니다:
@@ -56,6 +59,7 @@ fun main() = runBlocking<Unit> {
 
 이 코드는 1초 뒤에 같은 숫자들을 출력합니다.
 
+{#flows}
 ### Flow
 
 리턴 타입에 `List<Int>` 를 사용한다는 것은, 모든 요소들을 한 번에 전부 리턴해야함을 의미합니다. 
@@ -101,7 +105,12 @@ I'm not blocked 3
 - 값들은 [emit](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/-flow-collector/emit.html) 함수를 통해 Flow에서 **방출**됩니다.
 - 값들은 [collect](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/collect.html) 함수를 통해 Flow에서 **수집**됩니다.
 
+{#flows-are-cold}
 ## Flow는 차갑습니다
+
+--- 
+'차갑다'의 의미는 반응형 프로그래밍에서의 '차가운 관측'과 관련한 서술입니다.  
+'따뜻(hot)'하다면 구독자가 없더라도 항상 값을 내보내고, '차갑(cold)'다면 구독자가 없으면 값을 내보내지 않습니다. 
 
 플로우는 시퀀스와 비슷하게 **차갑습니다** — [flow](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/flow.html) 빌더 안의 코드는 플로우가 수집될때까지 실행되지 않습니다. 아래 예제로 이것을 명확히 알 수 있습니다:
 
@@ -142,6 +151,7 @@ Flow started
 
 이것이 `simple` 함수가 `suspend` 수정자로 표시되지 않는 이유입니다. `simple` 함수는 아무것도 기다리지 않고 곧바로 리턴합니다. 플로우는 매번 수집될 때마다 새롭게 다시 시작되며, 그것이 "Flow started" 메시지가 매번 `collect` 를 다시 호출할 때마다 출력되는 이유입니다.
 
+{#flow-cancellation-basics}
 ## Flow 취소의 기초
 
 플로우는 코루틴의 협조적인 취소 규칙을 준수합니다. 플로우의 수집은 그 플로우가 취소될 수 있는 정지 함수(예를 들면 [delay](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/delay.html) 같은)로 정지되었을 때 취소될 수 있습니다. 아래의 예제는 플로우가 [withTimeoutOrNull](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/with-timeout-or-null.html) 안에서 어떻게 취소되고 그 동작을 중지하는지 보여줍니다:
@@ -175,6 +185,7 @@ Done
 
 더 자세한 사항은아래의 플로우에서의 취소 추적 영역을 확인해보세요.
 
+{#flow-builders}
 ## Flow 빌더
 
 이전 예제에서 사용된 `flow { ... }` 빌더는 여러 빌더 중 가장 기반이 되는 것입니다. 플로우를 정의할 수 있는 다른 여러 빌더 들이 있습니다:
@@ -189,6 +200,7 @@ Done
 (1..3).asFlow().collect { value -> println(value) }
 ```
 
+{#intermediate-flow-operators}
 ## 중간 Flow 연산
 
 플로우는 다른 컬렉션이나 시퀀스들과 동일한 방식으로 중간 연산자를 통해 변환될 수 있습니다. 중간 연산자들은 상류의 플로우에 적용되어 하류의 플로우를 리턴합니다. 플로우가 그렇듯 이 연산자들도 차갑습니다. 이러한 연산 함수들은 정지하지 않으며 빠르게 변환된 새 Flow 를 리턴합니다.
@@ -218,6 +230,7 @@ response 2
 response 3
 ```
 
+{#transform-operator}
 ### 변환 연산자
 
 변환 연산자 사이에서, 가장 범용적이게 쓰이는 하나는 [transform](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/transform.html) 입니다. 이는 간단한 변환인 [map](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/map.html) 이나 [filter](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/filter.html) 처럼 사용할 수도 있으며, 더 복잡한 변환도 구현할 수 있습니다. [transform](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/transform.html) 연산자를 사용해, 아무 값들을 아무 떄나 [emit](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/-flow-collector/emit.html) 할 수 있습니다.
@@ -244,6 +257,7 @@ Making request 3
 response 3
 ```
 
+{#size-limiting-operators}
 ### 갯수 제한 연산자
 
 [take](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/take.html) 등과 같은 갯수 제한 중간연산자는 지정한 갯수에 다다르면 플로우의 실행을 취소합니다. 코루틴의 취소가 예외에 의해 진행되므로, 리소스 관리 함수들도 반드시 적절히(`try { … } finally { … }` 등으로) 핸들링되어야 합니다:
@@ -275,6 +289,7 @@ fun main() = runBlocking<Unit> {
 Finally in numbers
 ```
 
+{#terminal-flow-operators}
 ## 종단 Flow 연산자
 
 플로우의 종단 함수들은 그의 수집을 시작하는 **정지 함수**입니다. [collect](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/collect.html) 함수가 가장 기반이 되는 것이고, 작업을 더 쉽게 만들어주는 다른 여러 종단 연산자들이 있습니다:
@@ -298,6 +313,7 @@ println(sum)
 55
 ```
 
+{#flows-are-sequential}
 ## Flow는 순차적입니다
 
 각 플로우의 수집은 여러 플로우에 대해 작동하는 특별한 연산자가 사용되지 않는 한 순차적으로 동작합니다. 수집 동작은 종단 연산자를 호출하는 그 코루틴에서 진행되며, 기본적으로 새 코루틴을 만들지 않습니다. 각 방출된 값들은 상류에서 하류로 모든 중간 연산자를 거쳐 종단 연산자로 전달됩니다.
@@ -332,6 +348,7 @@ Collect string 4
 Filter 5
 ```
 
+{#flow-context}
 ## Flow 컨텍스트
 
 플로우의 수집은 그것을 호출하는 코루틴의 컨텍스트에서 발생합니다. 예를 들어, `simple` Flow 가 있을 때, 아래의 코드에서 수집 동작은 `simple` 함수의 구현 상세와 무관하게 이 코드의 작성자가 정한 컨텍스트에서 발생합니다.
@@ -372,6 +389,7 @@ fun main() = runBlocking<Unit> {
 
 `simple().collect` 도 메인 스레드에서 호출되었고, `simple` 함수의 플로우 블럭도 메인 스레드에서 호출되었습니다. 이것은 빠르게 실행되거나 실행 컨텍스트를 상관하지 않고 호출측을 막지 않는, 비동기적인 코드의 완벽한 예시입니다.
 
+{#a-common-pitfall-when-using-withcontext}
 ### withContext 을 사용할 때 빠지기 쉬운 일반적인 함정
 
 CPU를 사용하며 길게 실행되는 코드는 일반적으로 [Dispatchers.Default](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-dispatchers/-default.html) 을 사용한 컨텍스트에서 실행되어야 하고, UI에 반영하는 코드는 주로 [Dispatchers.Main](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-dispatchers/-main.html) 에서 실행됩니다.
@@ -405,6 +423,7 @@ Exception in thread "main" java.lang.IllegalStateException: Flow invariant is vi
     at ...
 ```
 
+{#flowon-operator}
 ### flowOn 연산자
 
 예외 메시지를 보면, 플로우의 방출에서 컨텍스트를 변경하려면 [flowOn](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/flow-on.html) 연산자를 사용해야한다고 인용하고 있습니다. 
@@ -432,6 +451,7 @@ fun main() = runBlocking<Unit> {
 이제 플로우의 수집이 하나의 코루틴("coroutine#1")에서 일어나고 방출이 또다른 코루틴("coroutine#2")에서 일어납니다.
 [flowOn](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/flow-on.html) 연산자는 컨텍스트를 변경해야할 때 상류 플로우에 대한 새로운 코루틴을 만듭니다.
 
+{#buffering}
 ## 버퍼링
 
 서로 다른 플로우의 부분들을 서로 다른 코루틴에서 실행하는 것은, 긴 비동기 작업을 필요로하는 플로우의 각 항목을 수집하기 위해서는 많은 시간이 걸린다는 견해에 유용할 수 있습니다. 
@@ -489,6 +509,7 @@ Collected in 1071 ms
 
 > 코루틴 디스패쳐를 변경해야하는 상황에서는 [flowOn](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/flow-on.html) 연산자도 동일한 버퍼링 메커니즘을 사용합니다. 하지만 이 예제에서는 실행 컨텍스트를 바꾸는 대신 명시적으로 버퍼링을 요청했습니다.
 
+{#conflation}
 ### Conflation
 
 플로우가 부분적인 결과 혹은 작업 상태 업데이트만을 표현한다면, 각 값들을 모두 처리하기보다는 대신 가장 최근의 값을 처리할 수도 있습니다. 
@@ -514,6 +535,7 @@ println("Collected in $time ms")
 Collected in 758 ms
 ```
 
+{#processing-the-latest-value}
 ### 가장 최근 값만을 처리하기
 
 Conflation 은 방출기와 수집기의 속도가 모두 느릴 때 처리 속도를 올리기 위해 유용합니다. 
@@ -542,10 +564,12 @@ Done 3
 Collected in 741 ms
 ```
 
+{#composing-multiple-flows}
 ## 여러 Flow 의 구성
 
 여러 플로우를 구성하는 방법에는 많은 것들이 있습니다.
 
+{#zip}
 ### Zip
 
 Kotlin 표준 라이브러리의  [Sequence.zip](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.sequences/zip.html) 처럼, 플로우에도 도 두 플로우의 각 값을 조합하는 [zip](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/zip.html) 이라는 연산자가 있습니다:
@@ -565,6 +589,7 @@ nums.zip(strs) { a, b -> "$a -> $b" } // compose a single string
 3 -> three
 ```
 
+{#combine}
 ### Combine
 
 만약 플로우가 동작이나 변수의 가장 최신의 값만을 나타낸다면, 해당 플로우의 가장 최신의 값에 맞게 상류 플로우가 값을 방출할 때마다 계산을 다시할 필요가 있을 수도 있습니다. 그럴 때 쓰는 연산자를 [combine](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/combine.html) 이라고 합니다.
@@ -605,6 +630,7 @@ nums.combine(strs) { a, b -> "$a -> $b" } // "combine" 을 사용하여 하나�
 3 -> three at 1256 ms from start
 ```
 
+{#flattening-flows}
 ## Flow 의 평탄화
 
 플로우는 비동기적으로 수신되는 값들을 표현하므로, 각 값 하나하나가 또다른 여러 값들에 대한 요청을 트리거하는 상황과 마주하기 쉽습니다. 
@@ -626,6 +652,7 @@ fun requestFlow(i: Int): Flow<String> = flow {
 
 그러면 우리는 이후 처리를 위해 **평탄화**될 필요가 있는 플로우들의 플로우(`Flow<Flow<String>>`) 를 얻게됩니다. 컬렉션과 시퀀스에는 이 작업을 위한 [flatten](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.sequences/flatten.html) 과 [flatMap](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.sequences/flat-map.html) 라는 연산자가 있지만, 플로우는 그의 비동기적인 생태계로 인해 여러 **모드**를 가진 평탄화 연산자가 존재합니다:
 
+{#flatmapconcat}
 ### flatMapConcat
 
 플로우들의 플로우를 이어붙히는 동작은 [flatMapConcat](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/flat-map-concat.html) 와 [flattenConcat](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/flatten-concat.html) 가 재공합니다. 시퀀스의 그것과 가장 비슷한 연산자들이며, 이후 값의 수집이 시작되기 전 안쪽 플로우의 수집 작업이 완전히 완료될때까지 기다립니다.
@@ -650,6 +677,7 @@ val startTime = System.currentTimeMillis() // 시작 시간을 기억합니다.
 3: Second at 1829 ms from start
 ```
 
+{#flatmapmerge}
 ### flatMapMerge
 
 또다른 평탄화 연산자는 플로우로 들어오는 모든 값들을 하나하나 수집하고, 하나의 플로우로 병합하여 가능한 한 빠르게 값이 방출되도록 합니다. 이 작업은 [flatMapMerge](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/flat-map-merge.html) 와 [flattenMerge](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/flatten-merge.html) 에 의해 이루어지며, 선택적으로 한 번에 수집될 값들의 수를 제한할 수 있는 `concurrency` 라는 인수를 받습니다(기본값으로는 [DEFAULT_CONCURRENCY](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/-d-e-f-a-u-l-t_-c-o-n-c-u-r-r-e-n-c-y.html) 를 가집니다):
@@ -676,6 +704,7 @@ val startTime = System.currentTimeMillis() // 시작 시간을 기억합니다.
 
 > [flatMapMerge](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/flat-map-merge.html) 함수가 그의 블럭(이 예제에서는 `{ requestFlow(it) }`)을 순차적으로 호출하지만, 그의 결과에 대한 수집은 동시적으로 이루어진다는 사실을 기억하세요. 이는 순차적으로 `map { requestFlow(it) }` 을 먼저 수행하고 그 결과에 [flattenMerge](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/flatten-merge.html) 를 수행하는 것과 동일합니다.
 
+{#flatmaplatest}
 ### flatMapLatest
 
 [collectLatest](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/collect-latest.html) 와 비슷하게, 새로운 플로우가 방출되는 즉시 기존 수집을 취소하고 다시 시작하는 모드도 존재합니다. 이는 [flatMapLatest](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/flat-map-latest.html) 를 통해 구현합니다:
@@ -700,11 +729,13 @@ val startTime = System.currentTimeMillis() // 시작 시간을 기억합니다.
 
 > [flatMapLatest](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/flat-map-latest.html) 는 새 값이 수신되었을 때 그의 블럭 안에 있는 모든 코드(`{ requestFlow(it) }`)를 취소시킨다는 것을 기억하세요. 이 예제에서는 `requestFlow` 가 정지하지 않고 취소될 수 없는 일반적인 함수이기 때문에 특별한 차이점을 만들어내지 않지만, `delay` 등을 `requestFlow` 내에서 사용한다면 다른 결과를 볼 수 있을 것입니다.
 
+{#flow-exceptions}
 ## Flow에서 발생하는 예외
 
 플로우의 수집은 방출자나 연산자 안쪽의 코드에서 예외를 발생시키면 예외와 함께 완료될 수 있습니다.
 아래에서 그 몇 가지 핸들링에 대해 설명합니다.
 
+{#collector-try-and-catch}
 ### 수집기의 try 와 catch
 
 수집기는 예외를 핸들링하기 위해 Kotlin 의 [`try/catch`](https://kotlinlang.org/docs/reference/exceptions.html) 문을 사용할 수 있습니다:
@@ -739,6 +770,7 @@ Emitting 2
 Caught java.lang.IllegalStateException: Collected 2
 ```
 
+{#everything-is-caught}
 ### 모든게 잡혔습니다.
 
 이전의 예제는 사실 방출자나 중간연산자, 종단연산자 모두에서 발생하는 예외를 한 번에 다 잡았습니다. 예를 들어, 이번에는 방출된 값들이 문자열로 매핑되며 거기에서 예외를 던진다고 해봅시다:
@@ -774,6 +806,7 @@ Emitting 2
 Caught java.lang.IllegalStateException: Crashed on 2
 ```
 
+{#exception-transparency}
 ## 예외의 투명성
 
 어떻게 방출자가 그에서 발생하는 예외 처리를 캡슐화 할 수 있을까요?
@@ -797,6 +830,7 @@ simple()
 
 코드에 더이상 try/catch 블럭이 없음에도 동일한 출력을 합니다.
 
+{#transparent-catch}
 ### 투명하게 예외 잡기
 
 [catch](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/catch.html) 중간 연산자는 그의 상류에서 발생한 예외에 대한 투명성을 준수합니다(그의 위에서 발생한 예외는 잡지만, 그 아래에서 발생하는 것들은 잡지 않습니다). 즉, `collect { ... }` 블럭 내에서 발생하는 예외는 그대로 던져지며 로직을 벗어납니다:
@@ -829,6 +863,7 @@ Exception in thread "main" java.lang.IllegalStateException: Collected 2
 	at ...
 ```
 
+{#catching-declaratively}
 ### 선언적으로 예외 잡기
 
 [catch](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/catch.html) 연산자가 선언적 생태계 안에서 모든 예외를 핸들링하게 하기 위해, [collect](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/collect.html) 의 람다를 `catch` 연산자 위쪽의 [onEach](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/on-each.html) 로 이동할 수 있습니다. 이런 형태의 플로우는 반드시 `collect()` 와 같이 인수를 전달하지 않고 호출해야합니다.
@@ -852,10 +887,12 @@ Emitting 2
 Caught java.lang.IllegalStateException: Collected 2
 ```
 
+{#flow-completion}
 ## Flow 의 완료
 
 어떠한 방식(정상적, 예외적)으로든 플로우의 수집이 완료되면, 어떠한 동작을 수행해야할 수 있습니다. 아마 이미 눈치채셨을 수 있지만, 명령적인 방법과 선언적인 방법 두 가지로 가능합니다.
 
+{#imperative-finally-block}
 ### 명령적인 finally 블럭
 
 `try`/`catch` 블럭에 더해, 수집기는 수집이 완료될 때 특정 액션을 취하기 위해 `finally` 블럭을 사용할 수 있습니다.
@@ -881,6 +918,7 @@ fun main() = runBlocking<Unit> {
 Done
 ```
 
+{#declarative-handling}
 ### 선언적인 핸들링
 
 선언적인 접근으로는, 플로우의 수집이 완전히 완료될 때 그의 람다를 호출하는 [onCompletion](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/on-completion.html) 라는 중간 연산자가 있습니다.
@@ -919,6 +957,7 @@ Caught exception
 
 그러나 [onCompletion](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/on-completion.html) 는 [catch](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/catch.html) 와 다르게, 예외를 핸들링하지 않습니다. 위의 예제에서 확인할 수 있듯이 예외가 하류로 계속 흐릅니다. `onCompletion` 를 지나 전달되는 `catch` 가 그것을 핸들링할 수 있을 것입니다.
 
+{#successful-completion}
 ### 성공적인 완료
 
 [onCompletion](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/on-completion.html) 가 가지는 [catch](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/catch.html) 와의 또다른 차이점은, 상류 및 하류 모두에서 발생할 수 있는 모든 예외들을 확인하고 아무런 문제가 없었을 때만 그의 람다가 null 을 수신한다는 점입니다.
@@ -944,10 +983,12 @@ Flow completed with java.lang.IllegalStateException: Collected 2
 Exception in thread "main" java.lang.IllegalStateException: Collected 2
 ```
 
+{#imperative-versus-declarative}
 ## 명령적 vs 선언적
 
 이제 우리는 flow 를 수집하고, 완료와 예외를 명령적인 방법과 선언적인 방법 모두를 사용하여 어떻게 핸들링할 수 있는지 알고 있습니다. 이제 조금 본질적인, "어느 것이 더 선호되고 어째서 그럴까?" 라는 질문이 남았죠. 사실 하나의 라이브러리로서, 하나의 방식이 옳다고 지지하지 않고 두 방식 모두 유효하며 여러분의 기호나 코딩 스타일에 따라 선택하는 것이 맞다고 믿고있습니다.
 
+{#launching-flow}
 ## Flow 의 시작(Launch)
 
 플로우는 어떤 근원지에서 발생하는 비동기적인 이벤트들을 표현하기 위한 수단으로 사용할 수도 있습니다. 이 경우에서, 들어오는 이벤트에 반응하고 다른 작업을 계속 할 수 있는 어떤 코드 조각을 등록하기 위한, `addEventListener` 와 비슷한 무언가가 필요합니다. 이 때 [onEach](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/on-each.html) 중간 연산자가 이 역할을 담당합니다. 그러나 `onEach` 는 중간 연산자일 뿐이기 때문에, 플로우를 모두 수집하기 위해 마지막에 종단 연산자를 반드시 사용해야합니다. 그렇지 않고 `onEach` 만 호출하는 것은 아무런 효과도 없습니다.
@@ -1001,6 +1042,7 @@ Event: 3
 
 물론 [launchIn](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/launch-in.html) 는 [Job](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-job/index.html) 을 리턴하므로, 필요할 경우 그 부모 전체의 코루틴을 취소하거나 할 필요 없이 [cancel](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/cancel.html) 을 통해 해당하는 코루틴을 취소하여 Flow 의 수집을 중단할 수 있습니다.
 
+{#flow-cancellation-checks}
 ### Flow의 취소 확인
 
 편의성을 위해, [flow](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/flow.html) 빌더는 매번 값이 방출되기 전 [ensureActive](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/ensure-active.html) 통해 취소 여부 확인을 합니다. 그것은 `flow { ... }` 블럭 안의 방출은 취소가 가능하다는 것을 의미합니다:
@@ -1056,7 +1098,7 @@ fun main() = runBlocking<Unit> {
 Exception in thread "main" kotlinx.coroutines.JobCancellationException: BlockingCoroutine was cancelled; job="coroutine#1":BlockingCoroutine{Cancelled}@3327bd23
 ```
 
-### 바쁜 Flow 를 취소 가능하게 만들기
+#### 바쁜 Flow 를 취소 가능하게 만들기
 
 이러한 코루틴과 연관된 바쁜 Flow 에서는 명시적으로 취소를 확인해주어야 합니다. `.onEach { currentCoroutineContext().ensureActive() }` 를 추가할 수도 있지만, 이미 같은 동작을 하는 [cancellable](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/cancellable.html) 중간연산자가 제공되고 있습니다:
 
@@ -1078,6 +1120,7 @@ fun main() = runBlocking<Unit> {
 Exception in thread "main" kotlinx.coroutines.JobCancellationException: BlockingCoroutine was cancelled; job="coroutine#1":BlockingCoroutine{Cancelled}@5ec0a365
 ```
 
+{#flow-and-reactive-streams}
 ## Flow 와 Reactive Streams
 
 [Reactive Streams](https://www.reactive-streams.org/) 나 RxJava 등의 반응형 프레임워크에 익숙하다면 플로우의 디자인이 매우 익숙하실 수도 있습니다.

@@ -5,6 +5,7 @@ Kotlin 의 함수들은 [일급 시민](https://en.wikipedia.org/wiki/First-clas
 이를 가능하게 하기 위해, 정적 타입 언어인 Kotlin 에서는 [함수 타입](#함수-타입)을 사용하며 [람다 표현](#람다-표현과-익명-함수)과 같은
 문법적 요소를 제공합니다.
 
+{#higher-order-functions}
 ## 고차 함수
 고차 함수는 함수를 인수로 받거나, 함수를 리턴하는 함수를 말합니다.
 
@@ -53,6 +54,7 @@ val joinedToString = items.fold("Elements:", { acc, i -> acc + " " + i })
 val product = items.fold(1, Int::times)
 ```
 
+{#function-types}
 ## 함수 타입
 Kotlin 은 `(Int) -> String` 같은 함수 타입을 사용합니다. 
 선언할 때는 `val onClick: () -> Unit = ...` 와 같은 형태입니다.
@@ -83,6 +85,7 @@ Kotlin 은 `(Int) -> String` 같은 함수 타입을 사용합니다.
 typealias ClickHandler = (Button, ClickEvent) -> Unit
 ```
 
+{#instantiating-a-function-type}
 ### 함수 타입 인스턴스의 생성
 
 함수 타입의 인스턴스를 만드는 방법은 몇 가지가 있습니다:
@@ -144,6 +147,7 @@ val extensionReference: A.(B) -> C = A::someExtension
 
 {&$---}
 
+{#invoking-a-function-type-instance}
 ### 함수 타입 인스턴스의 호출
 
 함수 타입의 값의 호출은 그의 [`invoke(...)` 연산자](/docs/operator-overloading.md#호출-연산자) 를 사용하여 `f.invoke(x)` 처럼 하거나 `f(x)` 로 수행합니다.
@@ -161,10 +165,12 @@ println(intPlus(1, 2))
 println(2.intPlus(3)) // extension-like call
 ```
 
+{#inline-functions}
 ### 인라인 함수
 
 때때로 [인라인 함수](/docs/inline-functions.md) 를 사용하는 것이 고차 함수의 유연한 흐름 제어를 위해 도움이 될 때도 있습니다.
 
+{#lambda-expressions-and-anonymous-functions}
 ## 람다 표현과 익명 함수
 
 람다 표현과 익명 함수는 모두 **함수 리터럴**입니다. 함수 리터럴은 선언되지 않았지만 표현으로써 곧바로 전달됩니다.
@@ -181,6 +187,7 @@ max(strings, { a, b -> a.length < b.length })
 fun compare(a: String, b: String): Boolean = a.length < b.length
 ```
 
+{#lambda-expression-syntax}
 ### 람다 표현 문법
 
 람다 표현의 완전한 문법적 형태는 아래와 같습니다:
@@ -199,6 +206,7 @@ val sum: (Int, Int) -> Int = { x: Int, y: Int -> x + y }
 val sum = { x: Int, y: Int -> x + y }
 ```
 
+{#passing-trailing-lambdas}
 ### 함수의 가장 마지막 파라미터에 람다를 전달하기
 
 Kotlin 의 문법 규약에 따라, 어떤 함수의 마지막 파라미터가 함수라면, 해당 람다 표현은 괄호 바깥쪽에 배치됩니다:
@@ -215,6 +223,7 @@ val product = items.fold(1) { acc, e -> acc * e }
 run { println("...") }
 ```
 
+{#it-implicit-name-of-a-single-parameter}
 ### it: 유일한 파라미터의 암시적 이름
 
 람다식이 단 하나의 파라미터를 가지는 상황은 아주 흔합니다.
@@ -226,6 +235,7 @@ run { println("...") }
 ints.filter { it > 0 } // this literal is of type '(it: Int) -> Boolean'
 ```
 
+{#returning-a-value-from-a-lambda-expression}
 ### 람다식에서 값을 리턴하기
 
 [라벨이 붙은 리턴](/docs/returns.md#라벨이-붙은-리턴) 문법을 사용하여, 람다에서 어떤 값을 명시적으로 리턴할 수 있습니다.
@@ -252,6 +262,7 @@ ints.filter {
 strings.filter { it.length == 5 }.sortedBy { it }.map { it.uppercase() }
 ```
 
+{#underscore-for-unused-variables}
 ### 사용되지 않는 파라미터에 언더바 사용하기
 
 만약 람다의 파라미터가 사용되지 않는다면, 이름 대신 언더바를 배치합니다:
@@ -270,15 +281,16 @@ map.forEach { (_, __) -> println("ASDF") }
 
 {&$---}
 
+{#destructuring-in-lambdas}
 ### 람다에서의 분해형 선언
 
-람다에서 구조 분해는 [](/docs/destructing-declarations.md) 문서에 기술되어 있습니다.
+람다에서 구조 분해는 [](/docs/destructuring-declarations.md) 문서에 기술되어 있습니다.
 
+{#anonymous-functions}
 ### 익명 함수
 
 위의 람다 표현 문법에서는 함수의 리턴 타입을 명시할 수 있는 방법이 없습니다. 
-일반적으로는 리턴 타입이 자동으로 유추되므로 이것을 명시할 필요가 없습니다. 
-그러나 만약 이를 명확하게 정해야 한다면, **익명 함수** 문법을 사용할 수 있습니다.
+일반적으로는 리턴 타입이 자동으로 유추되므로 이것을 명시할 필요가 없지만, 만약 이를 명확하게 정해야 한다면 **익명 함수** 문법을 사용할 수 있습니다.
 
 ```kotlin
 fun(x: Int, y: Int): Int = x + y
@@ -351,6 +363,7 @@ fun main() {
 
 {&$---}
 
+{#closures}
 ### 클로저
 
 람다 표현이나 익명 함수 들은, 로컬 함수나 오브젝트 표현과 동일하게 그들 자신의 **클로저**에 접근할 수 있습니다. 
@@ -364,6 +377,7 @@ ints.filter { it > 0 }.forEach {
 print(sum)
 ```
 
+{#function-literals-with-receiver}
 ### 수신자를 갖는 함수 리터럴
 
 `A.(B) -> C` 와 같은 수신자를 갖는 [함수 타입](#함수-타입)들은 '수신자를 갖는 함수 리터럴'이라는 특별한 형태의 함수 리터럴로 구체화될 수 있습니다.

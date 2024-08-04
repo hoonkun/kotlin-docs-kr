@@ -9,11 +9,13 @@ Kotlin 은 간결하고, 안전하며, Java 를 비롯한 다른 언어와 상�
 
 [![Kotlin 여정 시작하기](/take_kotlin_tour.svg)](https://kotlinlang.org/docs/kotlin-tour-welcome.html)
 
+{#install-kotlin}
 ## Kotlin 설치하기
 Kotlin 은 각 [Intellij IDEA](https://www.jetbrains.com/idea/download/) 및 [Android Studio](https://developer.android.com/studio) 릴리즈에 포함되어있습니다. 
 Kotlin 사용을 시작하려면 이 IDE 중 하나를 다운로드받고 설치하세요.
 
-## Kotlin 사용처 고르기
+{#choose-your-kotlin-use-case}
+## Kotlin 사용처 선택하기
 
 {-}
 
@@ -164,6 +166,7 @@ Kotlin 의 서버사이드 어플리케이션을 만들기 위한 첫 발자국�
 
 {/-}
 
+{#is-anything-missing}
 ## 무언가 빠진게 있나요?
 
 무언가 빠진게 있거나 헷갈리는 부분이 있으시다면, [피드백을 전달해주세요](https://surveys.hotjar.com/d82e82b0-00d9-44a7-b793-0611bf6189df).

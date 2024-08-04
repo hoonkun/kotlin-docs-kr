@@ -6,10 +6,12 @@ Kotlin 은 이 문제를 [코루틴](https://en.wikipedia.org/wiki/Coroutine) �
 
 비동기 프로그래밍의 문을 열기 전에 추가로, 코루틴은 동시성이나 Actor 같은 많은 가능성을 가지고 있기도 합니다.
 
+{#how-to-start}
 ## 시작하려면
 
 Kotlin 에 처음이신가요? [시작하기](/docs/getting-started.md) 문서도 한 번 살펴보세요.
 
+{#documentation}
 ### 문서
 
 - [](/docs/coroutines-guide.md)
@@ -18,6 +20,7 @@ Kotlin 에 처음이신가요? [시작하기](/docs/getting-started.md) 문서�
 - [](/docs/coroutine-context-and-dispatchers.md)
 - [](/docs/shared-mutable-state-and-concurrency.md)
 
+{#tutorials}
 ### 튜토리얼
 
 - [](/docs/async-programming.md)
@@ -26,6 +29,7 @@ Kotlin 에 처음이신가요? [시작하기](/docs/getting-started.md) 문서�
 - [Intellij IDEA 를 통한 플로우 디버깅](/docs/debug-coroutines-with-idea.md)
 - [안드로이드에서 코루틴 디버깅](https://developer.android.com/kotlin/coroutines/test)
 
+{#sample-projects}
 ## 예제 프로젝트
 
 - [kotlinx.coroutines 예제와 소스코드](https://github.com/Kotlin/kotlin-coroutines/tree/master/examples)

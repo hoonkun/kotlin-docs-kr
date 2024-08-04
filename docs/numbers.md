@@ -1,3 +1,4 @@
+{#integer-types}
 ## 정수 타입
 
 Kotlin 은 숫자를 표현하는 built-in 타입을 제공합니다.  
@@ -24,6 +25,7 @@ val oneByte: Byte = 1
 {>tip}
 > 정수형 타입에 더해, Kotlin 은 부호 없는 정수 타입도 지원합니다. [](/docs/unsigned-integer-types.md) 문서에서 더 많은 정보를 확인해보세요.
 
+{#floating-point-types}
 ## 부동 소수점 타입
 
 실수의 표현을 위해, Kotlin 은 [IEEE 754 표준](https://en.wikipedia.org/wiki/IEEE_754)을 따르는 부동 소수점 타입인 `Float` 와 `Double` 을 지원합니다.
@@ -72,6 +74,7 @@ fun main() {
 
 숫자 값들을 다른 타입으로 변환하려면, [명시적 변환](#명시적-변환)을 사용하세요.
 
+{#literal-constants-for-numbers}
 ## 숫자 표현을 위한 상수 리터럴
 
 아래에 몇몇 정수의 표현을 위한 상수 리터럴의 종류들이 나타나 있습니다:
@@ -101,6 +104,7 @@ val bytes = 0b11010010_01101001_10010100_10010010
 {>tip}
 > 부호 없는 정수 리터럴에도 특수한 표기법이 있습니다. [부호 없는 정수의 리터럴](/docs/unsigned-integer-types.md#부호-없는-정수의-리터럴) 문서에서 더 많은 정보를 확인해보세요.
 
+{#numbers-representation-on-the-jvm}
 ## JVM 에서의 숫자 표현
 
 JVM 플랫폼에서, 숫자들은 원시 타입인 `int` 와 `double` 등의 타입으로 저장됩니다. 
@@ -135,6 +139,7 @@ val anotherBoxedB: Int? = b
 println(boxedB == anotherBoxedB) // Prints 'true'
 ```
 
+{#explicit-number-conversions}
 ## 명시적 변환
 
 표현 방식이 다르기 때문에, **작은 크기의 타입이 더 큰 타입의 서브타입이 아닙니다**. 
@@ -173,6 +178,7 @@ val i1: Int = b.toInt()
 val l = 1L + 3 // Long + Int => Long
 ```
 
+{#operations-on-numbers}
 ## 숫자에 대한 연산
 
 Kotlin 은 숫자에 대한 일반적인 수학적 연산자 `+`, `-`, `*`, `/`, `%` 를 지원합니다. 
@@ -185,6 +191,7 @@ println(3.14 * 2.71)
 println(10.0 / 3)
 ```
 
+{#division-of-integers}
 ### 정수로 나누기
 
 정수와 정수 사이의 나눗셈은 항상 정수를 반환합니다. 모든 소수 부분은 버려집니다.
@@ -209,6 +216,7 @@ val x = 5 / 2.toDouble()
 println(x == 2.5)
 ```
 
+{#bitwise-operations}
 ### 비트 연산
 
 Kotlin 은 정수에 대해 **비트 연산**을 지원합니다. 그들은 바이너리 단계의 숫자를 표현하는 비트에 직접 작용합니다. 
@@ -231,6 +239,7 @@ val x = (1 shl 2) and 0x000FF000
 ---
 {&[1]} 부호 없는 오른쪽 시프팅은 비트를 오른쪽으로 밀고 새로 생긴 공간을 항상 0으로 채웁니다. 부호 있는 오른쪽 시프팅은 밀기 전의 부호 비트를 따르는 것과는 상반되죠. 
 
+{#floating-point-numbers-comparison}
 ### 부동 소수점 수의 비교
 
 이 문단에서 기술하는 부동 소수점 수의 연산은 아래 내용들입니다:

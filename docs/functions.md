@@ -6,6 +6,7 @@ fun double(x: Int): Int {
 }
 ```
 
+{#function-usage}
 ## 함수의 사용
 
 함수들은 일반적인 통념에 따라 호출할 수 있습니다:
@@ -20,6 +21,7 @@ val result = double(2)
 Stream().read() // Stream 클래스의 인스턴스를 생성하고 read() 함수를 호출합니다.
 ```
 
+{#parameters}
 ### 매개변수(파라미터)
 
 함수의 매개변수는 Pascal-notation -- name: type 으로 선언합니다. 매개변수들은 쉼표로 구분되며, 모든 매개변수들은 타입을 명시해야합니다:
@@ -37,6 +39,7 @@ fun powerOf(
 ) { /*...*/ }
 ```
 
+{#default-arguments}
 ### 매개변수의 기본값
 
 함수의 매개변수는 기본값을 가질 수 있고, 기본값을 가지는 매개변수는 호출 시 생략할 수 있습니다. 이를 통해 같은 함수의 오버로드를 줄일 수 있습니다.
@@ -75,8 +78,8 @@ fun foo(
 foo(baz = 1) // 기본값인 bar = 0 이 사용되었습니다.
 ```
 
-기본값이 있는 매개변수의 뒤에 정의되는 마지막 매개변수가 [람다](/docs/lambdas.md#람다-표현식-문법)이면,
-[이름이 명시된 인수](#이름이-명시된-인수) 로 표현하거나 [괄호 바깥에 표현](/docs/lambdas.md#마지막-람다의-전달)할 수도 있습니다.
+기본값이 있는 매개변수의 뒤에 정의되는 마지막 매개변수가 [람다](/docs/lambdas.md#람다-표현-문법)이면,
+[이름이 명시된 인수](#이름이-명시된-인수) 로 표현하거나 [괄호 바깥에 표현](/docs/lambdas.md#함수의-가장-마지막-파라미터에-람다를-전달하기)할 수도 있습니다.
 
 ```kotlin
 fun foo(
@@ -90,6 +93,7 @@ foo(qux = { println("hello") }) // 두 기본값 bar = 0, baz = 1 를 모두 사
 foo { println("hello") }        // 이 표현 역시 두 기본값 bar = 0, baz = 1 를 모두 사용합니다.
 ```
 
+{#named-arguments}
 ### 이름이 명시된 인수
 
 함수의 호출에서, 하나 이상의 인수 기입 시 매개변수의 이름을 병기할 수 있습니다. 이 표현 방식은 함수의 매개변수가 많고 인수와 매개변수를 관련지어 파악하기 힘들 때(특히 Boolean 이거나 null 이 많을 때) 유용합니다.
@@ -143,6 +147,7 @@ foo(strings = *arrayOf("a", "b", "c"))
 
 > JVM 플랫폼에서 Java 함수를 호출할 때에는 매개변수의 이름을 병기할 수 없습니다. 그 이유는 Java 바이트코드가 함수의 매개변수 이름을 항상 유지하지는 않기 때문입니다.  
 
+{#unit-returning-functions}
 ### Unit 을 리턴하는 함수
 
 어떤 함수가 의미있는 값을 리턴하지 않는다면, 그의 리턴 타입은 `Unit` 입니다. `Unit` 은 하나의 유일한 값인 `Unit` 이 가지는 타입으로, 이 값을 명시적으로 리턴할 필요가 없습니다.
@@ -163,6 +168,7 @@ fun printHello(name: String?): Unit {
 fun printHello(name: String?) { ... }
 ```
 
+{#single-expression-functions}
 ### 단일 표현식 함수
 
 만약 함수의 몸체가 하나의 표현식만으로 구성되면, 중괄호가 생략되고 `=` 기호 뒤에 표현될 수 있습니다:
@@ -177,6 +183,7 @@ fun double(x: Int): Int = x * 2
 fun double(x: Int) = x * 2
 ```
 
+{#explicit-return-types}
 ### 명시적인 리턴 타입
 
 블럭의 몸체를 가지는 함수들은, [Unit 을 리턴하도록 의도된 것](#Unit-을-리턴하는-함수)이 아니라면 모두 그의 리턴형을 명시적으로 정의해야합니다.
@@ -184,6 +191,7 @@ fun double(x: Int) = x * 2
 Kotlin 은 블럭을 몸체로 가지는 함수들의 리턴타입을 유추하지 않습니다. 
 이러한 함수들은 그의 몸체에 복잡한 컨트롤 흐름을 가지고 있을 가능성이 높아서, 코드를 읽는 사람이나 때때로는 심지어 컴파일러에게도 무엇을 리턴하는지 명백하지 않을 수 있기 때문입니다.
 
+{#variable-number-of-arguments-varargs}
 ### 정해지지 않은 갯수의 매개변수
 
 함수가 가지는 매개변수(일반적으로 가장 마지막 것)를 `vararg` 수정자로 표기할 수 있습니다.
@@ -221,6 +229,7 @@ val a = intArrayOf(1, 2, 3) // IntArray 는 원시 타입의 배열입니다.
 val list = asList(-1, 0, *a.toTypedArray(), 4)
 ```
 
+{#infix-notation}
 ### Infix 표기법
 
 `infix` 키워드로 마크된 함수들은 infix 표기법(호출 시 점과 괄호를 생략)을 사용하여 호출될 수도 있습니다. Infix 함수는 반드시 아래 요구사항들을 만족해야합니다:
@@ -264,11 +273,13 @@ class MyStringCollection {
 }
 ```
 
+{#function-scope}
 ## 함수의 스코프
 
 Kotlin 의 함수는 파일의 최상위 레벨에 선언될 수 있고, 이는 Java 나 C#, 스칼라([3 부터는 최상위 레벨의 함수 선언이 가능합니다](https://docs.scala-lang.org/scala3/book/taste-toplevel-definitions.html#inner-main)) 등 에서 했던 것과 같은 '함수를 포함할 클래스'를 정의하지 않아도 됨을 의미합니다.
 최상위 레벨의 함수에 더해, Kotlin 함수는 다른 함수의 범위 안에서 로컬 멤버 함수 혹은 확장 함수로 선언될 수 있습니다.
 
+{#local-functions}
 ### 로컬 함수
 
 Kotlin 은 함수 안의 함수인 로컬 함수를 지원합니다.
@@ -300,6 +311,7 @@ fun dfs(graph: Graph) {
 }
 ```
 
+{#member-functions}
 ### 멤버 함수
 
 멤버 함수는 클래스나 오브젝트 안에 정의된 함수입니다.
@@ -316,6 +328,7 @@ class Sample {
 Sample().foo() // Sample 클래스의 인스턴스를 만들고 foo 를 호출합니다.
 ```
 
+{#generic-functions}
 ## 제너릭 함수
 
 함수들은 그의 이름 앞에 꺽쇠괄호를 통해 표현되는 제너릭 매개변수를 가질 수 있습니다:
@@ -326,6 +339,7 @@ fun <T> singletonList(item: T): List<T> { /*...*/ }
 
 자세한 사항은 [제너릭](/docs/generics.md) 문서를 확인해보세요.
 
+{#tail-recursive-functions}
 ## Tail-recursive 함수
 
 Kotlin 은 함수형 프로그래밍에서 [끝단-재귀](https://en.wikipedia.org/wiki/Tail_call)함수로 알려진 스타일을 지원합니다.

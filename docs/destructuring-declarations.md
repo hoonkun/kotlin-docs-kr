@@ -32,6 +32,7 @@ for ((a, b) in collection) { ... }
 
 `a` 와 `b` 변수에는 컬렉션의 각 요소 하나하나에서 `component1()` 과 `component2()` 의 결과가 할당됩니다.
 
+{#example-returning-two-values-from-a-function}
 ## 예제: 함수로부터 두 개의 값을 리턴하기
 
 하나의 함수로부터 두 개의 값을 리턴해야한다고 생각해봅시다 - 예를 들어, 결과 오브젝트와 그의 상태를 같이 리턴해야한다고 가정해볼게요.
@@ -54,6 +55,7 @@ val (result, status) = function(...)
 > 표준 클래스인 `Pair` 를 `function()` 함수의 리턴으로 사용하여 `Pair<Int, Status>` 를 돌려주어도 동일하게 동작하지만, 
 > 명확하게 이름이 부여된 데이터 클래스를 사용하는 것이 더 나을 때가 많습니다.
 
+{#example-destructuring-declarations-and-maps}
 ## 예제: 분해형 정의와 맵
 
 맵을 순회하기 위한 가장 멋진 방법은 이겁니다:
@@ -77,6 +79,7 @@ operator fun <K, V> Map.Entry<K, V>.component1() = getKey()
 operator fun <K, V> Map.Entry<K, V>.component2() = getValue()
 ```
 
+{#underscore-for-unused-variables}
 ## 사용하지 않는 변수에 대해 언더바 사용하기
 
 분해형 정의에서 사용하지 않는 변수가 있다면, 이름 대신 언더바를 사용할 수 있습니다:
@@ -87,6 +90,7 @@ val (_, status) = getResult()
 
 이렇게 하면, 언더바로 표시된 컴포넌트들의 `componentN()` 함수는 호출되지 않습니다.
 
+{#destructuring-in-lambdas}
 ## 람다에서 분해하기
 
 분해형 문법을 람다의 매개변수에도 사용할 수 있습니다. 만약 람다의 매개변수가 `Pair` 타입(이거나 `Map.Entry` 등의 적절한 `componentN()` 함수를 가진 타입)이면, 이들을 하나의 변수로 선언하는 대신 괄호로 감싸 여러 개의 새로운 매개변수들로 풀어 쓸 수 있습니다:

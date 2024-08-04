@@ -1,5 +1,6 @@
 이 문서에서는 정지 함수를 구성하는 몇 가지 접근에 대해 다룹니다.
 
+{#sequential-by-default}
 ## 기본적으로 순차적입니다
 
 어떤 유용한 무언가를 수행하는 정지 함수가 있다고 해봅시다. 실제로는 이 예제의 목적을 위해 1초를 기다리기만 하는 함수이지만, 일단 유용한 것이라고 해보겠습니다:
@@ -37,6 +38,7 @@ The answer is 42
 Completed in 2017 ms
 ```
 
+{#concurrent-using-async}
 ## async 를 통한 동시성
 
 만약 `doSomethingUsefulOne` 과 `doSomethingUsefulTwo` 사이에 어떠한 의존 관계도 없고 그 둘을 **동시에** 실행하여 결과를 더 빠르게 내고싶다면 어떨까요? 
@@ -63,6 +65,7 @@ Completed in 1017 ms
 
 두 코루틴이 동시에 실행되기 때문에, 두 배 빠른 결과입니다. 코루틴의 동시성은 항상 명시적임을 기억해두세요.
 
+{#lazily-started-async}
 ## 나중에 시작되는 async
 
 선택적으로, [async](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/async.html) 는 그의 `start` 인수에 [CoroutineStart.LAZY](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-coroutine-start/-l-a-z-y/index.html) 를 전달함으로써 나중에 시작되도록 할 수도 있습니다. 이 모드에서는 그의 결과값이 [await](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-deferred/await.html) 에 의해 필요하게 되거나, `Job` 의 [start](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-job/start.html) 가 불리면 그 때 실행이 시작됩니다. 아래의 코드를 실행해보세요:
@@ -94,6 +97,7 @@ Completed in 1017 ms
 
 {&[1]} 원문: laziness
 
+{#async-style-functions}
 ## async-style 함수들
 
 > 이 async 함수들을 사용한 프로그래밍 스타일은 그저 다른 언어들에서 자주 쓰이는 스타일이기 때문에 그의 의미를 전달하기 위한 것일 뿐입니다. 이 스타일을 Kotlin 에서 사용하는 것은 아래에서 서술할 이유료 **강하게 비권장**됩니다.
@@ -143,6 +147,7 @@ fun main() {
 그러나 해당 호출이 발생한 작업 자체가 예외로 인해 중지되었음에도 불구하고, `somethingUsefulOneAsync()` 에 의한 작업은 백그라운드에서 계속 실행되고 있습니다. 
 이런 문제는 아래에서 설명하듯 구조화된 동시성의 경계 안에서는 발생하지 않습니다.
 
+{#structured-concurrency-with-async}
 ## async 와 구조화된 동시성
 
 *async 를 통한 동시성* 영역의 예제를 잠시 가져와, 동시에 `doSomethingUsefulOne` 과 `doSomethingUsefulTwo` 를 수행하고 그의 합을 구하는 별도 함수를 만들어봅시다. 

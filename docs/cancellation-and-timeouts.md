@@ -1,5 +1,6 @@
 이 문서는 코루틴의 취소와 타임아웃에 대해 다룹니다.
 
+{#cancelling-coroutine-execution}
 ## 코루틴 실행의 취소
 긴 시간동안 실행되는 어플리케이션에서, 백그라운드 코루틴에 대한 세밀한 컨트롤이 필요할 수 있습니다. 
 예를 들어, 사용자가 어떤 코루틴을 포함한 페이지를 닫거나 어떤 원인에 의해 결과가 필요 없어져서 취소해도 되는 작업이 생겼을 때 등이겠지요.
@@ -32,6 +33,7 @@ main: Now I can quit.
 `job.cancel()` 의 호출 직후에 코루틴이 취소되어서, 해당 코루틴으로부터의 다른 출력이 보이지 않습니다. 
 [cancel](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/cancel.html) 과 [join](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-job/join.html) 을 합쳐둔 [Job](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-job/index.html) 의 다른 확장 함수로 [cancelAndJoin](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/cancel-and-join.html) 을 사용할 수 있습니다.
 
+{#cancellation-is-cooperative}
 ## 취소는 협조적입니다
 
 코루틴의 취소는 **협조적**입니다. 즉, 코루틴 내의 코드는 그를 취소할 수 있도록 협조적이어야 합니다. 
@@ -82,6 +84,7 @@ println("main: Now I can quit.")
 
 `Excetption` 을 잡는게 안티패턴이긴 하지만, 이 문제는 이외에도 여러 경로를 통해 다양한 형태로 나타날 수 있습니다. 예를 들면 [CancellationException](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-cancellation-exception/index.html) 을 잡고 다시 던지지 않는 [`runCatching`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/run-catching.html) 등을 사용한다던지요.
 
+{#making-computation-code-cancellable}
 ## 계산하는 코드를 취소할 수 있도록 하기
 
 계산중인 코드를 취소할 수 있게 할 수 있는 두 가지 접근 방법이 있습니다. 첫 번째는 주기적으로 정지 함수를 호출하여 취소되었는지를 확인하는 방법으로, [yield](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/yield.html) 라는 함수가 이 목적을 위한 좋은 선택입니다. 
@@ -110,6 +113,7 @@ println("main: Now I can quit.")
 
 확인할 수 있듯이, 이젠 반복이 정상적으로 취소됩니다. [isActive](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/is-active.html) 는 코루틴 안에서 사용할 수 있는 [CoroutineScope](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-coroutine-scope/index.html) 의 확장 프로퍼티입니다.
 
+{#closing-resources-with-finally}
 ## finally 를 사용해 리소스를 정리하기
 
 취소할 수 있는 정지 함수는 취소되면 평범하게 핸들링할 수 있는 [CancellationException](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-cancellation-exception/index.html) 을 던집니다. 예를 들어, 코루틴이 취소되면 `try { ... } finally { ... }` 표현이나 Kotlin 의 `use` 함수는 그의 최종 정리 동작{^[1]}을 정상적으로 실행합니다.
@@ -146,6 +150,7 @@ main: Now I can quit.
 
 {&[1]} 원문: finalization actions
 
+{#run-non-cancellable-block}
 ## 취소할 수 없는 블럭의 실행
 
 위의 예제에서, `finally` 블럭 안에서의 모든 정지 함수의 사용 시도는 [CancellationException](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-cancellation-exception/index.html) 을 부릅니다. 
@@ -177,6 +182,7 @@ println("main: Now I can quit.")
 
 {&[1]} 원문: well-behaving
 
+{#timeout}
 ## 타임아웃
 
 코루틴의 실행을 취소하는 가장 현실적인 이유는 그의 실행 시간이 최대 실행 가능 시간을 초과하는 경우입니다. 
@@ -227,10 +233,11 @@ I'm sleeping 2 ...
 Result is null
 ```
 
+{#asynchronous-timeout-and-resources}
 ## 비동기 타임아웃과 리소스
 
 [withTimeout](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/with-timeout.html) 안의 타임아웃 이벤트는, 실행되는 그의 블럭과 비동기적으로 언제든 발생할 수 있습니다. 
-설사 그것이 타임아웃 블럭의 리턴 바로 직전일지라도요. 이 블럭 안에서 정리가 필요한 리소스를 만들기 전에 이 사실을 항상 기억하세요.
+심지어 그것이 타임아웃 블럭의 리턴 바로 직전일지라도요. 이 블럭 안에서 정리가 필요한 리소스를 만들기 전에 이 사실을 항상 기억하세요.
 
 예를 들기 위해 아래의 예제에서 정리가 필요한 `Resource` 클래스를 만들어보겠습니다. 단순히 오브젝트가 생성될 때 `aquired` 를 증가시키고 `close` 함수를 통해 감소시키는 역할입니다.
 

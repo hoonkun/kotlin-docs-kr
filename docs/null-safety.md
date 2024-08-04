@@ -1,3 +1,4 @@
+{#nullable-types-and-non-nullable-types}
 ## Nullable 타입과 Nullable 하지 않은 타입
 
 Kotlin 의 타입 시스템은 null 레퍼런스의 위험을 제거하는데 초점이 맞춰져 있습니다. 
@@ -54,6 +55,7 @@ val l = b.length // 오류: 변수 'b' null 일 수 없습니다.
 &nbsp;  
 [이 예제(Kotlin Online)](https://pl.kotl.in/YjKDFK_0I)를 통해 어떤 일이 일어나는지 살펴보세요.
 
+{#checking-for-null-in-conditions}
 ## 조건문을 통해 null 인지 아닌지 체크하는 방법
 
 첫 번째로, `b` 가 `null`인지 조건문을 통해 명시적으로 확인하여 두 경우를 각각 핸들링하는 방법입니다:
@@ -82,6 +84,7 @@ if (b != null && b.length > 0) {
 이런 경우에는 기반 필드를 가지지 않으며, 초기화에서 어떤 실제 값을 할당하는 경우 혹은 `set()` 에서 `field` 를 참조하는 경우에 기반 필드를 가진다고 표현합니다.
 
 
+{#safe-calls}
 ## 안전한 호출
 
 두 번째로는, nullable 프로퍼티에 `?.` 연산자를 사용하여 안전하게 접근하는 방법입니다:
@@ -120,6 +123,7 @@ for (item in listWithNulls) {
 person?.department?.head = managersPool.getManager()
 ```
 
+{#nullable-receiver}
 ## Nullable 수신자
 
 확장 함수가 [Nullable 수신자](/docs/extensions.md#nullable-수신자)를 사용할 수도 있습니다. 이렇게 하면 매번 호출할 때마다 null 체크를 하지 않아도 null에 대한 처리를 할 수 있습니다. 
@@ -142,6 +146,7 @@ if (isoTimestamp == null) {
 }
 ```
 
+{#elvis-operator}
 ## Elvis 연산자
 
 nullable 한 레퍼런스 `b`를 가지고 있을 때, "`b`가 `null` 이 아니면 그걸 쓰고, `null` 이면 다른 `null` 이 아닌 무언가를 쓰고싶어" 라고 할 수도 있습니다:
@@ -170,6 +175,7 @@ fun foo(node: Node): String? {
 }
 ```
 
+{#the-operator}
 ## !! 연산자
 
 세 번째 방법은 기존의 NPE를 너무나 사랑했던 분들을 위한 것입니다. 
@@ -180,8 +186,9 @@ fun foo(node: Node): String? {
 val l = b!!.length
 ```
 
-그러므로, NPE 를 원하신다면 사용하셔도 되지만, 명백하게 요청을 해야만 이런 일이 발생하고 뜻밖의 상황에서 갑자기 일어나지는 않습니다.
+이러한 행동은 이 연산자를 통해 명백하게 요청을 해야만 발생하며 의도하지 않게 발생하지는 않습니다. 그러므로, NPE 를 원하신다면 사용하셔도 됩니다.
 
+{#safe-casts}
 ## 안전한 캐스팅
 
 일반적인 캐스팅은 캐스팅하려는 타입과 원본 타입이 맞지 않으면 `ClassCastException` 이 발생합니다.
@@ -191,6 +198,7 @@ val l = b!!.length
 val aInt: Int? = a as? Int
 ```
 
+{#collections-of-a-nullable-type}
 ## nullable 타입의 컬렉션
 
 nullable 한 요소들을 가지는 컬렉션이 있고 그 중 null 이 아닌 것만 골라내려 한다면, `filterNotNull` 을 쓸 수 있습니다:
@@ -200,6 +208,7 @@ val nullableList: List<Int?> = listOf(1, 2, null, 4)
 val intList: List<Int> = nullableList.filterNotNull()
 ```
 
+{#what-s-next}
 ## 더 알아보기
 
 - [Java 와 Kotlin 사이에서 null 을 처리하는 방법](/docs/java-to-kotlin-nullability-guide.md)에 대해 알아보세요.

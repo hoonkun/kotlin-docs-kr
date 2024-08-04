@@ -5,6 +5,7 @@
 
 `this` 표현에 특정한 꼬리표가 없으면, **가장 안쪽으로 둘러싸인 스코프**의 그것을 의미합니다. 바깥쪽의 `this` 를 쓰려면, **꼬리표**를 사용해야합니다.
 
+{#qualified-this}
 ## 꼬리표가 붙은 this
 
 바깥쪽 스코프로부터 `this` 를 참조하려면([클래스](/docs/classes.md), [확장함수](/docs/extensions.md), [라벨링된 함수 리터럴의 수신자](/docs/lambdas.md#수신자를-가진-함수-리터럴)), `this@label` 이라고 표현합니다. 
@@ -34,6 +35,7 @@ class A { // 암시적으로 @A
 }
 ```
 
+{#implicit-this}
 ## 암시적인 this
 
 `this` 에 속한 어떤 멤버 함수를 호출할 때, `this` 는 생략할 수 있습니다. 

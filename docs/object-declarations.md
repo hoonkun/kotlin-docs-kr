@@ -1,12 +1,14 @@
 때때로, 명시적으로 서브클래스를 정의하지 않은, 아주 약간의 수정만 이루어진 클래스의 인스턴스를 만들 필요도 있을 수 있습니다.
 Kotlin 은 이를 **오브젝트 표현식**과 **오브젝트 선언**을 통해 핸들링할 수 있습니다.
 
+{#object-expressions}
 ## 오브젝트 표현식
 
 **오브젝트 표현식**은, 명시적으로 `class` 키워드로 정의되지 않은 익명 클래스의 오브젝트를 생성합니다.
 이러한 클래스들은 한 번 쓰고 끝날 때 유용합니다. 아무 기반 없이 만들 수도 있고, 어떤 클래스에서 파생시킬 수도 있으며, 인터페이스를 구현할 수도 있습니다.
 이 익명 클래스들의 인스턴스는 어떤 이름이 아니라 표현식으로부터 만들어졌기 때문에 **익명 오브젝트**라고도 불립니다.
 
+{#creating-anonymous-objects-from-scratch}
 ### 아무런 기반 없이 익명 오브젝트 만들기
 
 오브젝트 표현식은 `object` 키워드로부터 시작됩니다.
@@ -24,6 +26,7 @@ val helloWorld = object {
 print(helloWorld)
 ```
 
+{#inheriting-anonymous-objects-from-supertypes}
 ### 어떤 슈퍼타입으로부터 오브젝트 파생시키기
 
 어떤 타입(들)을 상속받는 익명 클래스의 오브젝트를 만드려면, `object` 와 콜론(`:`) 뒤에 이 타입들을 명시합니다.
@@ -52,6 +55,7 @@ val ab: A = object : A(1), B {
 }
 ```
 
+{#using-anonymous-objects-as-return-and-value-types}
 ### 익명 오브젝트를 리턴과 값의 타입으로 사용하기
 
 만약 어떤 함수나 프로퍼티의 선언이 로컬이거나 [private](/docs/visibility-modifiers.md#packages) 하면서, 동시에 [inline](/docs/inline-functions.md) 이 아닌 경우 
@@ -104,7 +108,8 @@ class C {
 }
 ```
 
-### 익명 클래스의 변수 접근
+{#accessing-variables-from-anonymous-objects}
+### 익명 오브젝트의 변수 접근
 
 오브젝트 표현 안의 코드들은 그 바깥 스코프의 변수에 접근할 수 있습니다:
 
@@ -126,6 +131,7 @@ fun countClicks(window: JComponent) {
 }
 ```
 
+{#object-declarations-overview}
 ## 오브젝트 선언
 
 몇 가지 경우에서는, [싱글톤](https://en.wikipedia.org/wiki/Singleton_pattern) 패턴이 유용합니다.
@@ -165,6 +171,7 @@ object DefaultListener : MouseAdapter() {
 
 > 오브젝트 선언은 로컬일 수 없습니다. 이는 즉 어떤 함수 안에 있을 수 없다는 의미이지만, 어떤 또다른 `inner`가 아닌 클래스나 오브젝트 선언 안에는 있을 수 있습니다. 
 
+{#data-objects}
 ### 데이터 오브젝트
 
 어떤 `object` 선언이 나타내는 오브젝트를 출력하면, 출력되는 문자열에 그의 이름과 해시가 포함됩니다:
@@ -262,6 +269,7 @@ fun main() {
 }
 ```
 
+{#companion-objects}
 ## 동반 오브젝트 (companion object)
 
 어떠한 클래스 안에 있는 오브젝트 선언은 `companion` 키워드로 표기될 수 있습니다:
@@ -326,6 +334,7 @@ val f: Factory<MyClass> = MyClass
 
 그러나, JVM 환경에서 동반 오브젝트의 멤버가 실제로 static 메서드와 필드들로 변환되도록 `@JvmStatic` 을 사용할 수도 있습니다. [Java 상호운용성](/docs/java-to-kotlin-interop.md#static-fields) 문서를 확인해보세요.
 
+{#semantic-difference-between-object-expressions-and-declarations}
 ### 오브젝트 표현과 선언의 의미론적인 차이
 
 오브젝트 표현과 선언 사이에는 중요한 의미론적인 차이가 있습니다:

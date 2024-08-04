@@ -276,7 +276,7 @@
       },
       {
         "title": "분해형 선언",
-        "href": "destructing-declarations.md"
+        "href": "destructuring-declarations.md"
       },
       {
         "title": "리플렉션",

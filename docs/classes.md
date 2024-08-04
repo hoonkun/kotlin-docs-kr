@@ -11,6 +11,7 @@ class Person { /*...*/ }
 class Empty
 ```
 
+{#constructors}
 ## 생성자
 
 Kotlin 에서 클래스는 **주생성자**와 하나 이상의 **부생성자**들을 가집니다. 주생성자는 클래스의 헤더의 이름 뒤에, 선택적인 타입 파라미터와 함께 정의됩니다.
@@ -97,6 +98,7 @@ class Customer public @Inject constructor(name: String) { /*...*/ }
 
 [가시성 수정자](/docs/visibility-modifiers.md#constructors) 에 대해 더 알아보세요.
 
+{#secondary-constructors}
 ### 부생성자
 
 클래스는 `constructor` 키워드를 접두사로 가지는 부생성자도 정의할 수 있습니다:
@@ -162,6 +164,7 @@ class DontCreateMe private constructor() { /*...*/ }
 > class Customer(val customerName: String = "")
 > ```
 
+{#creating-instances-of-classes}
 ## 클래스의 인스턴스 만들기
 
 클래스의 인스턴스를 만드려면, 생성자를 일반적인 함수인 것 처럼 호출합니다. 
@@ -177,6 +180,7 @@ val customer = Customer("Joe Smith")
 
 중첩되거나, 안쪽의(inner), 혹은 익명 클래스들의 생성 과정은 [](/docs/nested-classes.md) 에서 기술합니다.
 
+{#class-members}
 ## 클래스의 멤버
 
 클래스는 아래 목록이 나열하는 것들을 포함할 수 있습니다:
@@ -187,11 +191,13 @@ val customer = Customer("Joe Smith")
 - [](/docs/nested-classes.md)
 - [](/docs/object-declarations.md)
 
+{#inheritance}
 ## 물려받기
 
 클래스들은 서로간에 파생될 수 있으며, 상속 계층을 형성할 수 있습니다. 
 [Kotlin 에서 상속에 대해 자세히 알아보세요](/docs/inheritance.md).
 
+{#abstract-classes}
 ## 추상 클래스
 
 어떤 클래스는 몇몇, 혹은 전부의 멤버를 가지면서 동시에 `abstract` 로 선언될 수 있습니다.
@@ -225,6 +231,7 @@ abstract class WildShape : Polygon() {
 }
 ```
 
+{#companion-objects}
 ## 동반 오브젝트 (companion object)
 
 클래스의 인스턴스 없이 쓸 수 있어야 하지만 클래스와 연관되어 사용되는 함수(팩토리 함수 같은)를 작성해아한다면, 

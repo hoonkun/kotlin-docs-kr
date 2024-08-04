@@ -2,6 +2,7 @@
 
 코루틴 컨텍스트는 몇가지 요소들의 집합입니다. 이전에 봤던 [Job](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-job/index.html) 도 이 요소 중 하나이며, 디스패쳐가 이 문서에서 설명할 또다른 메인 요소입니다.
 
+{#dispatchers-and-threads}
 ## 디스패쳐와 스레드
 
 코루틴 컨텍스트는 코루틴이 실행될 스레드(들)를 결정하는 코루틴 디스패쳐([CoroutineDispatcher](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-coroutine-dispatcher/index.html))를 포함합니다. 디스패쳐는 코루틴의 실행을 특정 스레에 가두거나, 스레드풀에 파견하거나, 갇히지 않은 상태로 두기도 합니다.
@@ -42,6 +43,7 @@ main runBlocking      : I'm working in thread main
 
 [newSingleThreadContext](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/new-single-thread-context.html) 는 코루틴의 실행을 위해 새로운 스레드를 만듭니다. 전용 스레드는 매우 무거운 리소스이므로, 실제 어플리케이션에서는 반드시 사용 완료 후 [close](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-executor-coroutine-dispatcher/close.html) 함수를 통해 놓아주거나 top-level 에 정의되어 어플리케이션 내에서 재사용되어야 합니다.
 
+{#unconfined-vs-confined-dispatcher}
 ## 갇히지 않은 디스패쳐 vs 갇힌 디스패쳐
 
 [Dispatchers.Unconfined](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-dispatchers/-unconfined.html) 는 코루틴을 기존에 실행되던 스레드에서 실행하지만, 첫 정지 포인트까지만 그렇게 합니다. 정지가 끝난 이후에 실행될 스레드는 첫 정지를 유발한 함수에 의해 결정됩니다. 갇히지 않은 디스패쳐는 CPU 시간을 잡아먹지 않고 특정 스레드에 갇힌 공유 자원을 건드리지 않는 코루틴들에 적합합니다.
@@ -79,9 +81,11 @@ main runBlocking: After delay in thread main
 즉, 어떤 코루틴이 적절한 타이밍에 '정지' 하지 않으면 해당 스레드를 막으며, 그러면 다른 해당 스레드에 '갇힌' 코루틴들은 막힌다는 의미가 됩니다.  
 [이 예제 소스(Kotlin Online)](https://pl.kotl.in/8HChOu22p)를 통해 '실제로 정지하는 함수'와 스레드 사이의 관계를 확인해보세요.  
 
+{#debugging-coroutines-and-threads}
 ## 코루틴과 스레드의 디버깅
 코루틴은 어떤 스레드에서 정지하여 다른 스레드에서 재게될 수 있습니다. 싱글스레드 디스패쳐를 사용하더라도 특별한 도구를 사용하지 않으면 코루틴이 무엇을 하고 있는지 찾아내기 어려울 수 있습니다.
 
+{#debugging-with-idea}
 ### IDEA 로 디버깅
 코틀린 플러그인인 코루틴 디버거가 Intellij IDEA 에서 코루틴의 디버깅을 편리하게 합니다.  
 
@@ -102,6 +106,7 @@ main runBlocking: After delay in thread main
 
 코루틴 디버깅에 대한 더 자세한 내용을 [이 튜토리얼](https://kotlinlang.org/docs/tutorials/coroutines/debug-coroutines-with-idea.html) 에서 알아보세요.
 
+{#debugging-using-logging}
 ### 로깅으로 디버깅
 스레드를 사용하는 어플리케이션을, Coroutine Debugger 를 사용하지 않고 디버깅하는 또다른 접근은 로그파일의 각 문장에 스레드의 이름을 출력하는 방법입니다.
 이 기능은 보편적으로 로깅 프레임워크들에 의해 지원되고 있습니다. 코루틴을 사용할 때는 스레드의 이름만으로는 충분한 정보를 가져올 수 없으므로, `kotlinx.coroutines` 는 그를 더 쉽게 하기 위한 도구들을 포함합니다.  
@@ -134,6 +139,7 @@ log("The answer is ${a.await() * b.await()}")
 
 > 디버그 모드는 JVM 이 `-ea` 옵션과 함께 실행되었을 때도 켜집니다. 디버그 도구에 대한 더 자세한 내용을 [DEBUG_PROPERTY_NAME](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-d-e-b-u-g_-p-r-o-p-e-r-t-y_-n-a-m-e.html) 프로퍼티의 문서에서 확인할 수 있습니다.
 
+{#jumping-between-threads}
 ## 스레드 사이를 오가기
 
 아래의 코드를 `-Dkotlinx.coroutines.debug` JVM 옵션과 함께 실행해보세요:
@@ -166,6 +172,7 @@ fun main() {
 
 이 예제에서는 Kotlin 표준 라이브러리에 포함된 `use` 의 사용을 통해 [newSingleThreadContext](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/new-single-thread-context.html) 로부터 만들어진 뒤 사용이 끝난 스레드를 놓아주고 있습니다.
 
+{#job-in-the-context}
 ## 컨텍스트에서의 Job
 
 코루틴의 [Job](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-job/index.html) 은 컨텍스트의 부분이므로, `coroutineContext[Job]` 표현으로 접근할 수 있습니다:
@@ -182,6 +189,7 @@ My job is "coroutine#1":BlockingCoroutine{Active}@6d311334
 
 [CoroutineScope](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-coroutine-scope/index.html) 의 [isActive](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/is-active.html) 확장 프로퍼티는 `coroutineContext[Job]?.isActive == true` 의 문법적 설탕과 같습니다.
 
+{#children-of-a-coroutine}
 ## 코루틴의 자식
 
 어떤 코루틴이 다른 코루틴의 [CoroutineScope](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-coroutine-scope/index.html) 안에서 시작되면, 그 코루틴의 컨텍스트는 해당하는 [CoroutineScope.coroutineContext](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-coroutine-scope/coroutine-context.html) 로부터 물려받으며, 새로운 코루틴의 [Job](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-job/index.html) 은 부모 코루틴이 가지는 그것의 **자식**이 됩니다. 부모의 코루틴이 중지되면, 모든 자식들까지 재귀적으로 취소됩니다.
@@ -225,6 +233,7 @@ main: Who has survived request cancellation?
 job1: I am not affected by cancellation of the request
 ```
 
+{#parental-responsibilities}
 ## 부모의 책임
 
 부모 코루틴은 항상 모든 자식이 완료될때까지 기다립니다. 부모는 자식들의 실행 상태를 추적할 필요가 없으며, 마지막에 자식들에 대한 [Job.join](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-job/join.html) 으로 모든 작업이 끝나기를 기다릴 필요도 없습니다.
@@ -254,6 +263,7 @@ Coroutine 2 is done
 Now processing of the request is complete
 ```
 
+{#naming-coroutines-for-debugging}
 ## 디버깅을 위해 코루틴에 이름짓기
 
 자동으로 할당되는 id 들은 코루틴들이 로깅을 자주하거나 단순히 서로 같은 코루틴으로부터 오는 로그들을 취합할 때는 좋습니다. 그러나 특정 요청에 국한된 처리나 백그라운드 작업을 한다면, 디버깅 목적으로 명시적인 이름을 짓는게 더 좋습니다. [CoroutineName](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-coroutine-name/index.html) 컨텍스트 요소는 스레드의 이름과 동일한 목적의 기능을 제공합니다. 그것은 디버그 모드가 켜저있을 때 로그에 표기되는 스레드의 이름에 포함될 것입니다.
@@ -285,6 +295,7 @@ log("The answer for v1 * v2 = ${v1.await() * v2.await()}")
 [main @main#1] The answer for v1 * v2 = 42
 ```
 
+{#combining-context-elements}
 ## 컨텍스트 요소의 조합
 
 때때로 여러 요소들을 하나의 코루틴 컨텍스트에 조합해야할 수 있습니다. 그럴 때는 `+` 오퍼레이터를 사용합니다. 
@@ -302,6 +313,7 @@ launch(Dispatchers.Default + CoroutineName("test")) {
 I'm working in thread DefaultDispatcher-worker-1 @test#2
 ```
 
+{#coroutine-scope}
 ## 코루틴 스코프
 
 이제, 알게된 컨텍스트와 그의 자식, Job에 대한 내용을 한 곳으로 모아봅시다. 우리의 어플리케이션이 생명주기를 가지는 어떤 오브젝트를 가지고 있다고 가정해보세요. 
@@ -364,6 +376,7 @@ Destroying activity!
 
 > 안드로이드에는 생명주기를 가지는 엔티티에 대한 코루틴 스코프의 지원이 이미 있습니다. 자세한 내용은 [해당 문서](https://developer.android.com/topic/libraries/architecture/coroutines?hl=ko#lifecyclescope)를 확인해보세요.
 
+{#thread-local-data}
 ### 스레드 로컬 데이터
 
 때때로 스레드 로컬 데이터를 코루틴 간에 넘기면 편리할 때가 있습니다. 그러나 코루틴들은 특정 스레드의 경계 안에 있지 않기 때문에, 이를 직접 구현하면 보일러플레이트가 될 수 있습니다.

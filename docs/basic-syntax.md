@@ -2,6 +2,7 @@
 
 또한, Jetbrains Academy 의 [Kotlin Core track](https://hyperskill.org/tracks?category=4&utm_source=jbkotlin_hs&utm_medium=referral&utm_campaign=kotlinlang-docs&utm_content=button_1&utm_term=22.03.23) 을 통해 무료로 Kotlin 의 기초를 배울 수 있습니다.  
 
+{#package-definition-and-imports}
 ## 패키지 정의와 임포트
 
 패키지 정의는 파일의 가장 위에 위치해야합니다:
@@ -18,6 +19,7 @@ import kotlin.text.*
 
 [패키지와 임포트](/docs/packages.md) 문서를 확인해보세요.
 
+{#program-entry-point}
 ## 프로그램 엔트리 포인트
 
 Kotlin 어플리케이션의 엔트리 포인트는 `main` 함수입니다:
@@ -36,6 +38,7 @@ fun main(args: Array<String>) {
 }
 ```
 
+{#print-to-the-standard-output}
 ## 표준 출력 스트림에 쓰기
 
 `print` 함수는 그의 인수를 표준 출력 스트림에 씁니다:
@@ -52,7 +55,8 @@ println("Hello world!")
 println(42)
 ```
 
-## 표준 입력 스트림으로부터 읽기 {#read-from-the-standard-input}
+{#read-from-the-standard-input}
+## 표준 입력 스트림으로부터 읽기
 
 `readln()` 함수는 표준 입력 스트림으로부터 읽습니다. 이 함수는 사용자가 입력한 전체 한 줄을 문자열로 리턴합니다.
 
@@ -74,6 +78,7 @@ print(yourWord)
 더 많은 내용은 [](/docs/read-standard-input.md) 를 살펴보세요.
 
 
+{#functions}
 ## 함수
 
 두 개의 `Int` 파라미터와 `Int` 리턴형을 가지는 함수입니다:
@@ -108,6 +113,7 @@ fun printSum(a: Int, b: Int) {
 
 [](/docs/functions.md) 문서를 확인해보세요.
 
+{#variables}
 ## 변수
 
 Kotlin 에서, 변수는 `val` 이나 `var` 키워드를 시작으로 그 뒤에 변수 이름을 적어 정의합니다.
@@ -167,6 +173,7 @@ fun incrementX() {
 
 [](/docs/properties.md) 문서 에서 클래스의 프로퍼티를 선언하는 방법에 대해 살펴보세요.
 
+{#creating-classes-and-instances}
 ## 클래스와 인스턴스의 생성
 
 클래스를 정의하려면 `class` 키워드를 사용합니다:
@@ -207,6 +214,7 @@ class Rectangle(val height: Double, val length: Double): Shape() {
 
 [](/docs/classes.md) 문서와 [](/docs/object-declarations.md) 문서에서 생성자와 상속에 대한 더 많은 정보를 확인해보세요.
 
+{#comments}
 ## 주석
 
 다른 현대 프로그래밍 언어와 동일하게, Kotlin 은 한 라인(라인 끝)과 여러 라인(블럭) 주석을 지원합니다:
@@ -228,6 +236,7 @@ Kotlin 에서 블럭 주석은 중첩될 수 있습니다.
 
 [코틀린 코드의 문서화](https://kotlinlang.org/docs/kotlin-doc.md) 문서에서 문서화 주석 문법에 대해 더 알아보실 수 있습니다.
 
+{#string-templates}
 ## 템플릿 문자열
 
 ```kotlin
@@ -242,6 +251,7 @@ val s2 = "${s1.replace("is", "was")}, but now is $a"
 
 더 자세한 사항은 [템플릿 문자열](/docs/strings.md#템플릿-문자열) 섹션을 확인해보세요.
 
+{#conditional-expressions}
 ## 조건적인 표현
 
 ```kotlin
@@ -262,6 +272,7 @@ fun maxOf(a: Int, b: Int) = if (a > b) a else b
 
 [`if`-표현](/docs/control-flow.md#if-표현식) 섹션을 확인해보세요.
 
+{#for-loop}
 ## for 반복
 
 ```kotlin
@@ -282,6 +293,7 @@ for (index in items.indices) {
 
 [for 반복](/docs/control-flow.md#for-반복) 섹션을 확인해보세요.
 
+{#while-loop}
 ## while 반복
 
 ```kotlin
@@ -295,6 +307,7 @@ while (index < items.size) {
 
 [while 반복](/docs/control-flow.md#while-반복) 섹션을 확인해보세요.
 
+{#when-expression}
 ## when 표현
 
 ```kotlin
@@ -310,6 +323,7 @@ fun describe(obj: Any): String =
 
 [when 표현](/docs/control-flow.md#when-표현식) 섹션을 확인해보세요.
 
+{#ranges}
 ## 범위
 
 어떠한 수가 범위 내에 있는지는 `in` 연산자를 통해 확인합니다:
@@ -357,6 +371,7 @@ for (x in 9 downTo 0 step 3) {
 
 [](/docs/ranges.md) 문서를 확인해보세요.
 
+{#collections}
 ## 컬렉션
 
 컬렉션을 순회하려면:
@@ -389,6 +404,7 @@ fruits
 
 [](/docs/collections-overview.md) 문서를 확인해보세요.
 
+{#nullable-values-and-null-checks}
 ## Nullable 값들과 null 체크
 
 어떠한 레퍼런스는 `null` 이 할당 가능할 경우 반드시 nullable 로 마킹되어야 합니다. Nullable 한 타입들은 뒤에 `?` 가 따라붙습니다.
@@ -442,6 +458,7 @@ println(x * y)
 null 체크 이후에 자동으로 진행되는 `x`, `y` 변수의 `Int` 타입으로의 캐스팅을 포함하여, 조건문을 통해 어떤 변수가 어떤 타입을 가지는지 확인한 뒤에 자동으로 진행되는 캐스팅을 '스마트 캐스팅' 이라고 부르기도 합니다.  
 후자에 대한 설명은 바로 아래에서 이어집니다.
 
+{#type-checks-and-automatic-casts}
 ## 타입 체크와 자동 캐스트
 
 `is` 연산자는 어떤 표현식이 특정한 타입의 인스턴스인지를 확인합니다. 변경할 수 없는 로컬 변수가 특정 타입인지 확인되면, 명시적으로 캐스팅할 필요가 없습니다:

@@ -1,5 +1,6 @@
 이 문서는 코루틴의 기본적인 개념에 대해 다룹니다.
 
+{#your-first-coroutine}
 ## 첫 코루틴
 
 **코루틴**은 정지할 수 있는 계산들의 집합{^[1]}입니다. 
@@ -52,6 +53,7 @@ Unresolved reference: launch
 이 `runBlocking` 의 이름은, 이 함수가 실행되는 스레드(이 경우에는 main thread)가 전달되는 람다의 코루틴들이 모두 작업을 마칠 때까지 **막힌다**는 것을 의미합니다.
 스레드는 무거운 자원이고 그것을 막는 것은 비효율적이라서, 대부분의 경우 의도하지 않기 때문에 아마 여러 어플리케이션의 진입점 등과 같은 top-level 에서 많이 보이고 실제 코드에서는 거의 보이지 않을 것입니다.
 
+{#structured-concurrency}
 ### 구조화된 동시성
 
 코루틴은 그 생명주기를 제어하는 특정 [CoroutineScope](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-coroutine-scope/) 에서만 실행될 수 있다는 **구조화된 동시성**{^[3]}이라는 원칙을 따릅니다. 
@@ -67,6 +69,7 @@ Unresolved reference: launch
 {&[2]} 원문: coroutine builder  
 {&[3]} 원문: structured concurrency. 코루틴에서 사용되는 특정 개념을 지칭하는 표현.  
 
+{#extract-function-refactoring}
 ## 리팩터링 - 함수로 분리
 
 `launch { ... }` 블럭 안에 있는 코드를 별도의 함수로 분리해봅시다. 이 코드에 대해 "Extract function" 기능을 사용하면, `suspend` 수정자를 가진 새로운 함수를 만나게 될것입니다. 
@@ -92,6 +95,7 @@ suspend fun doWorld() {
 &nbsp;  
 스레드나 '*갇힌*' 이라는 표현과 연관된, 예제를 동반한 더 자세한 내용은 [이 문서](/docs/coroutine-context-and-dispatchers.md) 에서 다룹니다.
 
+{#scope-builder}
 ## Scope builder
 
 다른 코루틴 빌더 함수들에 의해 제공되는 코루틴 스코프들에 더해, [coroutineScope](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/coroutine-scope.html) 라는 빌더 함수를 사용하여 여러분만의 새로운 스코프를 정의할 수도 있습니다. 이 함수는 새로운 코루틴 스코프를 만들며 그 안에서 시작된 자식 코루틴들이 모두 끝날 때까지 완료되지 않습니다.
@@ -123,6 +127,7 @@ Hello
 World!
 ```
 
+{#scope-builder-and-concurrency}
 ## Scope builder 와 동시성
 
 [coroutineScope](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/coroutine-scope.html) 빌더는 여러 개의 동시적인 작업을 수행하려는 모든 정지 함수에서 사용될 수 있습니다. 
@@ -159,6 +164,7 @@ World 2
 Done
 ```
 
+{#an-explicit-job}
 ## 명시적인 Job
 
 [launch](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/launch.html) 빌더는, 해당 코루틴을 관리하며 그것이 종료될때까지 명시적으로 기다리게 할 수 있는 [Job](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-job/index.html) 오브젝트를 리턴합니다. 
@@ -182,7 +188,8 @@ World!
 Done
 ```
 
-## 코루틴은 가볍다
+{#coroutines-are-light-weight}
+## 코루틴은 가볍습니다
 
 코루틴은 JVM의 스레드보다 덜 무겁습니다. 스레드를 사용했을 때 JVM 의 사용 가능 메모리를 바닥낼 수 있는 코드가 코루틴을 사용하면 리소스 제한을 넘지 않고 실행{^[1]}될 수 있습니다.
 

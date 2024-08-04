@@ -11,6 +11,7 @@
 
 코루틴에 대해 설명하기 전에, 다른 해결책들을 간단히 살펴봅시다.
 
+{#threading}
 ## 스레드 (Threading)
 스레딩은 어플리케이션이 '막히지 않게' 하기 위한, 지금까지 아마도 가장 널리, 잘 알려진 해결책일 것입니다.
 
@@ -40,6 +41,7 @@ fun preparePost(): Token {
 ---
 {&[1]} 여러 코드가 동시에 실행되는 환경에서, 랜덤한 타이밍으로 인해 실행 순서가 변경되어 동작이 바뀌는 현상을 말합니다.
 
+{#callbacks}
 ## 콜백 함수 (Callback)
 
 콜백 함수는 어떠한 작업이 완료된 뒤에 할 행동을 함수의 형태로 다른 함수에 인수로 전달하는 기법입니다.
@@ -68,6 +70,7 @@ fun preparePostAsync(callback: (Token) -> Unit) {
 
 JavaScript 같은 이벤트 루프 기반의 아키텍쳐에서 콜백은 꽤 일반적이지만, 그곳에서 마저도 사람들은 Promises 나 Reactive Extension 같은 것들로 넘어가려고 하고 있습니다.  
 
+{#futures-promises-and-others}
 ## Future 와 Promise 를 비롯한 나머지
 
 Future 와 Promise(언어별로 다른 명칭을 사용하기도 합니다)가 만들어진 이유는, 우리가 그것을 호출할 때 미래의 어떤 특정 시점에 값을 리턴한다는 약속을 받아낸다고 여겼기 때문입니다.
@@ -96,6 +99,7 @@ fun preparePostAsync(): Promise<Token> {
 - 우리가 진짜로 필요로하는 리턴 타입이 없어지고 새로운 `Promise` 라는 타입을 리턴하는, 어쩌면 다시 생각해볼만한 행동을 합니다.
 - 에러의 전파나 체인 구성은 항상 직관적이지는 않으며 대게 복잡하고 어렵습니다.
 
+{#reactive-extensions}
 ## 반응형 확장 (Reactive Extensions)
 반응형 확장 (Reactive Extensions, Rx) 는 [Erik Meijer](https://en.wikipedia.org/wiki/Erik_Meijer_(computer_scientist)) 에 의해 C# 에 창안되었습니다.
 처음 창안될 당시 이 기법은 명백하게 .NET 프레임워크 위에서만 사용될 수 있었고, Netflix 가 이것을 Java 로 가져온 뒤 RxJava 라는 이름을 붙히기 전까지는 주류로 채택되지 못했습니다.
@@ -114,6 +118,7 @@ Future 에 비해 좋은 점은, 이것이 C#, Java, JavaScript 를 비롯한 �
 
 더해서, Rx 는 에러 핸들링에 대해 더 훌륭한 접근을 소개하기도 합니다.
 
+{#coroutines}
 ## 코루틴 (Coroutine)
 비동기적인 코드를 작성하는 것에 있어서 Kotlin 의 접근은, 코루틴(Coroutine)을 사용하는 것이었습니다. 
 이는 정지할 수 있는 계산{^[1]}들의 집합이며, 즉 함수를 어떤 시점에 그 실행을 잠시 멈추고 그 뒤에 이어서 할 수 있는 것으로 취급함으로써 창안된 아이디어입니다.

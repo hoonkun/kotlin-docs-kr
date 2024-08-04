@@ -4,6 +4,7 @@ Kotlin 에서 가장 흔한 배열 타입은 오브젝트 타입의 배열로, [
 > 오브젝트 타입의 배열에 원시 값을 사용하면, 그 원시 값들 각각이 오브젝트로 포장되기 때문에 성능 이슈가 발생합니다. 
 > 이러한 포장 오버헤드를 방지하려면, [원시 타입 배열](#원시-타입-배열)을 사용하세요.
 
+{#when-to-use-arrays}
 ## 언제 배열을 써야하는가
 
 Kotlin 에서는, 만족시켜야 하는 어떤 저수준의 필요사항이 있을 때 사용합니다.
@@ -28,6 +29,7 @@ Kotlin 에서는, 만족시켜야 하는 어떤 저수준의 필요사항이 있
 
 컬렉션에 대한 더 자세한 사항은 [컬렉션 훑어보기](/docs/collection-overview.md) 문서를 확인해보세요.
 
+{#create-arrays}
 ## 배열 만들기
 
 Kotlin 에서 배열을 만드려면, 아래 방법 중 하나를 사용할 수 있습니다:
@@ -83,6 +85,7 @@ asc.forEach { print(it) }
 
 > 대부분의 프로그래밍 언어와 동일하게, 인덱스는 0부터 시작합니다.
 
+{#nested-arrays}
 ### 중첩된 배열
 
 배열은 다차원 배열을 만들기 위해 서로 간에 중첩될 수도 있습니다:
@@ -104,6 +107,7 @@ println(threeDArray.contentDeepToString())
 ---
 예제에는 나타나있지 않지만, `arrayOf()` 등의 배열을 만드는 함수를 사용해도 중첩된 배열을 만들 수 있습니다.
 
+{#access-and-modify-elements}
 ## 요소에의 접근과 수정
 
 배열은 항상 변경 가능합니다. 배열의 요소에 접근하고 수정하려면, [인덱스 접근 연산자 `[]`](/docs/operator-overloading.md#인덱스-접근-연산자)를 사용합니다:
@@ -125,11 +129,13 @@ Kotlin 의 배열 타입은 **불변**합니다.
 이는 Kotlin 이 `Array<String>` 을 `Array<Any>` 에 할당하는 것을 허용하지 않는다는 것을 의미합니다.
 이럴 때는 `Array<out Any>`를 사용할 수 있으며, 이와 관련된 자세한 사항은 [타입 투사](/docs/generics.md#타입-투사) 문서를 확인해보세요.
 
+{#work-with-arrays}
 ## 배열과의 작업
 
 Kotlin 에서는, 배열을 정해지지 않은 갯수의 매개변수를 가지는 함수에 인수로 전달하거나, 물론이지만 그 자체에 어떠한 작업도 할 수 있습니다.
 예를 들면, 배열들을 비교하거나 그 내용을 변경하거나, 배열을 컬렉션으로 변환하는 등이 있습니다.
 
+{#pass-variable-number-of-arguments-to-a-function}
 ### 정해지지 않은 갯수의 인수를 함수에 전달하기
 
 Kotlin 에서는 정해지지 않은 수의 인수를 `vararg` 매개변수에 전달할 수 있습니다. 
@@ -154,6 +160,7 @@ fun printAllStrings(vararg strings: String) {
 
 더 많은 정보는 [정해지지 않은 갯수의 매개변수 (varargs)](/docs/functions.md#정해지지-않은-갯수의-매개변수) 문단을 확인해보세요.
 
+{#compare-arrays}
 ### 배열의 비교
 
 배열이 서로 같은 요소를 같은 순서로 가지고 있는지 확인하려면, [`.contentEquals()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/content-equals.html) 나 [`.contentDeepEquals()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/content-deep-equals.html) 를 사용합니다:
@@ -179,6 +186,7 @@ println(simpleArray contentEquals anotherArray)
 > Kotlin 의 배열이 왜 이렇게 동작하는지에 대해서는, [이 블로그의 포스트](https://blog.jetbrains.com/kotlin/2015/09/feedback-request-limitations-on-data-classes/?_gl=1*1jn2tzg*_ga*NzY5NzU4NDQ1LjE2OTIxNjIwNDA.*_ga_9J976DJZ68*MTcxNjQ0MjQ0OC4xMDQuMS4xNzE2NDQzODMxLjUzLjAuMA..&_ga=2.164268863.1241882561.1715957889-769758445.1692162040#Appendix.Comparingarrays)를 살펴보세요.
 
 
+{#transform-arrays}
 ### 배열의 변환
 
 Kotlin 에는 배열을 변환하기 위한 많은 쓸만한 함수들이 있습니다. 
@@ -215,6 +223,7 @@ simpleArray.shuffle()
 println(simpleArray.joinToString())
 ```
 
+{#convert-arrays-to-collections}
 #### 컬렉션으로의 변환
 
 어떤 건 배열을 쓰고 어떤 건 컬렉션을 쓰는 서로 다른 API들로 작업중이라면, 배열을 [컬렉션](/docs/collections-overview.md) 등으로 변환할 수 있습니다:
@@ -253,6 +262,7 @@ println(pairArray.toMap())
 // {apple=140, banana=150, cherry=90}
 ```
 
+{#primitive-type-arrays}
 ## 원시 타입 배열
 
 `Array` 클래스를 통해 원시 타입의 값들을 요소로 가지게 하면, 모든 값들이 그에 해당하는 Java 클래스의 오브젝트로 포장됩니다.
@@ -284,6 +294,7 @@ println(exampleArray.joinToString())
 > 
 > 오브젝트 타입의 배열을 원시 타입의 배열로 변환하려면, [`.toBooleanArray()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/to-boolean-array.html), [`.toByteArray()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/to-byte-array.html), [`.toCharArray()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/to-char-array.html) 등을 사용합니다.
 
+{#what-s-next}
 ## 더 알아보기
 
 - 대부분의 경우에서 컬렉션을 사용하기를 권장하는 이유에 대해 알아보려면, [컬렉션 훑어보기](/docs/collections-overview.md) 문서를 살펴보세요.
