@@ -35,6 +35,7 @@
     - [Object expressions and declarations](/docs/object-declarations.md)
   - Functions/
     - [Functions](/docs/functions.md)
+    - [Lambdas](/docs/lambdas.md)
   - [Null-safety](/docs/null-safety.md)
   - [Equality](/docs/equality.md)
   - [This expressions](/docs/this-expressions.md)
