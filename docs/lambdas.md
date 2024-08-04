@@ -319,23 +319,28 @@ fun someFunction() {
     println("Unreachable") // 그렇기 때문에 이 문장은 실행되지 않을 것임을 의미합니다.
 }
 ```
-그러면 실제로는 컴파일되지 않기 때문에 의미가 없는 설명을 왜 하고 있는지를 살펴볼까요.
+그러면 실제로는 컴파일되지 않기 때문에 의미가 없는 설명을 왜 하고 있는지를 살펴볼까요.   
+아래와 같은 함수가 있다고 생각해 보겠습니다.
 ```kotlin
 inline fun someInlineFunction(lambda: () -> Unit) {
     lambda()
     println("Reached!")
 }
-
-// someInlineFunction 이 인라인 함수이며, 그에 전달하는 람다 파라미터가 `crossinline` 이 아니므로
-// 라벨이 없는 `return` 을 사용하는것이 허용됩니다.
-// 아무것도 출력하지 않고, 이 함수를 호출한 가장 가까운 inline 이 아니면서 fun 으로 정의된 함수를 리턴합니다.
+```
+이 함수는 인라인 함수이며, 그에 전달하는 람다 파라미터가 `crossinline` 이 아니므로 아래처럼 라벨이 없는 `return` 을 사용하는것이 허용됩니다.
+```kotlin
 someInlineFunction { return }
+```
+이렇게 작성하면, 아무것도 출력하지 않고 이 함수를 호출한 가장 가까운 `inline` 이 아니면서 `fun` 으로 정의된 함수를 리턴합니다.
 
-// 아래의 return 구문은 익명함수 자신만 리턴합니다. 따라서 `Reached!` 를 출력합니다.
+이번에는 람다가 아닌 익명 함수로 작성해보겠습니다.
+```kotlin
 someInlineFunction(fun() { return })
+```
+익명 함수의 `return` 구문은 익명함수 자신만 리턴합니다. 따라서 `Reached!` 를 출력합니다.
 
-// 아래처럼 한다면, 첫 번째 someInlineFunction 에서 main 을 리턴해버리기 때문에 
-// 결과적으로 아무것도 출력하지 않습니다.
+따라서 만약 아래처럼 한다면, 첫 번째 `someInlineFunction` 에서 `main` 을 리턴해버리기 때문에 결과적으로 아무것도 출력하지 않습니다.
+```kotlin
 fun main() {
     someInlineFunction { return }
     someInlineFunction(fun() { return })
