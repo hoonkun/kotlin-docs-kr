@@ -3,7 +3,7 @@ import { execSync } from "child_process"
 
 import React from "react"
 import { HtmlToReact, MarkdownToHtml } from "@/utils/MarkdownProcessor"
-import { notFound } from "next/navigation"
+import { notFound, redirect } from "next/navigation"
 import { findDocumentation, flatDocumentation, titleOf } from "@/utils/Documentation"
 import {
   DocumentPageTemplate,
@@ -16,6 +16,9 @@ import { DocumentHome } from "@/components/documents/DocumentHome"
 
 export default async function DocumentPage(props: { params: { document_key: string } }) {
   const { params: { document_key: key } } = props
+
+  if (key.endsWith(".html"))
+    redirect(`/docs/${key.slice(0, -5)}.md`)
 
   if (key !== "home" && !key.endsWith(".md"))
     notFound()
@@ -46,6 +49,7 @@ export default async function DocumentPage(props: { params: { document_key: stri
   const lastModified = formatLastModified(gitLogResult ? new Date(gitLogResult) : new Date())
 
   let markdown: string = fs.readFileSync(`./docs/${key}`, { encoding: "utf8" })
+  markdown = moveOriginalAnchorsToChildren(markdown)
 
   const footnoteRefs = Array.from(markdown.matchAll(/\{\^\[(?<number>[0-9]+)]}/gi))
   const footnoteContents = Array.from(markdown.matchAll(/\{&\[(?<number>[0-9]+)]}/gi))
@@ -70,7 +74,10 @@ export default async function DocumentPage(props: { params: { document_key: stri
 
   sections.push(
     ...Array.from(html.matchAll(/<(?<opening>h1|h2|h3)>(?<text>.+?)<\/(?<closing>h1|h2|h3)>/gi))
-      .map(it => ({ type: it.groups?.["opening"] ?? "h6", text: removeTags(it.groups?.["text"] ?? "") }))
+      .map(it => ({
+        type: it.groups?.["opening"] ?? "h6",
+        text: removeOriginalAnchors(removeTags(it.groups?.["text"] ?? ""))
+      }))
   )
 
   return (
@@ -260,8 +267,13 @@ const replaceFootnotes = (
   return content
 }
 
-const replaceFootNoteBlock = (html: string) => {
-  return html
+const replaceFootNoteBlock = (html: string) => html
     .replaceAll("<p>{&#x26;^---}</p>", "<div>")
     .replaceAll("<p>{&#x26;$---}</p>", "</div>")
-}
+
+const removeOriginalAnchors = (text: string): string => text
+  .replace(/ \{#(.+)}/, "")
+  .trim()
+
+const moveOriginalAnchorsToChildren = (markdown: string) => markdown
+  .replace(/^(\{#.+})\n(#+) (.+)$/mg, "$2 $3 $1")

@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react"
+import React, { PropsWithChildren, ReactNode } from "react"
 import { unified } from "unified"
 import remarkParse from "remark-parse"
 import remarkGfm from "remark-gfm"
@@ -11,7 +11,7 @@ import Image from "next/image"
 import { CodeBlock, InlineCode, PreTag, PreTagSpacer } from "@/components/markdown/CodeBlock"
 import { BlockQuote } from "@/components/markdown/BlockQuote"
 import * as ProductionReact from "react/jsx-runtime"
-import { HeadingAnchor } from "@/components/markdown/HeadingAnchor"
+import { H1, H2, H3, H4, H5, H6, HeadingAnchor } from "@/components/markdown/HeadingAnchor"
 import { TabHost, TabHostProps, TabItem, TabItemProps } from "@/components/markdown/Tab"
 import { Component } from "@/libs/rehype/types"
 import rehypeParse from "rehype-parse"
@@ -66,12 +66,12 @@ export const GlobalMarkdownComponents = (documentKey?: string): Partial<RehypeRe
 
   table: props => <div className={"table-wrapper"}><table {...props}/></div>,
 
-  h1: props => <HeadingAnchor id={replaceSigns(retrieveNodeText(props.children))}><h1>{props.children}</h1></HeadingAnchor>,
-  h2: props => <HeadingAnchor id={replaceSigns(retrieveNodeText(props.children))}><h2>{props.children}</h2></HeadingAnchor>,
-  h3: props => <HeadingAnchor id={replaceSigns(retrieveNodeText(props.children))}><h3>{props.children}</h3></HeadingAnchor>,
-  h4: props => <HeadingAnchor id={replaceSigns(retrieveNodeText(props.children))}><h4>{props.children}</h4></HeadingAnchor>,
-  h5: props => <HeadingAnchor id={replaceSigns(retrieveNodeText(props.children))}><h5>{props.children}</h5></HeadingAnchor>,
-  h6: props => <HeadingAnchor id={replaceSigns(retrieveNodeText(props.children))}><h6>{props.children}</h6></HeadingAnchor>,
+  h1: props => Heading(props.children, H1),
+  h2: props => Heading(props.children, H2),
+  h3: props => Heading(props.children, H3),
+  h4: props => Heading(props.children, H4),
+  h5: props => Heading(props.children, H5),
+  h6: props => Heading(props.children, H6),
 
   // eslint-disable-next-line @next/next/no-img-element
   img: props => documentKey ? <ContentImage {...props} documentKey={documentKey}/> : <img alt={props.alt} src={props.src}/>,
@@ -89,7 +89,28 @@ const ContentImage: React.FC<{ alt?: string, documentKey: string, src?: string }
   return <Image src={Source.default} alt={props.alt ?? ""} style={{ width: "100%", height: "auto", marginTop: 15 }} />
 }
 
+const Heading = (children: React.ReactNode, Head: React.FC<PropsWithChildren>) => {
+  const korId = retrieveKorId(children)
+  const engId = retrieveEngId(children)
+
+  const sanitizedChildren = retrieveChildren(children)
+
+  return <HeadingAnchor korId={korId} engId={engId}><Head>{sanitizedChildren}</Head></HeadingAnchor>
+}
+
 type ClientReactElement = Exclude<ReactNode, string | number | bigint | boolean | null | undefined | Iterable<ReactNode> | Promise<React.AwaitedReactNode>>
+
+const retrieveKorId = (children: React.ReactNode) =>
+  replaceSigns(removeOriginalAnchors(retrieveNodeText(children)))
+
+const retrieveEngId = (children: React.ReactNode) =>
+  retrieveOriginalAnchors(retrieveNodeText(children))
+
+const retrieveChildren = (node: React.ReactNode): React.ReactNode => {
+  if (typeof node === "string") return removeOriginalAnchors(node)
+  return node
+}
+
 const retrieveNodeText = (node: React.ReactNode): string => {
   if (typeof node === "string") return node
   if (typeof node === "number") return `${node}`
@@ -105,6 +126,12 @@ const retrieveNodeText = (node: React.ReactNode): string => {
 
   return retrieveNodeText((node as ClientReactElement).props.children)
 }
+
+const removeOriginalAnchors = (textNode: string): string => textNode
+  .replace(/ \{#(.+)}/, "")
+
+const retrieveOriginalAnchors = (textNode: string): string | undefined => textNode
+    .match(/ \{#(.+?)}/)?.[1]
 
 const replaceSigns = (input: string): string => input
   .replaceAll(' ', "-")
