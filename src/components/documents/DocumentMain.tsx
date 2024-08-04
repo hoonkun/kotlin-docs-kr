@@ -228,6 +228,10 @@ const Article = styled.article<{ $disableWidthLimiting?: boolean }>`
     transition: border-color 0.1s linear;
   }
 
+  & a.external-link {
+    color: #124f8a;
+  }
+
   & a:not(:has(svg, img)).external-link:after, a:not(:has(svg, img)).api-doc:after {
     content: "\\2197";
     transform: translateY(2px);
