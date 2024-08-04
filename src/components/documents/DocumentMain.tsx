@@ -36,8 +36,8 @@ export const DocumentMain: React.FC<PropsWithChildren<DocumentMainProps>> = prop
   }, [defaultViewing])
 
   const initializeHeadings = useCallback(() => {
-    const newHeadings = Array.from(document.querySelectorAll(".article > .anchor-container"))
-      .map(it => ({ top: (it as HTMLDivElement).offsetTop, text: (it as HTMLHeadingElement).innerText }))
+    const newHeadings = Array.from(document.querySelectorAll(".article > .anchor-container:has(h1,h2,h3)"))
+      .map(it => ({ top: (it as HTMLDivElement).offsetTop, text: (it as HTMLDivElement).innerText }))
     setHeadings(newHeadings)
 
     onScroll(newHeadings, document.scrollingElement!.scrollTop)
