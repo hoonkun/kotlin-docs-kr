@@ -365,6 +365,10 @@
         ]
       },
       {
+        "title": "표준 입출력으로부터 읽기",
+        "href": "read-standard-input.md"
+      },
+      {
         "title": "Opt-in 필요 사항",
         "href": "opt-in-requirements.md"
       },

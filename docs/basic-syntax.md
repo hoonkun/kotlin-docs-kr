@@ -52,6 +52,28 @@ println("Hello world!")
 println(42)
 ```
 
+## 표준 입력 스트림으로부터 읽기 {#read-from-the-standard-input}
+
+`readln()` 함수는 표준 입력 스트림으로부터 읽습니다. 이 함수는 사용자가 입력한 전체 한 줄을 문자열로 리턴합니다.
+
+`println()`, `print()`, `readln()` 을 사용하여 들어온 요청과 사용자가 입력한 입력을 출력할 수 있습니다:
+
+```kotlin
+// Prints a message to request input
+println("Enter any word: ")
+
+// Reads and stores the user input. For example: Happiness
+val yourWord = readln()
+
+// Prints a message with the input
+print("You entered the word: ")
+print(yourWord)
+// You entered the word: Happiness
+```
+
+더 많은 내용은 [](/docs/read-standard-input.md) 를 살펴보세요.
+
+
 ## 함수
 
 두 개의 `Int` 파라미터와 `Int` 리턴형을 가지는 함수입니다:
