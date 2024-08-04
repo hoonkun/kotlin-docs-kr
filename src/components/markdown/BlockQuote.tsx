@@ -56,6 +56,7 @@ const BlockQuoteTag = styled.blockquote`
   background-color: rgba(77, 187, 95, 0.2);
   color: rgba(25, 25, 28, 0.7);
   border-radius: 6px;
+  word-break: break-word;
 
   & > svg {
     flex-shrink: 0;
