@@ -191,16 +191,36 @@ const Article = styled.article<{ $disableWidthLimiting?: boolean }>`
 
   & hr {
     border-top: 1px solid #19191c0D;
+    border-bottom: none;
+    border-left: none;
+    border-right: none;
     margin-top: 24px;
     align-self: stretch;
     margin-left: 0;
     margin-right: 0;
   }
 
-  & hr + p {
+  & hr + p, & hr + div {
     opacity: 0.75;
     font-size: 14px;
     margin-top: 0;
+    
+    & > p:first-of-type {
+      margin-top: 0;
+    }
+    
+    & > p:nth-of-type(n+2) {
+      margin-top: 8px;
+    }
+    
+    & pre {
+      margin: 8px 0 0 0 !important;
+      padding: 8px 16px !important;
+      line-height: 18px;
+      & * {
+        font-size: 12px !important;
+      }
+    }
   }
 
   & a:not(:has(svg, img)) {

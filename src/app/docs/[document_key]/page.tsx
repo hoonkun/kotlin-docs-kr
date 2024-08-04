@@ -63,7 +63,9 @@ export default async function DocumentPage(props: { params: { document_key: stri
   markdown = replaceCompactLists(markdown)
   markdown = replaceDocumentPager(markdown, flattenDocuments)
 
-  const html = await MarkdownToHtml(markdown)
+  let html = await MarkdownToHtml(markdown)
+  html = replaceFootNoteBlock(html)
+
   const content = await HtmlToReact(html, key)
 
   sections.push(
@@ -256,4 +258,10 @@ const replaceFootnotes = (
   })
 
   return content
+}
+
+const replaceFootNoteBlock = (html: string) => {
+  return html
+    .replaceAll("<p>{&#x26;^---}</p>", "<div>")
+    .replaceAll("<p>{&#x26;$---}</p>", "</div>")
 }
