@@ -92,7 +92,7 @@ Completed in 1017 ms
 
 --- 
 
-{&^[1]} 원문: laziness
+{&[1]} 원문: laziness
 
 ## async-style 함수들
 
