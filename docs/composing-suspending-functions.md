@@ -88,7 +88,7 @@ Completed in 1017 ms
 
 이 예제에서 두 개의 코루틴이 선언되었지만 해당 시점에 시작되지 않았고, 대신 그의 제어권이 개발자에게 넘어가 정확히 언제 이것들을 [start](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-job/start.html) 를 통해 시작해야하는지 정할 수 있게 되었습니다.
 
-만약 우리가 [start](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-job/start.html) 를 호출하지 않고 `println` 에서 [await](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-deferred/await.html) 만 호출했다면, [await](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-deferred/await.html) 이 결과값이 도출될 때까지 코루틴을 정지시키기 때문에 순차적으로 행동했을 것입니다. 이는 의도했던 '게으른{^[1]}' 사용케이스가 아니죠. `async(start = CoroutineStart.LAZY)` 는 표준 `lazy` 함수의 블럭에서 정지 함수를 사용하기 위한 대체제로 사용되곤 합니다.
+만약 우리가 [start](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-job/start.html) 를 호출하지 않고 `println` 에서 [await](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-deferred/await.html) 만 호출했다면, [await](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-deferred/await.html) 이 결과값이 도출될 때까지 코루틴을 정지시키기 때문에 순차적으로 행동했을 것입니다. 이는 의도했던 '지연된{^[1]}' 사용케이스가 아니죠. `async(start = CoroutineStart.LAZY)` 는 표준 `lazy` 함수의 블럭에서 정지 함수를 사용하기 위한 대체제로 사용되곤 합니다.
 
 --- 
 
