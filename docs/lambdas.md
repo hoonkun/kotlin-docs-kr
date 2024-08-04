@@ -270,9 +270,9 @@ map.forEach { (_, __) -> println("ASDF") }
 
 {&$---}
 
-### 람다에서의 구조 분해
+### 람다에서의 분해형 선언
 
-람다에서 구조 분해는 [구조 분해 정의](/docs/destructing-declarations.md) 문서에 기술되어 있습니다.
+람다에서 구조 분해는 [](/docs/destructing-declarations.md) 문서에 기술되어 있습니다.
 
 ### 익명 함수
 
