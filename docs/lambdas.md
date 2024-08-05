@@ -423,7 +423,8 @@ html {       // lambda with receiver begins here
 
 `fun html(...)` 는 아래처럼 작성될 수도 있습니다. 환상적이죠!
 ```kotlin
-fun html() = HTML().apply(init)
+fun html(init: Html.() -> Unit) =
+    HTML().apply(init)
 ```
 
 {&$---}
