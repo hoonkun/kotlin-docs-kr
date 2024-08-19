@@ -127,7 +127,10 @@ export const TranslatedContent: React.FC<PropsWithChildren<ExistingDocumentConte
 
 const toISO = (value: string): string => {
   const a = value.replace(" ", "T").replace(" ", "")
-  let [time, zone] = a.split("+")
+  let segments = a.split("+")
+  if (segments.length === 1) return a
+
+  let [time, zone] = segments
   zone = [zone.slice(0, 2), zone.slice(2, 4)].join(":")
   return `${time}+${zone}`
 }

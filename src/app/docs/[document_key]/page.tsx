@@ -45,8 +45,8 @@ export default async function DocumentPage(props: { params: { document_key: stri
     return <DocumentPageTemplate {...DocumentPageTemplateProps}><NotYetTranslatedContent breadcrumbs={breadcrumbs}/></DocumentPageTemplate>
   }
 
-  const gitLogResult = execSync(`git log -1 --pretty="format:%ci" ./docs/${key}`).toString()
-  const lastModified = gitLogResult ?? new Date().toISOString()
+  const gitLogResult = execSync(`git log -1 --pretty="format:%ci" ./docs/${key}`).toString().trim()
+  const lastModified = gitLogResult ? gitLogResult : new Date().toISOString()
 
   let markdown: string = fs.readFileSync(`./docs/${key}`, { encoding: "utf8" })
   markdown = moveOriginalAnchorsToChildren(markdown)
