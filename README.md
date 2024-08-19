@@ -33,6 +33,7 @@
     - [Generics: in, out, where](/docs/generics.md)
     - [Object expressions and declarations](/docs/object-declarations.md)
     - [Delegation](/docs/delegation.md)
+    - [Delegated Properties](/docs/delegated-properties.md)
   - Functions/
     - [Functions](/docs/functions.md)
     - [Lambdas](/docs/lambdas.md)
