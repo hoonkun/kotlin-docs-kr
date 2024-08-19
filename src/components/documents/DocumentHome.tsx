@@ -15,7 +15,7 @@ export const DocumentHome: React.FC<{ existingDocuments: DocumentData[] }> = pro
   return (
     <DocumentHomeContext.Provider value={props}>
       <Title>Kotlin 문서</Title>
-      <LatestStableVersion>최신 안정 버전: 2.0.0<sup>outdated 되었을 수 있으므로, <a href="https://kotlinlang.org/docs/home.html">여기</a>에서 실제 정보를 확인해주세요.</sup></LatestStableVersion>
+      <LatestStableVersion>최신 안정 버전: 2.0.10<sup>낡은 정보일 수 있으므로, <a href="https://kotlinlang.org/docs/home.html">여기</a>에서 실제 정보를 확인해주세요.</sup></LatestStableVersion>
       <DocumentHomeItems>
         <DocumentHomeItem
           title={"Kotlin 시작하기"}
