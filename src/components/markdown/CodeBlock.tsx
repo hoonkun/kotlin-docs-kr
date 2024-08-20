@@ -68,8 +68,8 @@ export const PreTag = styled.pre`
   .cdata { color: #708090 }
   .delimiter { color: #CF8E6D }
   .boolean { color: #871094 }
-  .keyword { color: #0033b3; }
-  .selector { color: #CF8E6D }
+  .keyword { color: #0033b3 }
+  .selector { color: #067d17 }
   .important { color: #CF8E6D }
   .atrule { color: #CF8E6D }
   .operator { color: #9a6e3a }
@@ -80,7 +80,7 @@ export const PreTag = styled.pre`
   .attr-name { color: #999999 }
   .tag.class-name { color: #2FBAA3 }
   .doctype { color: #e8bf6a }
-  .builtin { color: #CF8E6D }
+  .builtin { color: #067d17 }
   .entity { color: #6897bb }
   .number { color: #871094 }
   .symbol { color: #6897bb }
