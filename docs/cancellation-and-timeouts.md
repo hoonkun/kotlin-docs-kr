@@ -207,7 +207,7 @@ I'm sleeping 2 ...
 Exception in thread "main" kotlinx.coroutines.TimeoutCancellationException: Timed out waiting for 1300 ms
 ```
 
-[withTimeout](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/with-timeout.html) 이 던진 `TimeoutCancellationException` 는 [CancellationException](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-cancellation-exception/index.html) 의 서브클레스입니다. 
+[withTimeout](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/with-timeout.html) 이 던진 `TimeoutCancellationException` 는 [CancellationException](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-cancellation-exception/index.html) 의 서브클래스입니다. 
 이전의 예제들에서는 예외의 스택이 콘솔에 출력되지 않았는데, 그것은 취소된 코루틴에서 발생하는 `CancellationException` 은 일반적인 코루틴 완료 사유이지만 이 예제에서는 `withTimeout` 함수를 main 함수의 바로 안쪽에 사용했기 때문입니다.
 
 취소는 단순히 예외이기 때문에, 모든 리소스는 통상적으로 정리되어야 합니다. 
