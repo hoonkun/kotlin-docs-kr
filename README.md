@@ -30,6 +30,7 @@
   - [Packages and imports](/docs/packages.md)
   - Classes and objects/
     - [Classes](/docs/classes.md)
+    - [Sealed classes and interfaces](/docs/sealed-classes.md)
     - [Generics: in, out, where](/docs/generics.md)
     - [Object expressions and declarations](/docs/object-declarations.md)
     - [Delegation](/docs/delegation.md)

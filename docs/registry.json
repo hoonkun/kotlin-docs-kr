@@ -178,7 +178,7 @@
             "href": "data-classes.md"
           },
           {
-            "title": "봉인된(sealed) 클래스",
+            "title": "봉인된(sealed) 클래스와 인터페이스",
             "href": "sealed-classes.md"
           },
           {
