@@ -141,7 +141,7 @@ open class CustomError(): Error
 ### 멀티플랫폼 프로젝트에서의 확장
 
 [멀티플랫폼 프로젝트](/docs/multiplatform-get-started.md)들에서는 봉인된 클래스들에서의 상속 제한이 하나 더 있습니다.
-봉인된 클래스들의 직게 서브클래스들은 반드시 같은 [소스 집합](docs/multiplatform-discover-project.html#source-sets) 안에 있어야 합니다.
+봉인된 클래스들의 직게 서브클래스들은 반드시 같은 [소스 집합](/docs/multiplatform-discover-project.html#source-sets) 안에 있어야 합니다.
 이는 [expect 와 actual 수정자](/docs/multiplatform-expect-actual.md) 가 없는 봉인된 클래스들에게 적용됩니다.
 
 만약 봉인된 클래스들이 common 소스 집합에서 `expect` 로 정의되었고 실제 `actual` 구현이 각 플랫폼의 소스 집합에 있었다면, 
