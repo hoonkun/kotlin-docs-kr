@@ -5,7 +5,7 @@
 {#dispatchers-and-threads}
 ## 디스패쳐와 스레드
 
-코루틴 컨텍스트는 코루틴이 실행될 스레드(들)를 결정하는 코루틴 디스패쳐([CoroutineDispatcher](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-coroutine-dispatcher/index.html))를 포함합니다. 디스패쳐는 코루틴의 실행을 특정 스레에 가두거나, 스레드풀에 파견하거나, 갇히지 않은 상태로 두기도 합니다.
+코루틴 컨텍스트는 코루틴이 실행될 스레드(들)를 결정하는 코루틴 디스패쳐([CoroutineDispatcher](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-coroutine-dispatcher/index.html))를 포함합니다. 디스패쳐는 코루틴의 실행을 특정 스레드에 가두거나, 스레드풀에 파견하거나, 갇히지 않은 상태로 두기도 합니다.
 
 [launch](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/launch.html) 나 [async](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/async.html) 등의 모든 코루틴 빌더는 새 코루틴에 직접 디스패쳐를 지정하거나 다른 요소를 설정할 수 있는 선택적인 [CoroutineContext](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.coroutines/-coroutine-context/) 인수를 받습니다.
 
