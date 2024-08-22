@@ -32,6 +32,7 @@
     - [Classes](/docs/classes.md)
     - [Sealed classes and interfaces](/docs/sealed-classes.md)
     - [Generics: in, out, where](/docs/generics.md)
+    - [Nested and inner classes](/docs/nested-classes.md)
     - [Object expressions and declarations](/docs/object-declarations.md)
     - [Delegation](/docs/delegation.md)
     - [Delegated Properties](/docs/delegated-properties.md)
