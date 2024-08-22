@@ -30,6 +30,7 @@
   - [Packages and imports](/docs/packages.md)
   - Classes and objects/
     - [Classes](/docs/classes.md)
+    - [Visibility modifiers](/docs/visibility-modifiers.md)
     - [Sealed classes and interfaces](/docs/sealed-classes.md)
     - [Generics: in, out, where](/docs/generics.md)
     - [Nested and inner classes](/docs/nested-classes.md)
