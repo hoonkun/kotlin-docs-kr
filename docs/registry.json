@@ -239,7 +239,7 @@
             "title": "빌더(Builders)",
             "children": [
               {
-                "title": "타입 세이프한 빌더",
+                "title": "타입이 안정적인 빌더",
                 "href": "type-safe-builders.md"
               },
               {
