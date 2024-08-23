@@ -84,6 +84,7 @@ export const PreTag = styled.pre`
   .entity { color: #6897bb }
   .number { color: #871094 }
   .symbol { color: #6897bb }
+  .label { color: #871094 }
   .property { color: #c77dbb }
   .property-access { color: #c77dbb }
   .constant { color: #c77dbb }
