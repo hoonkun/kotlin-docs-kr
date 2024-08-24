@@ -42,6 +42,7 @@
     - [Functions](/docs/functions.md)
     - [Lambdas](/docs/lambdas.md)
     - [Inline functions](/docs/inline-functions.md)
+    - [Operator overloading](/docs/operator-overloading.md)
     - Builders/
       - [Type-safe builders](/docs/type-safe-builders.md)
   - [Null-safety](/docs/null-safety.md)
