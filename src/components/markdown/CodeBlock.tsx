@@ -24,6 +24,7 @@ export const InlineCode = styled.code`
   font-family: "JetBrains Mono", monospace;
   font-weight: 300;
   box-sizing: border-box;
+  word-break: break-word;
 `
 
 const Pre: React.FC<PropsWithChildren> = props => <Fragment>{props.children}</Fragment>
