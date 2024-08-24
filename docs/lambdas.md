@@ -274,9 +274,9 @@ map.forEach { (_, value) -> println("$value!") }
 ---
 {&^---}
 
-만약 사용되지 않는 변수가 여러 개라면, 언더바를 여러 개 사용합니다:
+만약 사용되지 않는 변수가 여러 개 이더라도, 언더바는 하나만 사용합니다:
 ```kotlin
-map.forEach { (_, __) -> println("ASDF") }
+map.forEach { (_, _) -> println("ASDF") }
 ```
 
 {&$---}
