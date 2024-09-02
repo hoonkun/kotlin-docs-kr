@@ -15,7 +15,7 @@ export const DocumentHome: React.FC<{ existingDocuments: DocumentData[] }> = pro
   return (
     <DocumentHomeContext.Provider value={props}>
       <Title>Kotlin 문서</Title>
-      <LatestStableVersion>최신 안정 버전: 2.0.10<sup>낡은 정보일 수 있으므로, <a href="https://kotlinlang.org/docs/home.html">여기</a>에서 실제 정보를 확인해주세요.</sup></LatestStableVersion>
+      <LatestStableVersion>최신 안정 버전: 2.0.20<sup>낡은 정보일 수 있으므로, <a href="https://kotlinlang.org/docs/home.html">여기</a>에서 실제 정보를 확인해주세요.</sup></LatestStableVersion>
       <DocumentHomeItems>
         <DocumentHomeItem
           title={"Kotlin 시작하기"}
@@ -103,10 +103,10 @@ export const DocumentHome: React.FC<{ existingDocuments: DocumentData[] }> = pro
       <h2>최신 소식</h2>
       <DocumentHomeItems>
         <DocumentHomeItem
-          title={"Kotlin 2.0.0 의 새로운 기능"}
+          title={"Kotlin 2.0.20 의 새로운 기능"}
           href={"/docs/whatsnew20.md"}
         >
-          최신 기능: K2 컴파일러, 개선된 JavaScript 와의 상호운용성, 개선된 Gradle 빌드 도구, 그리고 더 많은 것들
+          Kotlin K2 컴파일러가 안정적인 기능으로 추가된 Kotlin 2.0.0 의 성능을 개선하고, 몇몇 버그가 수정되었습니다.
         </DocumentHomeItem>
         <DocumentHomeItem
           title={"Kotlin 공식 로드맵"}
