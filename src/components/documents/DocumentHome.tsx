@@ -5,7 +5,7 @@ import styled from "styled-components"
 
 import GettingStartedIcon from "$/docs/images/home/getting-started.svg"
 import KotlinOnlineIcon from "$/docs/images/home/kotlin-online.svg"
-import { LessThen640 } from "@/utils/ReactiveStyles"
+import { LessThen, LessThen640 } from "@/utils/ReactiveStyles"
 import { DocumentData } from "@/app/docs/[document_key]/page"
 
 const DocumentHomeContext = createContext<{ existingDocuments: DocumentData[] }>({ existingDocuments: [] })
@@ -177,11 +177,34 @@ const LatestStableVersion = styled.h2`
 
 const Dark = styled.div`
   background-color: hsla(0, 0%, 95.7%, 0.7);
-  margin: 48px -32px 0 -32px;
-  padding: 0 32px 48px 32px;
-  align-self: stretch;
+  margin: 48px calc((100vw - 311px - 1166px) / 2 * -1 - 32px) 0 calc((100vw - 311px - 1166px) / 2 * -1 - 32px);
+  padding: 0 calc((100vw - 311px - 1166px) / 2 + 32px) 48px calc((100vw - 311px - 1166px) / 2 + 32px);
+  width: calc(100vw - 311px);
   display: flex;
   flex-direction: column;
+  
+  ${LessThen(1540)} {
+    width: calc(100vw - 301px);
+    margin: 48px calc((100vw - 301px - min(100vw - 301px, 1166px)) / 2 * -1 - 32px) 0 calc((100vw - 301px - min(100vw - 301px, 1166px)) / 2 * -1 - 32px);
+    padding: 0 calc((100vw - 301px - min(100vw - 301px, 1166px)) / 2 + 32px) 48px calc((100vw - 301px - min(100vw - 301px, 1166px)) / 2 + 32px);
+  }
+  
+  ${LessThen(1276)} {
+    width: calc(100vw - 273px);
+    margin: 48px calc((100vw - 273px - min(100vw - 273px, 1166px)) / 2 * -1 - 32px) 0 calc((100vw - 273px - min(100vw - 273px, 1166px)) / 2 * -1 - 32px);
+    padding: 0 calc((100vw - 273px - min(100vw - 273px, 1166px)) / 2 + 32px) 48px calc((100vw - 273px - min(100vw - 273px, 1166px)) / 2 + 32px);
+  }
+  
+  ${LessThen(1000)} {
+    margin: 48px -22px 0 -22px;
+    padding: 0 22px 48px 22px;
+    width: 100vw;
+  }
+  
+  ${LessThen(640)} {
+    margin: 48px -16px 0 -16px;
+    padding: 0 16px 48px 16px;
+  }
 `
 
 const DocumentHomeItems = styled.div<{ $noMargin?: boolean }>`
