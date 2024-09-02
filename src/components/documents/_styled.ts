@@ -25,6 +25,13 @@ export const DocumentGlobalStyle = createGlobalStyle`
     --article-summary-width: 241px;
     
     --navigator-width: 311px;
+    
+    --home-dark-content-max-width: 1166px;
+    --home-dark-aroundings: calc((100vw - var(--navigator-width) - min(100vw - var(--navigator-width), var(--home-dark-content-max-width))) / 2 + var(--arranger-left-padding));
+    
+    --home-dark-width: calc(100vw - var(--navigator-width));
+    --home-dark-margin: 48px calc(var(--home-dark-aroundings) * -1) 0 calc(var(--home-dark-aroundings) * -1);
+    --home-dark-padding: 0 var(--home-dark-aroundings) 48px var(--home-dark-aroundings);
 
     ${LessThen(1540)} {
       --navigator-width: 301px;
@@ -35,10 +42,16 @@ export const DocumentGlobalStyle = createGlobalStyle`
     }
     
     ${LessThen(1000)} {
-      --navigator-width: 100vw;
-      --article-base-width: calc(100vw - var(--article-padding));
       --arranger-left-padding: 22px;
       --arranger-right-padding: 22px;
+      
+      --article-base-width: calc(100vw - var(--article-padding));
+      
+      --navigator-width: 100vw;
+
+      --home-dark-width: 100vw;
+      --home-dark-margin: 48px calc(var(--arranger-left-padding) * -1) 0 calc(var(--arranger-left-padding) * -1);
+      --home-dark-padding: 0 var(--arranger-left-padding) 48px var(--arranger-left-padding);
     }
     
     ${LessThen(640)} {
