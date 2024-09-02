@@ -4,7 +4,7 @@ import React, { PropsWithChildren, useCallback, useEffect, useRef, useState } fr
 import styled, { css } from "styled-components"
 import Link from "next/link"
 import { DocumentSection } from "@/app/docs/[document_key]/page"
-import { LessThen, LessThen1000, LessThen640 } from "@/utils/ReactiveStyles"
+import { LessThen1000, LessThen640, withDisableWidthLimiting } from "@/utils/ReactiveStyles"
 import { EmptyFunction } from "@/utils/Any"
 
 type DocumentMainProps = { sections: DocumentSection[], withoutAside?: boolean }
@@ -104,20 +104,14 @@ const Root = styled.main`
 `
 
 const Arranger = styled.div<{ $adjustPaddings?: boolean }>`
-  max-width: calc(calc(1520px - 22px * 2) - 310px);
+  max-width: var(--arranger-max-width);
   flex: 1;
   display: flex;
   align-items: flex-start;
-  padding: 0 ${({ $adjustPaddings }) => $adjustPaddings ? "32px" : "22px"} 0 32px;
+  padding: 
+    0 ${({ $adjustPaddings }) => $adjustPaddings ? css`var(--arranger-left-padding)` : css`var(--arranger-right-padding)`} 
+    0 var(--arranger-left-padding);
   margin: 0 auto;
-  
-  ${LessThen1000} {
-    padding: 0 22px;
-  }
-  
-  ${LessThen640} {
-    padding: 0 16px;
-  }
 `
 
 const Article = styled.article<{ $disableWidthLimiting?: boolean }>`
@@ -136,37 +130,13 @@ const Article = styled.article<{ $disableWidthLimiting?: boolean }>`
   flex: 1;
 
   & > * {
-    width: ${({ $disableWidthLimiting }) => $disableWidthLimiting ? "auto" : css`min(706px, 100vw - 300px - 209px - 32px - 32px - 22px)`};
+    width: ${withDisableWidthLimiting(`var(--article-width)`)};
     min-width: 0;
-    
-    ${LessThen(1276)} {
-      width: ${({ $disableWidthLimiting }) => $disableWidthLimiting ? "auto" : css`min(706px, 100vw - 300px - 209px - 32px - 32px - 22px + 28px)`};
-    }
-  
-    ${LessThen(1000)} {
-      width: ${({ $disableWidthLimiting }) => $disableWidthLimiting ? "auto" : css`min(706px, 100vw - 44px)`};
-    }
-    
-    ${LessThen(640)} {
-      width: ${({ $disableWidthLimiting }) => $disableWidthLimiting ? "auto" : css`min(706px, 100vw - 32px)`};
-    }
   }
   
   & > blockquote > div > pre {
-    width: ${({ $disableWidthLimiting }) => $disableWidthLimiting ? "auto" : css`min(634px, 100vw - 300px - 209px - 32px - 32px - 22px - 24px - 16px - 16px * 2)`};
+    width: ${withDisableWidthLimiting(`var(--article-quote-code-block-width)`)};
     min-width: 0;
-
-    ${LessThen(1276)} {
-      width: ${({ $disableWidthLimiting }) => $disableWidthLimiting ? "auto" : css`min(634px, 100vw - 300px - 209px - 32px - 32px - 22px + 28px - 24px - 16px - 16px * 2)`};
-    }
-    
-    ${LessThen(1000)} {
-      width: ${({ $disableWidthLimiting }) => $disableWidthLimiting ? "auto" : css`min(634px, 100vw - 44px - 24px - 16px - 16px * 2)`};
-    }
-    
-    ${LessThen(640)} {
-      width: ${({ $disableWidthLimiting }) => $disableWidthLimiting ? "auto" : css`min(634px, 100vw - 32px - 24px - 16px - 16px * 2)`};
-    }
   }
   
   & p {
@@ -312,19 +282,7 @@ const Article = styled.article<{ $disableWidthLimiting?: boolean }>`
     margin-top: 32px;
     overflow-x: auto;
     
-    width: ${({ $disableWidthLimiting }) => $disableWidthLimiting ? "auto" : css`min(100%, 100vw - 300px - 209px - 32px - 32px - 22px)`};
-    
-    ${LessThen(1276)} {
-      width: ${({ $disableWidthLimiting }) => $disableWidthLimiting ? "auto" : css`min(100%, 100vw - 300px - 209px - 32px - 32px - 22px + 28px)`};
-    }
-  
-    ${LessThen1000} {
-      width: ${({ $disableWidthLimiting }) => $disableWidthLimiting ? "auto" : css`min(100%, 100vw - 44px)`};
-    }
-    
-    ${LessThen640} {
-      width: ${({ $disableWidthLimiting }) => $disableWidthLimiting ? "auto" : css`min(100%, 100vw - 32px)`};
-    }
+    width: ${({ $disableWidthLimiting }) => $disableWidthLimiting ? "auto" : css`var(--article-table-width)`};
   }
   & table {
     width: 100%;
@@ -425,7 +383,7 @@ const Article = styled.article<{ $disableWidthLimiting?: boolean }>`
 `
 
 const Aside = styled.aside`
-  width: 241px;
+  width: var(--article-summary-width);
   position: sticky;
   top: 64px;
   flex-shrink: 0;

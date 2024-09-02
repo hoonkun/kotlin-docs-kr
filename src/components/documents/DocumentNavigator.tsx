@@ -5,7 +5,7 @@ import styled from "styled-components"
 import Link from "next/link"
 import { DocumentData } from "@/app/docs/[document_key]/page"
 import { findDocumentation, titleOf } from "@/utils/Documentation"
-import { LessThen1000 } from "@/utils/ReactiveStyles"
+import { LessThen } from "@/utils/ReactiveStyles"
 import { DocumentNavigatorExpandEvents } from "@/components/AppGlobalHeader"
 
 type DocumentNavigatorProps = {
@@ -129,7 +129,7 @@ const DocumentNavigatorRoot = styled.nav<{ $narrowOnlyExpanded: boolean }>`
   
   flex-shrink: 0;
   
-  width: 311px;
+  width: var(--navigator-width);
   border-right: 1px solid #d1d1d2;
   display: flex;
   flex-direction: column;
@@ -145,7 +145,7 @@ const DocumentNavigatorRoot = styled.nav<{ $narrowOnlyExpanded: boolean }>`
     line-height: 20px;
     font-weight: 300;
     
-    ${LessThen1000} {
+    ${LessThen(1000)} {
       font-size: 19px;
       line-height: 28px;
     }
@@ -154,20 +154,12 @@ const DocumentNavigatorRoot = styled.nav<{ $narrowOnlyExpanded: boolean }>`
   & a:hover, button:hover {
     background-color: rgba(25, 25, 28, 0.05);
     
-    ${LessThen1000} {
+    ${LessThen(1000)} {
       background-color: hsla(0,0%,100%,0.05);
     }
   }
-
-  @media only screen and (max-width: 1540px) {
-    width: 301px;
-  }
-
-  @media only screen and (max-width: 1276px) {
-    width: 273px;
-  }
-
-  ${LessThen1000} {
+  
+  ${LessThen(1000)} {
     background-color: #27282c;
     display: ${({ $narrowOnlyExpanded }) => $narrowOnlyExpanded ? "flex" : "none"};
     z-index: 5;
@@ -175,7 +167,6 @@ const DocumentNavigatorRoot = styled.nav<{ $narrowOnlyExpanded: boolean }>`
     left: 0;
     bottom: 0;
     top: 52px;
-    width: 100vw;
     border-right: none;
     border-top: 1px solid rgba(255, 255, 255, 0.3);
   }
@@ -188,7 +179,7 @@ const DocumentNavigatorChildrenContainer = styled.div<{ $hasGrayBackground: bool
 
   background-color: ${({ $hasGrayBackground }) => $hasGrayBackground ? "rgba(25, 25, 28, 0.025)" : "transparent"};
   
-  ${LessThen1000} {
+  ${LessThen(1000)} {
     background-color: ${({ $hasGrayBackground, $isRootNode }) => $hasGrayBackground && $isRootNode ? "#1f1f21" : "transparent"};
   }
 `
@@ -214,7 +205,7 @@ const DocumentNavigatorExpanderItem = styled.button<{ $depth: number, $expanded:
     color: #19191C;
   }
   
-  ${LessThen1000} {
+  ${LessThen(1000)} {
     padding: 12px 0 12px ${({ $depth }) => `${44 + ($depth + 1) * 16}px`};
     color: white;
     
@@ -236,7 +227,7 @@ const DocumentNavigatorLinkItem = styled(Link)<{ $selected: boolean, $depth: num
   opacity: ${({ $disabled }) => $disabled ? 0.4 : 1};
   cursor: ${({ $disabled }) => $disabled ? "auto" : "pointer"};
 
-  ${LessThen1000} {
+  ${LessThen(1000)} {
     padding: 12px 0 12px ${({ $depth }) => `${44 + ($depth + 1) * 16}px`};
     background: ${({ $selected }) => $selected ? "white !important" : "transparent"};
     color: ${({ $selected }) => $selected ? "#19191c" : "white"};

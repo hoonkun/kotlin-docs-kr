@@ -52,7 +52,7 @@ const BlockQuoteTag = styled.blockquote`
   display: flex;
   flex-direction: row;
   margin: 32px 0 0 0;
-  padding: 16px;
+  padding: var(--article-quote-padding);
   background-color: rgba(77, 187, 95, 0.2);
   color: rgba(25, 25, 28, 0.7);
   border-radius: 6px;
@@ -60,9 +60,9 @@ const BlockQuoteTag = styled.blockquote`
 
   & > svg {
     flex-shrink: 0;
-    margin-right: 16px;
-    width: 24px;
-    height: 24px;
+    margin-right: var(--article-quote-icon-margin);
+    width: var(--article-quote-icon-size);
+    height: var(--article-quote-icon-size);
     color: #4dbb5f;
     fill: currentColor;
   }

@@ -9,6 +9,7 @@ import GithubIcon from "@/resources/github-icon.svg"
 import { keyOf, titleOf } from "@/utils/Documentation"
 import { GitRepository } from "@/config"
 import { formatLastModified } from "@/utils/Date"
+import { DocumentGlobalStyle } from "@/components/documents/_styled"
 
 export type DocumentPageTemplateProps = {
   document: DocumentData
@@ -22,6 +23,7 @@ const useDocument = () => useContext(DocumentContext)
 
 export const DocumentPageTemplate: React.FC<PropsWithChildren<DocumentPageTemplateProps>> = props =>
   <DocumentContext.Provider value={{ document: props.document }}>
+    <DocumentGlobalStyle/>
     <Root>
       <DocumentNavigator
         items={props.documents}

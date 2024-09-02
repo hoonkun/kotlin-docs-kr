@@ -5,3 +5,7 @@ export const LessThen = (width: number) => `@media only screen and (max-width: $
 export const LessThen1000 = css`@media only screen and (max-width: 1000px)`
 
 export const LessThen640 = css`@media only screen and (max-width: 640px)`
+
+export function withDisableWidthLimiting(value: string) {
+  return ({ $disableWidthLimiting }: { $disableWidthLimiting?: boolean }) => $disableWidthLimiting ? "auto" : value
+}
