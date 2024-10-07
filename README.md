@@ -31,6 +31,7 @@
   - Classes and objects/
     - [Classes](/docs/classes.md)
     - [Inheritance](/docs/inheritance.md)
+    - [Interfaces](/docs/interfaces.md)
     - [Visibility modifiers](/docs/visibility-modifiers.md)
     - [Data classes](/docs/data-classes.md)
     - [Sealed classes and interfaces](/docs/sealed-classes.md)
