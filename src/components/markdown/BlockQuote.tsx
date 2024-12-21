@@ -105,6 +105,8 @@ const BlockQuoteTag = styled.blockquote`
 `
 
 const BlockQuoteContent = styled.div`
+  min-width: 0;
+  
   & > ul + p {
     margin-top: 12px !important;
   }
