@@ -4,7 +4,7 @@ import { execSync } from "child_process"
 import React from "react"
 import { HtmlToReact, MarkdownToHtml } from "@/utils/MarkdownProcessor"
 import { notFound, redirect } from "next/navigation"
-import { findDocumentation, flatDocumentation, titleOf } from "@/utils/Documentation"
+import { findDocumentation, findExceptionalDocumentation, flatDocumentation, titleOf } from "@/utils/Documentation"
 import {
   DocumentPageTemplate,
   DocumentPageTemplateProps,
@@ -12,6 +12,7 @@ import {
   TranslatedContent
 } from "@/components/documents/DocumentPageTemplate"
 import Documents from "@/../docs/registry.json"
+import ExceptionalDocuments from "@/../docs/exceptions.json"
 import { DocumentHome } from "@/components/documents/DocumentHome"
 
 export default async function DocumentPage(props: { params: { document_key: string } }) {
@@ -25,7 +26,7 @@ export default async function DocumentPage(props: { params: { document_key: stri
 
   const documents = (Documents as RawDocumentData[]).map(documentItemMapper)
   const flattenDocuments = flatDocumentation(documents)
-  const foundDocumentation = findDocumentation(documents, key)
+  const foundDocumentation = findDocumentation(documents, key) ?? findExceptionalDocumentation(ExceptionalDocuments, key)
   if (!foundDocumentation)
     notFound()
 
@@ -101,7 +102,7 @@ export async function generateMetadata({ params }: { params: { document_key: str
     return { title: "404 | Kotlin 문서" }
 
   const documents = (Documents as RawDocumentData[]).map(documentItemMapper)
-  const document = findDocumentation(documents, key)
+  const document = findDocumentation(documents, key) ?? findExceptionalDocumentation(ExceptionalDocuments, key)
 
   if (!document)
     return { title: "404 | Kotlin 문서" }
@@ -160,7 +161,10 @@ const removeTags = (input: string): string => input
   .replaceAll(/<\/([0-z]+)>/g, "")
 
 const replaceSurvey = (markdown: string, documentKey: string) =>
-  markdown.replace("{&?}", buildSurveyDOM(`https://kotlinlang.org/docs/${documentKey.replace(".md", ".html")}`))
+  markdown.replace(
+    "{&?}",
+    buildSurveyDOM(ExceptionalDocuments.find(it => it.href === documentKey)?.original_page ?? `https://kotlinlang.org/docs/${documentKey.replace(".md", ".html")}`)
+  )
 
 const replaceDefaultTextAnchor = (markdown: string, flattenDocuments: DocumentData[]): string => {
   const links = Array.from(markdown.matchAll(/\[]\((?<href>.+?)\)/gi))

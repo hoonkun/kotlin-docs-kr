@@ -18,6 +18,18 @@ export const findDocumentation = (
   return null
 }
 
+export const findExceptionalDocumentation = (
+  from: Omit<DocumentData, "enabled">[],
+  key: string,
+): [DocumentData, DocumentData[]] | null => {
+  const found = from.find(it => it.href === key)
+  if (!found) return null
+
+  const data = { ...found, enabled: true }
+
+  return [data, [data]]
+}
+
 export const flatDocumentation = (root: DocumentData[]): DocumentData[] => {
   const result: DocumentData[] = []
   for (const item of root) {
