@@ -35,7 +35,7 @@ JetBrains 가 개발한 `kotlinx.coroutines` 는 코루틴을 위한 중요한 �
 
 
 - [코루틴을 사용한 UI 프로그래밍 가이드](https://github.com/Kotlin/kotlinx.coroutines/blob/master/ui/coroutines-guide-ui.md)
-- [코루틴 디자인 문서 (KEEP)](https://github.com/Kotlin/KEEP/blob/master/proposals/coroutines.md)
+- [코루틴 디자인 문서 (KEEP)](/docs/keep-proposals-coroutines.md)
 - [전체 kotlinx.coroutines API 레퍼런스](https://kotlinlang.org/api/kotlinx.coroutines/)
 - [안드로이드에서의 코루틴 사용 권장사항](https://developer.android.com/kotlin/coroutines/coroutines-best-practices)
 - [코루틴 및 플로우와 관련된 추가적인 안드로이드 리소스](https://developer.android.com/kotlin/coroutines/additional-resources)
