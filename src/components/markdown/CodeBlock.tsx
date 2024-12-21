@@ -6,15 +6,44 @@ import styled from "styled-components"
 
 const ImportedHighlighter = Prism as typeof React.Component<SyntaxHighlighterProps>
 
-export const CodeBlock: React.FC<PropsWithChildren<{ className: string }>> = props =>
-  <ImportedHighlighter
-    language={props.className.replace("language-", "")}
-    useInlineStyles={false}
-    PreTag={Pre}
-    CodeTag={Code}
-  >
-    {props.children as any}
-  </ImportedHighlighter>
+export const CodeBlock: React.FC<PropsWithChildren<{ className: string }>> = props => {
+
+  const languageExpr = props.className.replace("language-", "")
+  const [language, highlight_type, ...lines] = languageExpr.split("_")
+
+  const lineProps = (index: number) => {
+    if (!highlight_type) return { }
+
+    if (!lines.includes(`${index - 1}`)) return { }
+
+    if (highlight_type === "error") {
+      return {
+        style: {
+          backgroundColor: "#f5604230",
+          display: "block",
+          margin: "0 -48px 0 -16px",
+          padding: "0 48px 0 16px"
+        }
+      }
+    }
+
+    return { }
+  }
+
+  return (
+    <ImportedHighlighter
+      language={language}
+      useInlineStyles={false}
+      PreTag={Pre}
+      CodeTag={Code}
+      lineProps={lineProps}
+      showLineNumbers={true}
+      wrapLines={true}
+    >
+      {props.children as any}
+    </ImportedHighlighter>
+  )
+}
 
 export const InlineCode = styled.code`
   padding: 1px 6px 0 6px;
@@ -62,6 +91,7 @@ export const PreTag = styled.pre`
 
     font-family: "JetBrains Mono", monospace;
     font-weight: 400;
+    flex-grow: 1;
   }
 
   .comment { color: #8c8c8c }

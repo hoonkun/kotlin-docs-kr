@@ -21,6 +21,10 @@ body {
   min-height: 100dvh;
 }
 
+.linenumber {
+  display: none !important;
+}
+
 @media only screen and (max-width: 1000px) {
   html.disabled-scroll {
     overflow: hidden;
