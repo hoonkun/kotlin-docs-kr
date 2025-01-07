@@ -169,7 +169,7 @@ const LatestStableVersion = styled.h2`
     color: #7f52ff;
   }
   & a:after {
-    content: "\\2197";
+    content: "↗";
     transform: translateY(2px);
     display: inline-block;
   }
@@ -248,7 +248,7 @@ const DocumentHomeItemRoot = styled.a<{ $external: boolean }>`
   }
   
   &:after {
-    content: "${({ $external }) => $external ? "\\2197" : ""}";
+    content: "${({ $external }) => $external ? "↗" : ""}";
     position: absolute;
     right: 8px;
     top: 8px;

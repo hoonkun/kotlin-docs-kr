@@ -203,7 +203,7 @@ const Article = styled.article<{ $disableWidthLimiting?: boolean }>`
   }
 
   & a:not(:has(svg, img)).external-link:after, a:not(:has(svg, img)).api-doc:after {
-    content: "\\2197";
+    content: "↗";
     transform: translateY(2px);
     display: inline-block;
   }
@@ -366,7 +366,7 @@ const Article = styled.article<{ $disableWidthLimiting?: boolean }>`
   }
 
   & > .document-pager > .previous:before {
-    content: "\\2190";
+    content: "←";
     margin-right: 8px;
   }
   
@@ -377,7 +377,7 @@ const Article = styled.article<{ $disableWidthLimiting?: boolean }>`
   }
 
   & > .document-pager > .next:after {
-    content: "\\2192";
+    content: "→";
     margin-left: 8px;
   }
 `

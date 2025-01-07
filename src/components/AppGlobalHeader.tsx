@@ -217,7 +217,7 @@ const HeaderLink = styled.a`
   }
 
   &:after {
-    content: "\\2197";
+    content: "↗";
     display: inline-block;
     transform: translateY(2px);
   }
