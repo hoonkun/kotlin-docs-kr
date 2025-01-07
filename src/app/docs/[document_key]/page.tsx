@@ -15,8 +15,8 @@ import Documents from "@/../docs/registry.json"
 import ExceptionalDocuments from "@/../docs/exceptions.json"
 import { DocumentHome } from "@/components/documents/DocumentHome"
 
-export default async function DocumentPage(props: { params: { document_key: string } }) {
-  const { params: { document_key: key } } = props
+export default async function DocumentPage(props: { params: Promise<{ document_key: string }> }) {
+  const { document_key: key } = await props.params
 
   if (key.endsWith(".html"))
     redirect(`/docs/${key.slice(0, -5)}.md`)
@@ -95,8 +95,8 @@ export async function generateStaticParams() {
     .map(it => ({ document_key: it.href }))
 }
 
-export async function generateMetadata({ params }: { params: { document_key: string } }) {
-  const { document_key: key } = params
+export async function generateMetadata({ params }: { params: Promise<{ document_key: string }> }) {
+  const { document_key: key } = await params
 
   if (key !== "home" && !key.endsWith(".md"))
     return { title: "404 | Kotlin 문서" }
