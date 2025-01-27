@@ -1,0 +1,4 @@
+User-Agent: *
+Allow: /
+
+Sitemap: https://kdocs-kr.hoonkun.kiwi/sitemap.xml

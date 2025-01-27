@@ -140,7 +140,7 @@ export const viewport = {
 }
 
 type RawDocumentData = { title: string, page_title?: string, href?: string, children?: RawDocumentData[], repository?: string }
-export type DocumentData = Omit<RawDocumentData, "children"> & { enabled: boolean, children?: DocumentData[] }
+export type DocumentData = Omit<RawDocumentData, "children"> & { enabled?: boolean, children?: DocumentData[] }
 export type DocumentSection = { type: string, text: string }
 
 const documentItemMapper: (it: RawDocumentData) => DocumentData = it => it.children ?
